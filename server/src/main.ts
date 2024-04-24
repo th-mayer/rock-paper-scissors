@@ -5,7 +5,7 @@ import { Server } from 'socket.io';
 import * as http from 'http';
 
 import { DatabaseConnection } from './database/connect';
-import type { User } from './types/user';
+import type { User } from './types/User';
 
 const app = express();
 const io = new Server();
@@ -18,8 +18,12 @@ const PORT = process.env.PORT || 8000;
 
 const db : DatabaseConnection = new DatabaseConnection();
 
-const user: User = db.get();
+let user: User = db.get('SELECT * FROM User');
 console.log(user);
+db.create('INSERT INTO User(email, name, password) VALUES(?,?,?)', ['testuser2@example.com', 'Jane Doe', 'notapasswd']);
+user = db.get('SELECT * FROM User');
+console.log(user);
+
 
 db.closeConnection();
 
