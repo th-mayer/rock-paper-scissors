@@ -1,14 +1,12 @@
 import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
-import { Server } from 'socket.io';
 import * as http from 'http';
 
 import { DatabaseConnection } from './database/connect';
 import type { User } from './types/User';
 
 const app = express();
-const io = new Server();
 
 app.use(cors());
 app.use(express.json());
