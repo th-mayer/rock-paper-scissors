@@ -1,7 +1,10 @@
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client'
 
-export const socket = io("ws://localhost:8000/", {});
+const Socket = () => {
+  const socket = io('ws://localhost:8000/', {})
 
-socket.on("connect", () => {
-  console.log("User connected");
-});
+  socket.on('connect', () => {
+    console.log('User connected');
+  })
+}
+export default Socket;

@@ -2,10 +2,11 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { socket } from './game-code/client'
 import App from './App.vue'
+import Socket from './game-code/client'
 
 const app = createApp(App)
+const socket = Socket();
 
 app.use(createPinia())
 
