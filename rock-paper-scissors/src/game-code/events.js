@@ -3,6 +3,7 @@ var socketPrefix = "[socket]: "
 var match_id // socket room and keyId for servers match dict
 var chosen_symbol = '' // the currently chosen symbol as a char ('r' = rock, 'p' = paper, 's' = scissors, '' = none)
 
+var socket = io()
 var opp_name
 var opp_lvl
 var opp_health

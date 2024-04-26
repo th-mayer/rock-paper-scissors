@@ -28,10 +28,10 @@ export default defineConfig((env) => {
     },
 
     server: {
-      port: 5173,
+      port: 8001,
       proxy: {
         // proxy requests with the API path to the server
-        // <http://localhost:5173/api> -> <http://localhost:8000/api>
+        // <http://localhost:8001/api> -> <http://localhost:8000/api>
         [serverAPIPath]: serverURL.origin,
       },
     },
