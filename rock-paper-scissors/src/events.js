@@ -57,7 +57,7 @@ socket.on("initiate-match", (opponent, me, m_id) => { // called by server if a m
     health = 100
     item1 = me.items.item1
     item2 = me.items.item2
-    item3 = me.items.tiem3
+    item3 = me.items.item3
 
     console.log(socketPrefix+"Found match")
 });

@@ -57,7 +57,7 @@ function addToMatchmaking(player) { // this adds a player to matchmaking by eith
       break;
     }
   }
-  for (match_id in matchmaking_diff_1) {
+  for (match_id in matchmaking_diff_any) {
     if (2 <= max(matchmaking_diff_any[match_id].lvl, player.lvl) - min(matchmaking_diff_any[match_id].lvl, player.lvl)) {
       matchmaking_diff_any[match_id].player2 = player
       initiateMatch(matchmaking_diff_any[match_id],match_id)
