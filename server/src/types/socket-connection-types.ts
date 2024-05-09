@@ -37,7 +37,8 @@ export type Items = {
 }
 
 export type Item = {
-  type: string,
   name: string,
-  discription: string,
+  itemType: string,
+  effect: string,
+  description: string,
 }

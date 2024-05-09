@@ -1,5 +1,5 @@
-import type { Item, PlayerData } from '@/types/socket-connection-types'
 import { io } from 'socket.io-client'
+import { Item, PlayerData } from '../types/socket-connection-types'
 
 
 const socket = io()
