@@ -1,10 +1,12 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// DONT MODIFY
 generator client {
   provider = "prisma-client-js"
 }
 
+// DONT MODIFY
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
