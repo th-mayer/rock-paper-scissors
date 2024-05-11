@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import ConnectionState from './components/ConnectionState.vue'
+import SocketEvents from './components/SocketEvents.vue'
 </script>
 
 <template>
   <div>
   </div>
-  <ConnectionState msg="Connection Test"/>
+  <SocketEvents msg="Connection Test"/>
 </template>
 
 <style scoped>

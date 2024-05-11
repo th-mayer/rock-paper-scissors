@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { watchEffect } from 'vue';
-import { io } from 'socket.io-client';
-import { Item, PlayerData } from '../types/socket-connection-types';
+import { Ref, ref, watchEffect } from 'vue';
+import { Socket, io } from 'socket.io-client';
+import { PlayerData } from '../types/socket-connection-types';
 
 const serverURL = "http://localhost:3000";
 const socket = io(serverURL);
@@ -10,24 +10,21 @@ const socket_log: string = "[socket]: " // logging prefix
 let match_id: string // socket room and key for servers match dict
 let chosen_symbol: string // currently chosen symbol as char ('r','p','s' or '')
 
-const props = defineProps<{
-  opponent: [
-    oppName: string,
-    oppLevel: number,
-    oppHealth: number,
-    oppItem_1: Item,
-    oppItem_2: Item,
-    oppItem_3: Item,
-  ],
-  me: [
-    my_name: string,
-    my_level: number,
-    my_health: number,
-    my_item_1: Item,
-    my_item_2: Item,
-    my_item_3: Item,
-  ]
-}>()
+// TODO: rework this somehow, looks weird
+let opponent_status: Ref;
+let me_status : Ref;
+
+// move this function to its own file?
+function confirmItemChoice(socket: Socket) { // call to send chosen symbol to server
+  if (chosen_symbol && match_id) {
+    socket.emit("choice", { choice: chosen_symbol, m_id: match_id });
+    console.log(socket_log + "choice: " + chosen_symbol + " confirmed");
+  } else if (chosen_symbol) {
+    console.error(socket_log + "no match_id")
+  } else if (match_id) {
+    console.warn(socket_log + "no symbol has been passed")
+  }
+}
 
 // watch Socket events
 watchEffect(() => {
@@ -46,30 +43,18 @@ watchEffect(() => {
   })
 
   socket.on("initiate-match", (opponent: PlayerData, me: PlayerData, m_id: string) => { // called if a match was found
-    match_id = m_id
+    match_id = m_id;
 
-    // opponent variables
-    props.oppName = opponent.name
-    opp_level = opponent.level
-    opp_health = opponent.health
-    opp_item_1 = opponent.items.item1
-    opp_item_2 = opponent.items.item2
-    opp_item_3 = opponent.items.item3
-
-    // player variables
-    my_name = me.name
-    my_level = me.level
-    my_health = me.health
-    my_item_1 = me.items.item1
-    my_item_2 = me.items.item2
-    my_item_3 = me.items.item3
-
-    console.log(socket_log + "Found match")
+    // recheck https://vuejs.org/api/sfc-script-setup.html reactivity, if this is done the right way
+    // assign values for ui updates
+    opponent_status = ref(opponent);
+    me_status = ref(me);
+    console.log(socket_log + "Found match");
   })
 
   socket.on("choose-timeout", () => { // called if choosing timer runns out
     // request the chosen symbol for this round
-    confirmChoice();
+    confirmItemChoice(socket);
   })
 
   socket.on("combat-round", (data) => { // called if both symbols are collected by server and combat was calculated by server
@@ -80,7 +65,8 @@ watchEffect(() => {
 </script>
 
 <template>
-  <p>{{ }}</p>
+  <p>{{ opponent_status }}</p>
+  <p>{{ me_status }}</p>
 
 </template>
 

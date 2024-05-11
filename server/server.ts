@@ -37,6 +37,7 @@ io.on("connect", (socket) => {
   // });
 });
 
+// shouldnt these all be in io.on as socket.on("event-name") ?
 io.on("start-matchmaking", (socket) => {
   // called by client if he wants to be added to matchmaking
   var item: Item = {
