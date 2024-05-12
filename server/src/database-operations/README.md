@@ -8,7 +8,7 @@ To make the database work, you need a ``.env`` file at the root of the server pr
 ## How to migrate the Database
 
 - after changing something in the ``schema.prisma`` file, the db needs to be migrated
-- use this command: ``prisma migrate dev --name <<name of the migration>>``
+- use this command: ``npx prisma migrate dev --name <<name of the migration>>``
 - a new ``migration.sql`` file will appear in the prisma/migrations directory
 
 Further details: <https://www.prisma.io/docs/orm/prisma-migrate/getting-started>

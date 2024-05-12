@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.13.0",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^2.4.3",
     "express": "^4.19.2",
     "socket.io": "^4.7.5",
     "uuid": "^9.0.1"

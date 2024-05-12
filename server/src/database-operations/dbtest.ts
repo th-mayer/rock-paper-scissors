@@ -7,7 +7,7 @@ async function main() {
     data: {
       email: "example@example.com",
       name: "nickname",
-      password: "notapasswd",
+      hash: "notapasswd",
     },
   })
   console.log(user);
