@@ -1,4 +1,5 @@
 import { Server, Socket } from "socket.io";
+import express from "express";
 import { Item, Items, Player } from "./src/types/socket-connection-types";
 import {
   matchmaking_diff_1,
@@ -7,14 +8,26 @@ import {
 } from "./src/matchmaking/dicts/player-level-dicts";
 import { running_matches } from "./src/matchmaking/dicts/running-matches-dict";
 import { addToMatchmaking } from "./src/matchmaking/add-to-matchmaking";
+import { createServer } from "http";
 
 const port = 3000;
+// readded express for future authentication when logging in w users to db
+const app = express();
+const server = createServer(app);
 const connectedClients = () => io.engine.clientsCount;
 
-const io = new Server(port, {
+const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173",
   },
+});
+
+app.get("/", (req, res) => {
+  res.send("Express Server running");
+});
+
+server.listen(port, () => {
+  console.log("Server running on port " + port);
 });
 
 /**

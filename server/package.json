@@ -4,12 +4,14 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
+    "build": "npx tsc --emptyOutDir",
     "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "@types/node": "^20.12.7",
     "@types/uuid": "^9.0.8",
     "nodemon": "^3.1.0",
@@ -19,6 +21,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.13.0",
+    "express": "^4.19.2",
     "socket.io": "^4.7.5",
     "uuid": "^9.0.1"
   }
