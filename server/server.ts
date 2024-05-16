@@ -9,126 +9,24 @@ import {
 import { running_matches } from "./src/matchmaking/dicts/running-matches-dict";
 import { addToMatchmaking } from "./src/matchmaking/add-to-matchmaking";
 import { createServer } from "http";
+import userController from "./src/controllers/user.controller";
+import SocketServer from "./src/socket/events";
 
 const port = 3000;
 // readded express for future authentication when logging in w users to db
 const app = express();
-const server = createServer(app);
-const connectedClients = () => io.engine.clientsCount;
-
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:5173",
-  },
-});
-
-app.get("/", (req, res) => {
-  res.send("Express Server running");
-});
-
-server.listen(port, () => {
-  console.log("Server running on port " + port);
-});
-
 /**
- * Events
+ * express app use statements here
  */
-io.on("connect", (socket) => {
-  console.log("Connected!");
-  console.log(`${socket.id} connected`);
-  console.log(`${connectedClients()} clients are online`);
+app.use("/user", userController);
 
-  socket.on("disconnect", (reason) => {
-    console.log(`${socket.id} disconnected`);
-    console.log(`${connectedClients} clients are online`);
-  });
+const httpServer = createServer(app);
+SocketServer(httpServer);
 
-  // socket.emit("gm", "frens");
+//app.get("/", (req, res) => {
+//  res.send("Express Server running");
+//});
 
-  // socket.on("gn", (arg) => {
-  //   console.log(arg);
-  // });
-});
-
-// shouldnt these all be in io.on as socket.on("event-name") ?
-io.on("start-matchmaking", (socket) => {
-  // called by client if he wants to be added to matchmaking
-  var item: Item = {
-    name: "TestItem",
-    itemType: "test_type",
-    effect: "e",
-    description: "bla",
-  };
-  var items: Items = { item1: item, item2: item, item3: item };
-  // !!!!!!!! DATA ABOVE HAS TO BE COLLECTED FROM DB FOR EACH CLIENT !!!!!!!!!!!!
-  // TODO
-  var player: Player = {
-    name: "name",
-    level: 10,
-    items: items,
-    socket: socket,
-  };
-  addToMatchmaking(io, player);
-});
-
-io.on("abort-matchmaking", (m_id) => {
-  for (let match_id in matchmaking_diff_1) {
-    if (match_id == m_id) {
-      delete matchmaking_diff_1[match_id];
-      break;
-    }
-  }
-  for (let match_id in matchmaking_diff_10) {
-    if (match_id == m_id) {
-      delete matchmaking_diff_10[match_id];
-      break;
-    }
-  }
-  for (let match_id in matchmaking_diff_any) {
-    if (match_id == m_id) {
-      delete matchmaking_diff_any[match_id];
-      break;
-    }
-  }
-});
-
-io.on("choice", (socket: Socket, data) => {
-  var choice = data.choice; // symbol send by client
-  var match = running_matches[data.m_id]; // get match, with by client provided match_id
-  switch (
-    choice // put choice into game instance
-  ) {
-    case "r": {
-      if (socket.id == match.player1.socket.id) {
-        match.instance!.player1.symbol = "r";
-      }
-      if (socket.id == match.player2!.socket.id) {
-        match.instance!.player2.symbol = "r";
-      }
-    }
-    case "p": {
-      if (socket.id == match.player1.socket.id) {
-        match.instance!.player1.symbol = "p";
-      }
-      if (socket.id == match.player2!.socket.id) {
-        match.instance!.player2.symbol = "p";
-      }
-    }
-    case "s": {
-      if (socket.id == match.player1.socket.id) {
-        match.instance!.player1.symbol = "s";
-      }
-      if (socket.id == match.player2!.socket.id) {
-        match.instance!.player2.symbol = "s";
-      }
-    }
-    case "": {
-      if (socket.id == match.player1.socket.id) {
-        match.instance!.player1.symbol = "";
-      }
-      if (socket.id == match.player2!.socket.id) {
-        match.instance!.player2.symbol = "";
-      }
-    }
-  }
+httpServer.listen(port, () => {
+  console.log("Backendserver running on port " + port);
 });

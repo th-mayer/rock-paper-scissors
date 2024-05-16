@@ -1,8 +1,28 @@
 import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
-
+import { Jwt, sign } from "jsonwebtoken";
+import config from "../json/config.json";
 export class DbUser {
   constructor(private readonly prismaUser: PrismaClient["user"]) {}
+
+  secret = config.secret;
+
+  async authenticate(username: string, password: string){
+    const user = await this.prismaUser.findFirst({
+      where: {
+        name: username
+      }
+    });
+
+    if( !user || !(await bcrypt.compare(password, user.hash))){
+      // TODO imporve error handling
+      throw "Username or Password incorrect!";
+    }
+
+    //auth successful, sign JWT
+    const token = sign({sub: user.id}, this.secret, {expiresIn: "7d"});
+    return {...this.getUserWithIdWithoutHash(user.id), token}
+  }
 
   // CREATE
   async createUser(newUserData: User) {
@@ -40,6 +60,15 @@ export class DbUser {
         id: user_id,
       },
     });
+  }
+
+  async getUserWithIdWithoutHash(user_id: number){
+    const user = await this.getUserWithId(user_id);
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name
+    };
   }
 
   // UPDATE
