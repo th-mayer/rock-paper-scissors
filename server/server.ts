@@ -1,24 +1,17 @@
-import { Server, Socket } from "socket.io";
-import express from "express";
-import { Item, Items, Player } from "./src/types/socket-connection-types";
-import {
-  matchmaking_diff_1,
-  matchmaking_diff_10,
-  matchmaking_diff_any,
-} from "./src/matchmaking/dicts/player-level-dicts";
-import { running_matches } from "./src/matchmaking/dicts/running-matches-dict";
-import { addToMatchmaking } from "./src/matchmaking/add-to-matchmaking";
+import express, { json } from "express";
 import { createServer } from "http";
 import userController from "./src/controllers/user.controller";
 import SocketServer from "./src/socket/events";
+import { errorHandler } from "./src/express-middleware/error.handler";
 
 const port = 3000;
-// readded express for future authentication when logging in w users to db
 const app = express();
-/**
- * express app use statements here
- */
-app.use("/user", userController);
+
+app.use(json());
+app.use(errorHandler);
+
+// api routes
+app.use("/users", userController);
 
 const httpServer = createServer(app);
 SocketServer(httpServer);

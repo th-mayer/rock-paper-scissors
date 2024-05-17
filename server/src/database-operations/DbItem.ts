@@ -1,5 +1,10 @@
 import { Item, PrismaClient } from "@prisma/client";
 
+/**
+ * Usage: create new Prisma Client, then new DbItem instance
+ * const prisma = prismaClient;
+ * const dbItem = new DbItem(prisma.item);
+ */
 export class DbItem {
   constructor(private readonly prismaItem: PrismaClient["item"]) {}
 

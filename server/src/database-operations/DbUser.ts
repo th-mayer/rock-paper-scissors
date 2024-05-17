@@ -2,12 +2,18 @@ import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { Jwt, sign } from "jsonwebtoken";
 import config from "../json/config.json";
+
+/**
+ * Usage: create new Prisma Client, then new DbUser instance
+ * const prisma = prismaClient;
+ * const dbUsers = new DbUser(prisma.user);
+ */
 export class DbUser {
   constructor(private readonly prismaUser: PrismaClient["user"]) {}
 
   secret = config.secret;
 
-  async authenticate(username: string, password: string){
+  async authenticate({username, password} : {username:string, password:string}){
     const user = await this.prismaUser.findFirst({
       where: {
         name: username
@@ -35,7 +41,7 @@ export class DbUser {
       })
     ) {
       // TODO improve error handling
-      throw "Username " + newUserData.name + "is already taken";
+      throw "Username " + newUserData.name + " is already taken";
     }
 
     newUserData.hash = bcrypt.hashSync(newUserData.hash);
