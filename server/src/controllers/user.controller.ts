@@ -14,6 +14,7 @@ const dbUsers = new DbUser(prisma.user);
 router.post("/authenticate", authenticate);
 router.post("/register", register);
 router.get("/", authorize(), getAll);
+// implementation WIP!
 router.put("/:id", authorize(), update);
 router.delete("/:id", authorize(), _delete);
 
