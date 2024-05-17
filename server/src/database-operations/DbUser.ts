@@ -13,21 +13,21 @@ export class DbUser {
 
   secret = config.secret;
 
-  async authenticate({username, password} : {username:string, password:string}){
-    const user = await this.prismaUser.findFirst({
+  async authenticate({ username, hash }: { username: string; hash: string }) {
+    const user = await this.prismaUser.findUnique({
       where: {
-        name: username
-      }
+        username: username,
+      },
     });
 
-    if( !user || !(await bcrypt.compare(password, user.hash))){
+    if (!user || !(await bcrypt.compare(hash, user.hash))) {
       // TODO imporve error handling
       throw "Username or Password incorrect!";
     }
 
     //auth successful, sign JWT
-    const token = sign({sub: user.id}, this.secret, {expiresIn: "7d"});
-    return {...this.getUserWithIdWithoutHash(user.id), token}
+    const token = sign({ sub: user.id }, this.secret, { expiresIn: "7d" });
+    return { ...this.withoutHash(user), token };
   }
 
   // CREATE
@@ -36,12 +36,12 @@ export class DbUser {
     if (
       await this.prismaUser.findFirst({
         where: {
-          name: newUserData.name,
+          username: newUserData.username,
         },
       })
     ) {
       // TODO improve error handling
-      throw "Username " + newUserData.name + " is already taken";
+      throw "Username " + newUserData.username + " is already taken";
     }
 
     newUserData.hash = bcrypt.hashSync(newUserData.hash);
@@ -49,7 +49,7 @@ export class DbUser {
     await this.prismaUser.create({
       data: {
         email: newUserData.email,
-        name: newUserData.name,
+        username: newUserData.username,
         hash: newUserData.hash,
       },
     });
@@ -68,15 +68,6 @@ export class DbUser {
     });
   }
 
-  async getUserWithIdWithoutHash(user_id: number){
-    const user = await this.getUserWithId(user_id);
-    return {
-      id: user.id,
-      email: user.email,
-      name: user.name
-    };
-  }
-
   // UPDATE
   async updateUsername(user_id: number, user_name: string) {
     // TODO
@@ -91,11 +82,17 @@ export class DbUser {
   }
 
   // DELETE
-  async deleteUser(user_id: number){
+  async deleteUser(user_id: number) {
     await this.prismaUser.delete({
       where: {
-        id: user_id
-      }
+        id: user_id,
+      },
     });
+  }
+
+  // Helpers
+  withoutHash(user: User){
+    const { hash, ...userWithoutHash} = user;
+    return userWithoutHash;
   }
 }
