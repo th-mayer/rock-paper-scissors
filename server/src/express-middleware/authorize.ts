@@ -1,12 +1,12 @@
 import { expressjwt } from "express-jwt";
 import config from "../json/config.json";
 import { DbUser } from "../database-operations/DbUser";
-import { PrismaClient } from "@prisma/client";
+import prismaClient from "../database-operations/prisma-client";
 
 
 export function authorize(){
   const secret = config.secret;
-  const prisma = new PrismaClient();
+  const prisma = prismaClient;
   const dbUsers = new DbUser(prisma.user);
 
   return [
