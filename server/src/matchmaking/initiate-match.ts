@@ -26,9 +26,6 @@ export const initiateMatch = (io: Server, match: Match, match_id: string) => {
     },
   };
 
-  const dbItem = new DbItem(prismaClient.userItem);
-  const allItems = dbItem.getAllItems();
-
   // !!!!!!!! MODIFY DMG AND PROTECTON MODIFERS ACCORDING TO PLAYERS ITEMS EFFECTS (FROM DB) !!!!!!!
   match.instance = instance; // add games stats to match object
   running_matches[match_id] = match; // add match to active matches dict

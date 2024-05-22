@@ -1,4 +1,4 @@
-import { PrismaClient, User } from "@prisma/client";
+import { Item, PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { Jwt, sign } from "jsonwebtoken";
 import config from "../json/config.json";
@@ -61,7 +61,7 @@ export class DbUser {
   }
 
   async getUserWithId(user_id: number) {
-    return await this.prismaUser.findFirstOrThrow({
+    return await this.prismaUser.findFirst({
       where: {
         id: user_id,
       },
@@ -69,16 +69,27 @@ export class DbUser {
   }
 
   // UPDATE
-  async updateUsername(user_id: number, user_name: string) {
-    // TODO
-  }
+  async update(user_id: number, data: any) {
+    const user = await this.getUserWithId(user_id);
+    if (!user) throw "User not found";
 
-  async updateEmail(user_id: number, user_email: string) {
-    // TODO
-  }
-
-  async updatePwdHash(user_id: number, user_hash: string) {
-    // TODO
+    // update items
+    if (data.items) {
+      await this.prismaUser.update({
+        where: {
+          id: user_id,
+        },
+        data: {
+          items: {
+            create: {
+              modifier: data.modifier,
+              kind: data.kind,
+            },
+          },
+          itemCoin: data.itemCoin
+        },
+      });
+    }
   }
 
   // DELETE
@@ -91,8 +102,8 @@ export class DbUser {
   }
 
   // Helpers
-  withoutHash(user: User){
-    const { hash, ...userWithoutHash} = user;
+  withoutHash(user: User) {
+    const { hash, ...userWithoutHash } = user;
     return userWithoutHash;
   }
 }

@@ -34,7 +34,7 @@ const SocketServer = (server: any) => {
   });
 
   // shouldnt these all be in io.on as socket.on("event-name") ?
-  io.on("start-matchmaking", (socket) => {
+  io.on("start-matchmaking", (data) => {
     // called by client if he wants to be added to matchmaking
     var item: Item = {
       name: "TestItem",
@@ -49,7 +49,8 @@ const SocketServer = (server: any) => {
       name: "name",
       level: 10,
       items: items,
-      socket: socket,
+      socket: data.socket,
+      token: data.token 
     };
     addToMatchmaking(io, player);
   });

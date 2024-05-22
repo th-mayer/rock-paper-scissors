@@ -10,6 +10,7 @@ export type Player = {
   level: number,
   items: Items,
   socket: any, // kp wie ein socket.io socket aufgebaut ist
+  token: string
 }
 
 export type PlayerStats = {

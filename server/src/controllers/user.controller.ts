@@ -14,8 +14,8 @@ const dbUsers = new DbUser(prisma.user);
 router.post("/authenticate", authenticate);
 router.post("/register", register);
 router.get("/", authorize(), getAll);
-// implementation WIP!
-router.put("/:id", authorize(), update);
+router.get("/:id", authorize(), getUserWithId);
+router.put("/:id", authorize(), updateItems);
 router.delete("/:id", authorize(), _delete);
 
 function authenticate(req: any, res: any, next: any) {
@@ -39,8 +39,18 @@ function getAll(req: any, res: any, next: any) {
     .catch(next);
 }
 
-function update(req: any, res: any, next: any) {
-  // TODO, finish when dbUser update functions are ready
+function getUserWithId(req: any, res: any, next: any) {
+  dbUsers
+    .getUserWithId(req.params.username)
+    .then((user) => (user ? res.json(user) : res.sendStatus(404)))
+    .catch((err) => next(err));
+}
+
+function updateItems(req: any, res: any, next: any) {
+  dbUsers
+    .update(req.params.id, req.body)
+    .then(() => res.json({}))
+    .catch((err) => next(err));
 }
 
 function _delete(req: any, res: any, next: any) {
