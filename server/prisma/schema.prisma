@@ -19,11 +19,13 @@ model User {
   hash      String
 }
 
+// kind = Enum
+// 0 = dmg_r; 1 = dmg_p; 2 = dmg_s;
+// 3 = prt_r; 4 = prt_p; 5 = prt_s;
 model Item {
-  id          Int     @id @default(autoincrement())
-  name        String  
-  description String
-  effect      String    
+  id        Int     @id @default(autoincrement())
+  modifier  Float   
+  kind      Int
 }
 
 model UserItem {

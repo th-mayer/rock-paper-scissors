@@ -17,6 +17,7 @@ export type PlayerStats = {
   symbol: string | null,
   dmg_modifier: Modifier,
   protection_modifier: Modifier,
+  chosen: boolean
 }
 
 export type Modifier = {

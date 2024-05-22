@@ -1,23 +1,34 @@
 import { Server } from "socket.io";
 import { Match, GameInstance } from "../types/socket-connection-types";
 import { running_matches } from "./dicts/running-matches-dict";
+import prismaClient from "../database-operations/prisma-client";
+import { DbItem } from "../database-operations/DbItem";
+
 
 export const initiateMatch = (io: Server, match: Match, match_id: string) => {
+  const defaultValue = 1;
+
   let instance: GameInstance = {
     // instance contains all gamerelevant stats,  the server needs to calcualte combat results
     player1: {
       hp: 100,
       symbol: null,
-      dmg_modifier: { rock: 10, paper: 10, scissors: 10 },
-      protection_modifier: { rock: 0, paper: 0, scissors: 0 },
+      chosen: false,
+      dmg_modifier: { rock: defaultValue, paper: defaultValue, scissors: defaultValue },
+      protection_modifier: { rock: defaultValue, paper: defaultValue, scissors: defaultValue },
     },
     player2: {
       hp: 100,
       symbol: null,
-      dmg_modifier: { rock: 10, paper: 10, scissors: 10 },
-      protection_modifier: { rock: 0, paper: 0, scissors: 0 },
+      chosen: false,
+      dmg_modifier: { rock: defaultValue, paper: defaultValue, scissors: defaultValue },
+      protection_modifier: { rock: defaultValue, paper: defaultValue, scissors: defaultValue },
     },
   };
+
+  const dbItem = new DbItem(prismaClient.userItem);
+  const allItems = dbItem.getAllItems();
+
   // !!!!!!!! MODIFY DMG AND PROTECTON MODIFERS ACCORDING TO PLAYERS ITEMS EFFECTS (FROM DB) !!!!!!!
   match.instance = instance; // add games stats to match object
   running_matches[match_id] = match; // add match to active matches dict
