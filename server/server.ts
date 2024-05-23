@@ -8,6 +8,7 @@ const port = 3000;
 const app = express();
 
 app.use(json());
+app.use(express.urlencoded({ extended: true }));
 app.use(errorHandler);
 
 // api routes

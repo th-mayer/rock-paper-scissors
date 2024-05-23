@@ -1,8 +1,8 @@
 import { Server } from "socket.io";
 import { Match, GameInstance } from "../types/socket-connection-types";
 import { running_matches } from "./dicts/running-matches-dict";
-import prismaClient from "../database-operations/prisma-client";
-import { DbItem } from "../database-operations/DbItem";
+import prismaClient from "../database-services/prisma-client";
+import { DbItem } from "../database-services/DbItem";
 
 
 export const initiateMatch = (io: Server, match: Match, match_id: string) => {

@@ -1,11 +1,10 @@
-import { Router } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import { authorize } from "../express-middleware/authorize";
-import { DbUser } from "../database-operations/DbUser";
-import prismaClient from "../database-operations/prisma-client";
+import { DbUser } from "../database-services/DbUser";
+import prismaClient from "../database-services/prisma-client";
+import dbUsers from "../database-services/prisma-client";
 
 const router = Router();
-const prisma = prismaClient;
-const dbUsers = new DbUser(prisma.user);
 
 /**
  * defines all /users routes for API
@@ -15,6 +14,7 @@ router.post("/authenticate", authenticate);
 router.post("/register", register);
 router.get("/", authorize(), getAll);
 router.get("/:id", authorize(), getUserWithId);
+router.get("/current", authorize(), getCurrent);
 router.put("/:id", authorize(), updateItems);
 router.delete("/:id", authorize(), _delete);
 
@@ -40,15 +40,20 @@ function getAll(req: any, res: any, next: any) {
 }
 
 function getUserWithId(req: any, res: any, next: any) {
-  const user_id : number = parseInt(req.params.id);
+  const user_id: number = parseInt(req.params.id, 10);
   dbUsers
     .getUserWithId(user_id)
     .then((user) => (user ? res.json(user) : res.sendStatus(404)))
     .catch((err) => next(err));
 }
 
+function getCurrent(req: any, res: any, next: any) {
+  console.log("getCurrent Controller" + req);
+  res.json(req.user);
+}
+
 function updateItems(req: any, res: any, next: any) {
-  const user_id : number = parseInt(req.params.id);
+  const user_id: number = parseInt(req.params.id);
   console.log("Update request body: " + req);
   dbUsers
     .update(user_id, req.body)

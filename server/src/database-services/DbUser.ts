@@ -9,9 +9,14 @@ import config from "../json/config.json";
  * const dbUsers = new DbUser(prisma.user);
  */
 export class DbUser {
-  constructor(private readonly prismaUser: PrismaClient["user"]) {}
+  private secret = config.secret;
+  private prismaUser: PrismaClient["user"];
+  private userId: number;
 
-  secret = config.secret;
+  constructor(prisma: PrismaClient["user"]) {
+    this.prismaUser = prisma;
+    this.userId = 0;
+  }
 
   async authenticate({ username, hash }: { username: string; hash: string }) {
     const user = await this.prismaUser.findUnique({
@@ -65,6 +70,7 @@ export class DbUser {
   }
 
   async getUserWithId(user_id: number) {
+    console.log("DbUser: " + user_id);
     return await this.prismaUser.findFirst({
       where: {
         id: user_id,
