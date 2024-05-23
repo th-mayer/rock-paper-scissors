@@ -15,7 +15,7 @@ export function authorize(){
       // get user id from sub property in auth
       user_id = req.auth.sub;
       console.log("authorize user_id: "+ user_id);
-      const user = await dbUsers.getUserWithId(user_id);
+      const user = await dbUsers.getUserById(user_id);
       if(!user){
         return res.status(401).json({message: "Unauthorized"});
       }

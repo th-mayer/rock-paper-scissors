@@ -69,21 +69,13 @@ export class DbUser {
     });
   }
 
-  async getUserWithId(user_id: number) {
-    console.log("DbUser: " + user_id);
-    return await this.prismaUser.findFirst({
-      where: {
-        id: user_id,
-      },
-      include: {
-        items: true,
-      },
-    });
+  async getUserById(user_id: number) {
+    return await this.getUser(user_id);
   }
 
   // UPDATE
   async update(user_id: number, data: any) {
-    const user = await this.getUserWithId(user_id);
+    const user = await this.getUser(user_id);
     if (!user) throw "User not found";
     // update items
     if (data.items) {
@@ -122,6 +114,15 @@ export class DbUser {
   }
 
   // Helpers
+  async getUser(id: number){
+    const user = await this.prismaUser.findFirst({
+      where: {
+        id: id
+      }
+    });
+    return user;
+  }
+
   withoutHash(user: User) {
     const { hash, ...userWithoutHash } = user;
     return userWithoutHash;

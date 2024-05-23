@@ -1,7 +1,5 @@
-import { Router, Request, Response, NextFunction } from "express";
+import { Router } from "express";
 import { authorize } from "../express-middleware/authorize";
-import { DbUser } from "../database-services/DbUser";
-import prismaClient from "../database-services/prisma-client";
 import dbUsers from "../database-services/prisma-client";
 
 const router = Router();
@@ -13,8 +11,8 @@ const router = Router();
 router.post("/authenticate", authenticate);
 router.post("/register", register);
 router.get("/", authorize(), getAll);
-router.get("/:id", authorize(), getUserWithId);
 router.get("/current", authorize(), getCurrent);
+router.get("/:id", authorize(), getById);
 router.put("/:id", authorize(), updateItems);
 router.delete("/:id", authorize(), _delete);
 
@@ -39,16 +37,15 @@ function getAll(req: any, res: any, next: any) {
     .catch(next);
 }
 
-function getUserWithId(req: any, res: any, next: any) {
+function getById(req: any, res: any, next: any) {
   const user_id: number = parseInt(req.params.id, 10);
   dbUsers
-    .getUserWithId(user_id)
+    .getUserById(user_id)
     .then((user) => (user ? res.json(user) : res.sendStatus(404)))
     .catch((err) => next(err));
 }
 
 function getCurrent(req: any, res: any, next: any) {
-  console.log("getCurrent Controller" + req);
   res.json(req.user);
 }
 
