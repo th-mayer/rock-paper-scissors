@@ -40,15 +40,18 @@ function getAll(req: any, res: any, next: any) {
 }
 
 function getUserWithId(req: any, res: any, next: any) {
+  const user_id : number = parseInt(req.params.id);
   dbUsers
-    .getUserWithId(req.params.username)
+    .getUserWithId(user_id)
     .then((user) => (user ? res.json(user) : res.sendStatus(404)))
     .catch((err) => next(err));
 }
 
 function updateItems(req: any, res: any, next: any) {
+  const user_id : number = parseInt(req.params.id);
+  console.log("Update request body: " + req);
   dbUsers
-    .update(req.params.id, req.body)
+    .update(user_id, req.body)
     .then(() => res.json({}))
     .catch((err) => next(err));
 }

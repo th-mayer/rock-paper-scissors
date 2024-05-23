@@ -57,13 +57,20 @@ export class DbUser {
 
   // READ
   async getAllUsers() {
-    return await this.prismaUser.findMany();
+    return await this.prismaUser.findMany({
+      include: {
+        items: true,
+      },
+    });
   }
 
   async getUserWithId(user_id: number) {
     return await this.prismaUser.findFirst({
       where: {
         id: user_id,
+      },
+      include: {
+        items: true,
       },
     });
   }
@@ -72,24 +79,31 @@ export class DbUser {
   async update(user_id: number, data: any) {
     const user = await this.getUserWithId(user_id);
     if (!user) throw "User not found";
-
     // update items
     if (data.items) {
-      await this.prismaUser.update({
+      const updatedUser = await this.prismaUser.update({
         where: {
           id: user_id,
         },
         data: {
           items: {
-            create: {
-              modifier: data.modifier,
-              kind: data.kind,
-            },
+            create: [
+              {
+                modifier: data.items.modifier,
+                kind: data.items.kind,
+              },
+            ],
           },
-          itemCoin: data.itemCoin
+          itemCoin: data.itemCoin,
+        },
+        include: {
+          items: true,
         },
       });
+      console.log(updatedUser);
+      return this.withoutHash(updatedUser);
     }
+    throw "Error when updating User";
   }
 
   // DELETE

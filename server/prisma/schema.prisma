@@ -28,6 +28,10 @@ model Item {
   id        Int     @id @default(autoincrement())
   modifier  Float   
   kind      Int     @default(99)
+  
+  // Relation field for Prisma, does not rlly exist as a field in the db
+  // https://www.prisma.io/docs/orm/prisma-schema/data-model/relations
   user      User    @relation(fields: [userId], references: [id])
+  // FK connecting User + Item; referenced by relation field; does exist in the db
   userId    Int
 }
