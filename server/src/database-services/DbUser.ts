@@ -99,7 +99,7 @@ export class DbUser {
         },
       });
       console.log(updatedUser);
-      return this.withoutHash(updatedUser);
+      return updatedUser;
     }
     throw "Error when updating User";
   }
@@ -115,7 +115,7 @@ export class DbUser {
 
   // Helpers
   async getUser(id: number){
-    const user = await this.prismaUser.findFirst({
+    const user = await this.prismaUser.findFirstOrThrow({
       where: {
         id: id
       }

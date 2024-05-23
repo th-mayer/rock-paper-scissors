@@ -54,7 +54,7 @@ function updateItems(req: any, res: any, next: any) {
   console.log("Update request body: " + req);
   dbUsers
     .update(user_id, req.body)
-    .then(() => res.json({}))
+    .then((updated_user) => res.json(updated_user))
     .catch((err) => next(err));
 }
 
