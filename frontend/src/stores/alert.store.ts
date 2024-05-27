@@ -1,11 +1,6 @@
 import { defineStore } from "pinia";
 
-type AlertData = {
-  message: string;
-  // appearance comes from bootstrap alerts!
-  type: "alert-success" | "alert-danger";
-};
-
+// global alert
 export const useAlertStore = defineStore("alert", {
   state: () => ({
     alert: null as any | null,

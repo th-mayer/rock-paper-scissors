@@ -1,7 +1,7 @@
  <script setup lang="ts">
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
-import { useAuthStore } from "../stores/auth.store";
+import { useAuthStore } from "../../stores/auth.store";
 
 const schema = Yup.object().shape({
   username: Yup.string().required("Username is required"),

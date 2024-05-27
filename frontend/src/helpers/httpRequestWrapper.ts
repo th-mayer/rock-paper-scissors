@@ -1,32 +1,45 @@
 import { useAuthStore } from "../stores/auth.store";
 
-export const httpRequestWrapper = {
-  get: request("GET"),
-  post: request("POST"),
-  put: request("PUT"),
-  delete: request("DELETE")
+interface RequestOptions {
+  method: string,
+  headers: Headers,
+  body?: any
 }
 
-function request(requestType: string){
+// Wrapper for browser built in fetch() method
+// https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+export const fetchWrapper = {
+  get: makeRequest("GET"),
+  post: makeRequest("POST"),
+  put: makeRequest("PUT"),
+  delete: makeRequest("DELETE")
+}
+
+function makeRequest(requestType: string){
   return (url: string, body: any) => {
-    const requestOptions = {
-      requestType,
-      headers: authHeader(url)
+    const requestOptions: RequestOptions = {
+      method: requestType,
+      headers: authHeader(url),
     };
     if(body) {
-      requestOptions.headers["Content-Type"] = "application/json";
+      requestOptions.headers.append("Content-Type", "application/json");
       requestOptions.body = JSON.stringify(body);
     }
+    return fetch(url, requestOptions);
   }
 }
 
-function authHeader(url: string){
+function authHeader(url: string): Headers{
   const { user } = useAuthStore();
-  const isLoggedIn = user.token;
+  const isLoggedIn = !!user?.token;
   const isApiUrl = url.startsWith(import.meta.env.VITE_API_URL);
-  if(isLoggedIn && isApiUrl){
-    return { Authorization: `Bearer ${user.token}`};
-  } else {
-    return {};
+  const headers = new Headers();
+  if(isLoggedIn && isApiUrl){ 
+    headers.append("Authorization", `Bearer ${user.token}`);
   }
+  return headers;
+}
+
+async function handleResponse(response:Response) {
+  
 }

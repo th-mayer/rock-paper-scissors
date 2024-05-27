@@ -1,6 +1,6 @@
-import Layout from "../views/Layout.vue";
-import Login from "../views/Login.vue";
-import Register from "../views/Register.vue";
+import Layout from "../views/account/Account-Layout.vue";
+import Login from "../views/account/Login.vue";
+import Register from "../views/account/Register.vue";
 
 export default {
   path: "/accout",
