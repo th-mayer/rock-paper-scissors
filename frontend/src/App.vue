@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import SocketEvents from './components/SocketEvents.vue'
-import Home from './views/Home.vue';
+import Alert from './components/Alert.vue';
 </script>
 
 <template>
   <div class="app-container">
+    <Alert />
     <SocketEvents msg="Connection Test"/>
     <div class="container pt-4 pb-4">
-      <Home />
-      <!--
         <router-view />
-      -->
     </div>
   </div>
 </template>

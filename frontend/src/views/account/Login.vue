@@ -38,7 +38,6 @@ async function onSubmit(values : any) {
           <router-link to="register" class="btn btn-link">Register</router-link>
         </div>
       </Form>
-
     </div>
   </div>
 </template>

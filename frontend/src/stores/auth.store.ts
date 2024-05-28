@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import { fetchWrapper } from "../helpers/httpRequestWrapper";
 import { router } from "../router/router";
 import { useAlertStore } from "./alert.store";
-import { error } from "console";
 
 const baseURL = `${import.meta.env.VITE_API_URL}/users`;
 

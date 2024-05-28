@@ -8,7 +8,11 @@ import { useAuthStore } from "../stores/auth.store";
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   linkActiveClass: "active",
-  routes: [{ path: "/", component: Home }, { ...accountRoutes }, { ...userRoutes }],
+  routes: [
+    { path: "/", component: Home },
+    { ...accountRoutes },
+    { ...userRoutes },
+  ],
 });
 
 router.beforeEach(async (to) => {
