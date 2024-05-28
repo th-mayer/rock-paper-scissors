@@ -16,7 +16,7 @@ export const fetchWrapper = {
 }
 
 function makeRequest(requestType: string){
-  return (url: string, body: any) => {
+  return (url: string, body?: any) => {
     const requestOptions: RequestOptions = {
       method: requestType,
       headers: authHeader(url),
