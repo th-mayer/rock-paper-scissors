@@ -25,7 +25,7 @@ function makeRequest(requestType: string){
       requestOptions.headers.append("Content-Type", "application/json");
       requestOptions.body = JSON.stringify(body);
     }
-    return fetch(url, requestOptions);
+    return fetch(url, requestOptions).then(handleResponse);
   }
 }
 
@@ -41,5 +41,16 @@ function authHeader(url: string): Headers{
 }
 
 async function handleResponse(response:Response) {
-  
+  const isJson = response.headers?.get("content-type")?.includes("application/json");
+  const data = isJson ? await response.json() : null;
+
+  if(!response.ok){
+    const { user, logout } = useAuthStore();
+    if([401, 403].includes(response.status) && user){
+      logout();
+    }
+    const error = (data && data.message) || response.status;
+    return Promise.reject(error);
+  }
+  return data;
 }
