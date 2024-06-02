@@ -1,17 +1,24 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import accountRoutes from "./account.routes";
-import userRoutes from "./user.routes";
 import { useAlertStore } from "../stores/alert.store";
 import { useAuthStore } from "../stores/auth.store";
+import AccountLayout from "../views/account/AccountLayout.vue";
+import Login from "../views/account/Login.vue";
+import Register from "../views/account/Register.vue";
 
 export const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   linkActiveClass: "active",
   routes: [
     { path: "/", component: Home },
-    { ...accountRoutes },
-    { ...userRoutes },
+    {
+      path: "/account",
+      component: AccountLayout,
+      children: [
+        { path: "login", component: Login },
+        { path: "register", component: Register }, 
+      ],
+    },
   ],
 });
 
@@ -21,7 +28,7 @@ router.beforeEach(async (to) => {
   alertStore.clear();
 
   //redirect to login page if not logged in
-  const publicPages = ["/account/login", "account/register"];
+  const publicPages = ["/account/login", "/account/register"];
   const authRequired = !publicPages.includes(to.path);
   const authStore = useAuthStore();
 

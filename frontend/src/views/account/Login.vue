@@ -27,10 +27,10 @@ async function onSubmit(values : any) {
         </div>
         <div class="form-group">
           <label>Password</label>
-          <Field name="password" type="password" class="form-contorl" :class="{'is-invalid' : errors.password}"/>
+          <Field name="password" type="password" class="form-control" :class="{ 'is-invalid' : errors.password }"/>
           <div class="invalid-feedback">{{ errors.password }}</div>
         </div>
-        <div class="from-group">
+        <div class="form-group">
           <button class="btn btn-primary" :disabled="isSubmitting">
             <span v-show="isSubmitting" class="spinner-border spinnder-border-sm mr-1"></span>
             Login
