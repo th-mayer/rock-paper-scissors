@@ -9,7 +9,7 @@ import { router } from "../../router/router";
 const schema = Yup.object().shape({
   email: Yup.string().required("Email is required"),
   username: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required")
+  hash: Yup.string().required("Password is required")
 });
 
 async function onSubmit(values: any) {
@@ -42,8 +42,8 @@ async function onSubmit(values: any) {
         </div>
         <div class="form-group">
           <label>Password</label>
-          <Field name="password" type="password" class="form-control" :class="{ 'is-invalid': errors.password }" />
-          <div class="invalid-feedback">{{ errors.password }}</div>
+          <Field name="hash" type="password" class="form-control" :class="{ 'is-invalid': errors.hash }" />
+          <div class="invalid-feedback">{{ errors.hash }}</div>
         </div>
         <div class="form-group">
           <button class="btn btn-primary" :disabled="isSubmitting">

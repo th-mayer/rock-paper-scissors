@@ -1,17 +1,17 @@
- <script setup lang="ts">
+<script setup lang="ts">
 import { Form, Field } from "vee-validate";
 import * as Yup from "yup";
 import { useAuthStore } from "../../stores/auth.store";
 
 const schema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required")
+  hash: Yup.string().required("Password is required")
 });
 
 async function onSubmit(values : any) {
   const authStore = useAuthStore();
-  const { username, password } = values;
-  await authStore.login(username, password);
+  const { username, hash } = values;
+  await authStore.login(username, hash);
 }
 </script>
 
@@ -27,8 +27,8 @@ async function onSubmit(values : any) {
         </div>
         <div class="form-group">
           <label>Password</label>
-          <Field name="password" type="password" class="form-control" :class="{ 'is-invalid' : errors.password }"/>
-          <div class="invalid-feedback">{{ errors.password }}</div>
+          <Field name="hash" type="password" class="form-control" :class="{ 'is-invalid' : errors.hash }"/>
+          <div class="invalid-feedback">{{ errors.hash }}</div>
         </div>
         <div class="form-group">
           <button class="btn btn-primary" :disabled="isSubmitting">
