@@ -1,8 +1,9 @@
 import { Server, Socket } from "socket.io";
 import { addToMatchmaking } from "../game/add-to-matchmaking";
 import { running_matches } from "../game/dicts/running-matches-dict";
-import { Item, ItemDB, Items, Player } from "../types/socket-connection-types";
+import { Item, Player } from "../types/socket-connection-types";
 import { calculateCombat } from "../game/combat/combat-calculate";
+import dbUsers from "../database-services/prisma-client";
 
 const SocketServer = (server: any) => {
   const io = new Server(server, {
@@ -34,85 +35,81 @@ const SocketServer = (server: any) => {
   });
 
   // shouldnt these all be in io.on as socket.on("event-name") ?
-  io.on("start-matchmaking", (data) => {
+  io.on("start-matchmaking", async (data) => {
     // called by client if he wants to be added to matchmaking
-    const dbItem: ItemDB = { kind: 1, modifier: 2 };
-    const placeholderItem: Item = {
-      kind: 0,
-      description: "",
-      name: "",
-      modifier: 1,
-    };
 
-    let players_user_token = data.token; //!!!!! Use this to collect the players array of Items
-    let usersItems: ItemDB[] = [dbItem, dbItem, dbItem]; //!!!! Exchange with actuall Item array from DB
-    var items: Items = [placeholderItem, placeholderItem, placeholderItem];
+    // TODO: check what the JSON obj sent by client socket actually looks like
+    // assumption: user { id, email, username, hash, items: {item1, item2, item3}, itemCoin }
+    let user = await dbUsers.getUserById(data.user.id);
+    let userItems = user.items;
+    var items: Item[] = [];
 
     for (let i = 0; i < 3; i++) {
       let item: Item = { kind: 0, description: "", name: "", modifier: 1 };
-      switch (usersItems[i].kind) {
+      // item kinds go from 0 - 5, these numbers represent the following:
+      // 0 = dmg_r; 1 = dmg_p; 2 = dmg_s; 3 = prt_r; 4 = prt_p; 5 = prt_s;
+      switch (userItems[i].kind) {
         case 0: {
           item.description =
             "Equipped person deals " +
-            usersItems[i].modifier +
+            userItems[i].modifier +
             "x times the damage when winning with rock";
-          item.kind = usersItems[i].kind;
+          item.kind = userItems[i].kind;
           item.name = "Heavy Stone";
-          item.modifier = usersItems[i].modifier;
+          item.modifier = userItems[i].modifier;
         }
         case 1: {
           item.description =
             "Equipped person deals " +
-            usersItems[i].modifier +
+            userItems[i].modifier +
             "x times the damage when winning with paper";
-          item.kind = usersItems[i].kind;
+          item.kind = userItems[i].kind;
           item.name = "Sharp Paper";
-          item.modifier = usersItems[i].modifier;
+          item.modifier = userItems[i].modifier;
         }
         case 2: {
           item.description =
             "Equipped person deals " +
-            usersItems[i].modifier +
+            userItems[i].modifier +
             "x times the damage when winning with scissors";
-          item.kind = usersItems[i].kind;
+          item.kind = userItems[i].kind;
           item.name = "Pointy Scissors";
-          item.modifier = usersItems[i].modifier;
+          item.modifier = userItems[i].modifier;
         }
         case 3: {
           item.description =
             "Equipped person receives only " +
-            usersItems[i].modifier +
+            userItems[i].modifier +
             "x times damage when loosing aginst rock";
-          item.kind = usersItems[i].kind;
+          item.kind = userItems[i].kind;
           item.name = "Brittle Stons";
-          item.modifier = usersItems[i].modifier;
+          item.modifier = userItems[i].modifier;
         }
         case 4: {
           item.description =
             "Equipped person receives only " +
-            usersItems[i].modifier +
+            userItems[i].modifier +
             "x times damage when loosing aginst paper";
-          item.kind = usersItems[i].kind;
+          item.kind = userItems[i].kind;
           item.name = "Damp Paper";
-          item.modifier = usersItems[i].modifier;
+          item.modifier = userItems[i].modifier;
         }
         case 5: {
           item.description =
             "Equiped person receives only " +
-            usersItems[i].modifier +
+            userItems[i].modifier +
             "x times damage when loosing aginst scissors";
-          item.kind = usersItems[i].kind;
+          item.kind = userItems[i].kind;
           item.name = "Blunt Scissors";
-          item.modifier = usersItems[i].modifier;
+          item.modifier = userItems[i].modifier;
         }
-        default:
-          {
-            item.description = "No Item equipped in this slot";
-            item.kind = 99;
-            item.name = "None";
-            item.modifier = 1;
-          }
-          items[i] = item;
+        default: {
+          item.description = "No Item equipped in this slot";
+          item.kind = 99;
+          item.name = "None";
+          item.modifier = 1;
+        }
+        items.push(item);
       }
     }
 

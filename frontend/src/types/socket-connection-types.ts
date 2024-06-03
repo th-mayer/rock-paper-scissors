@@ -1,3 +1,5 @@
+import { Socket } from "socket.io-client";
+
 export type Match = {
   level: number;
   player1: Player;
@@ -8,8 +10,8 @@ export type Match = {
 export type Player = {
   name: string;
   level: number;
-  items: Items;
-  socket: any; // kp wie ein socket.io socket aufgebaut ist
+  items: Item[];
+  socket: Socket;
 };
 
 export type PlayerStats = {
@@ -31,7 +33,7 @@ export type GameInstance = {
   player2: PlayerStats;
 };
 
-export type Items = [Item, Item, Item];
+// export type Items = [Item, Item, Item];
 
 export type Item = {
   type: string;
@@ -45,5 +47,5 @@ export type PlayerData = {
   name: string;
   level: number;
   health: number;
-  items: Items;
+  items: Item[];
 };

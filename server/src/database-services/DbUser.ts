@@ -4,18 +4,16 @@ import { sign } from "jsonwebtoken";
 import config from "../json/config.json";
 
 /**
- * Usage: create new Prisma Client, then new DbUser instance
- * const prisma = prismaClient;
- * const dbUsers = new DbUser(prisma.user);
+ * DONT INSTANTIATE THIS CLASS! 
+ * USE THE "dbUsers" const from database-services/prisma-client.ts !
  */
+// TODO: make this a singleton
 export class DbUser {
   private secret = config.secret;
   private prismaUser: PrismaClient["user"];
-  private userId: number;
 
   constructor(prisma: PrismaClient["user"]) {
     this.prismaUser = prisma;
-    this.userId = 0;
   }
 
   async authenticate({ username, hash }: { username: string; hash: string }) {
@@ -114,11 +112,14 @@ export class DbUser {
   }
 
   // Helpers
-  async getUser(id: number){
+  async getUser(id: number) {
     const user = await this.prismaUser.findFirstOrThrow({
       where: {
-        id: id
-      }
+        id: id,
+      },
+      include: {
+        items: true,
+      },
     });
     return user;
   }
