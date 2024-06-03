@@ -8,12 +8,11 @@ const baseURL = `${import.meta.env.VITE_API_URL}/users`;
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     /**
-     * || check necessary bc ts : https://stackoverflow.com/questions/67700374/use-localstorage-getitem-with-typescript
-     * holds currently logged in user + keeps user from logging out on page refresh
-     *
      * user prop contains currently logged in user
      * returnURL : redirect URL to previous after successful login
      * */
+    // || check necessary bc ts : https://stackoverflow.com/questions/67700374/use-localstorage-getitem-with-typescript
+    // holds currently logged in user + keeps user from logging out on page refresh
     user: JSON.parse(localStorage.getItem("user") || '""'),
     returnUrl: null as string | null,
   }),

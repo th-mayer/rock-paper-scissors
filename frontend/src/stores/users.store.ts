@@ -6,8 +6,8 @@ const baseURL = `${import.meta.env.VITE_API_URL}/users`;
 
 export const useUserStore = defineStore("users", {
   state: () => ({
-    allUsers: {},
-    user: {}
+    allUsers: {} as any,
+    user: {} as any
   }),
   actions: {
     async register(user: any) {

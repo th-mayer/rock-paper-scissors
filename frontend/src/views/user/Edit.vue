@@ -13,7 +13,7 @@ const route = useRoute();
 
 // get current user id, load user into localStorage
 const id = route.params.id;
-let user = storeToRefs(userStore);
+let { user } = storeToRefs(userStore);
 userStore.getById(id);
 
 const schema = Yup.object().shape({
