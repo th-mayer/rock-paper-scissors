@@ -1,13 +1,13 @@
 import { Server, Socket } from "socket.io";
-import { addToMatchmaking } from "../matchmaking/add-to-matchmaking";
-import { matchmaking_diff_1, matchmaking_diff_10, matchmaking_diff_any } from "../matchmaking/dicts/player-level-dicts";
-import { running_matches } from "../matchmaking/dicts/running-matches-dict";
-import { Item, Items, Player } from "../types/socket-connection-types";
+import { addToMatchmaking } from "../game/add-to-matchmaking";
+import { running_matches } from "../game/dicts/running-matches-dict";
+import { Item, ItemDB, Items, Player } from "../types/socket-connection-types";
+import { calculateCombat } from "../game/combat/combat-calculate";
 
 const SocketServer = (server: any) => {
   const io = new Server(server, {
     cors: {
-      origin: "http://localhost:5173",
+      origin: process.env.CLIENT_URL,
     },
   });
 
@@ -36,41 +36,100 @@ const SocketServer = (server: any) => {
   // shouldnt these all be in io.on as socket.on("event-name") ?
   io.on("start-matchmaking", (data) => {
     // called by client if he wants to be added to matchmaking
-    var item: Item = {
-      name: "TestItem",
-      itemType: "test_type",
-      effect: "e",
-      description: "bla",
+    const dbItem: ItemDB = { kind: 1, modifier: 2 };
+    const placeholderItem: Item = {
+      kind: 0,
+      description: "",
+      name: "",
+      modifier: 1,
     };
-    var items: Items = { item1: item, item2: item, item3: item };
-    // !!!!!!!! DATA ABOVE HAS TO BE COLLECTED FROM DB FOR EACH CLIENT !!!!!!!!!!!!
-    // TODO
+
+    let players_user_token = data.token; //!!!!! Use this to collect the players array of Items
+    let usersItems: ItemDB[] = [dbItem, dbItem, dbItem]; //!!!! Exchange with actuall Item array from DB
+    var items: Items = [placeholderItem, placeholderItem, placeholderItem];
+
+    for (let i = 0; i < 3; i++) {
+      let item: Item = { kind: 0, description: "", name: "", modifier: 1 };
+      switch (usersItems[i].kind) {
+        case 0: {
+          item.description =
+            "Equipped person deals " +
+            usersItems[i].modifier +
+            "x times the damage when winning with rock";
+          item.kind = usersItems[i].kind;
+          item.name = "Heavy Stone";
+          item.modifier = usersItems[i].modifier;
+        }
+        case 1: {
+          item.description =
+            "Equipped person deals " +
+            usersItems[i].modifier +
+            "x times the damage when winning with paper";
+          item.kind = usersItems[i].kind;
+          item.name = "Sharp Paper";
+          item.modifier = usersItems[i].modifier;
+        }
+        case 2: {
+          item.description =
+            "Equipped person deals " +
+            usersItems[i].modifier +
+            "x times the damage when winning with scissors";
+          item.kind = usersItems[i].kind;
+          item.name = "Pointy Scissors";
+          item.modifier = usersItems[i].modifier;
+        }
+        case 3: {
+          item.description =
+            "Equipped person receives only " +
+            usersItems[i].modifier +
+            "x times damage when loosing aginst rock";
+          item.kind = usersItems[i].kind;
+          item.name = "Brittle Stons";
+          item.modifier = usersItems[i].modifier;
+        }
+        case 4: {
+          item.description =
+            "Equipped person receives only " +
+            usersItems[i].modifier +
+            "x times damage when loosing aginst paper";
+          item.kind = usersItems[i].kind;
+          item.name = "Damp Paper";
+          item.modifier = usersItems[i].modifier;
+        }
+        case 5: {
+          item.description =
+            "Equiped person receives only " +
+            usersItems[i].modifier +
+            "x times damage when loosing aginst scissors";
+          item.kind = usersItems[i].kind;
+          item.name = "Blunt Scissors";
+          item.modifier = usersItems[i].modifier;
+        }
+        default:
+          {
+            item.description = "No Item equipped in this slot";
+            item.kind = 99;
+            item.name = "None";
+            item.modifier = 1;
+          }
+          items[i] = item;
+      }
+    }
+
     var player: Player = {
       name: "name",
       level: 10,
       items: items,
       socket: data.socket,
-      token: data.token 
+      token: data.token,
     };
     addToMatchmaking(io, player);
   });
 
   io.on("abort-matchmaking", (m_id) => {
-    for (let match_id in matchmaking_diff_1) {
+    for (let match_id in running_matches) {
       if (match_id == m_id) {
-        delete matchmaking_diff_1[match_id];
-        break;
-      }
-    }
-    for (let match_id in matchmaking_diff_10) {
-      if (match_id == m_id) {
-        delete matchmaking_diff_10[match_id];
-        break;
-      }
-    }
-    for (let match_id in matchmaking_diff_any) {
-      if (match_id == m_id) {
-        delete matchmaking_diff_any[match_id];
+        delete running_matches[match_id];
         break;
       }
     }
@@ -79,6 +138,13 @@ const SocketServer = (server: any) => {
   io.on("choice", (socket: Socket, data) => {
     var choice = data.choice; // symbol send by client
     var match = running_matches[data.m_id]; // get match, with by client provided match_id
+
+    if (socket.id == match.player1.socket.id) {
+      match.instance!.player1.chosen = true;
+    } else if (socket.id == match.player2?.socket.id) {
+      match.instance!.player2.chosen = true;
+    }
+
     switch (
       choice // put choice into game instance
     ) {
@@ -114,6 +180,15 @@ const SocketServer = (server: any) => {
           match.instance!.player2.symbol = "";
         }
       }
+    }
+
+    if (
+      match.instance!.player1.chosen == true &&
+      match.instance!.player2.chosen == true
+    ) {
+      calculateCombat(io, data.m_id);
+      match.instance!.player1.chosen = false;
+      match.instance!.player2.chosen = false;
     }
   });
 };

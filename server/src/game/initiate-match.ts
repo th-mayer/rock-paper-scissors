@@ -1,9 +1,11 @@
 import { Server } from "socket.io";
-import { Match, GameInstance } from "../types/socket-connection-types";
+import {
+  Match,
+  GameInstance,
+  Player,
+  PlayerStats,
+} from "../types/socket-connection-types";
 import { running_matches } from "./dicts/running-matches-dict";
-import prismaClient from "../database-services/prisma-client";
-import { DbItem } from "../database-services/DbItem";
-
 
 export const initiateMatch = (io: Server, match: Match, match_id: string) => {
   const defaultValue = 1;
@@ -14,19 +16,64 @@ export const initiateMatch = (io: Server, match: Match, match_id: string) => {
       hp: 100,
       symbol: null,
       chosen: false,
-      dmg_modifier: { rock: defaultValue, paper: defaultValue, scissors: defaultValue },
-      protection_modifier: { rock: defaultValue, paper: defaultValue, scissors: defaultValue },
+      dmg_modifier: {
+        rock: defaultValue,
+        paper: defaultValue,
+        scissors: defaultValue,
+      },
+      protection_modifier: {
+        rock: defaultValue,
+        paper: defaultValue,
+        scissors: defaultValue,
+      },
     },
     player2: {
       hp: 100,
       symbol: null,
       chosen: false,
-      dmg_modifier: { rock: defaultValue, paper: defaultValue, scissors: defaultValue },
-      protection_modifier: { rock: defaultValue, paper: defaultValue, scissors: defaultValue },
+      dmg_modifier: {
+        rock: defaultValue,
+        paper: defaultValue,
+        scissors: defaultValue,
+      },
+      protection_modifier: {
+        rock: defaultValue,
+        paper: defaultValue,
+        scissors: defaultValue,
+      },
     },
   };
 
-  // !!!!!!!! MODIFY DMG AND PROTECTON MODIFERS ACCORDING TO PLAYERS ITEMS EFFECTS (FROM DB) !!!!!!!
+  applyModifier(match.player1, instance.player1);
+  applyModifier(match.player2!, instance.player2);
+
+  function applyModifier(player: Player, stats: PlayerStats) {
+    for (let i = 0; i < 3; i++) {
+      switch (player.items[i].kind) {
+        case 0: {
+          stats.dmg_modifier.rock = player.items[i].modifier;
+        }
+        case 1: {
+          stats.dmg_modifier.paper = player.items[i].modifier;
+        }
+        case 2: {
+          stats.dmg_modifier.scissors = player.items[i].modifier;
+        }
+        case 3: {
+          stats.protection_modifier.rock = player.items[i].modifier;
+        }
+        case 4: {
+          stats.protection_modifier.paper = player.items[i].modifier;
+        }
+        case 5: {
+          stats.protection_modifier.scissors = player.items[i].modifier;
+        }
+        default: {
+        }
+      }
+    }
+  }
+
   match.instance = instance; // add games stats to match object
   running_matches[match_id] = match; // add match to active matches dict
   // now inform clients and send them ( opponent, self, match_id )

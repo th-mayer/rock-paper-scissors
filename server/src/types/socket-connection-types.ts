@@ -32,15 +32,16 @@ export type GameInstance = {
   player2: PlayerStats,
 }
 
-export type Items = {
-  item1: Item,
-  item2: Item,
-  item3: Item,
-}
+export type Items = [ Item, Item, Item ]
 
 export type Item = {
   name: string,
-  itemType: string,
-  effect: string,
   description: string,
+  kind: number,
+  modifier: number,
+}
+
+export type ItemDB = {
+  kind: number,
+  modifier: number,
 }
