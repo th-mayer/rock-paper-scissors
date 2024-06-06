@@ -4,8 +4,8 @@ import { useAuthStore } from '../stores/auth.store';
 import { useUserStore } from '../stores/users.store';
 import { useRoute } from 'vue-router';
 import { useAlertStore } from '../stores/alert.store';
-import { Item } from '../types/socket-connection-types';
 import { Form, Field } from 'vee-validate';
+import { generateRandomItem } from '../helpers/randomItemGenerator';
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
@@ -35,11 +35,6 @@ async function onSubmit(values: any) {
   } catch (error) {
     alertStore.error(error);
   }
-}
-
-function generateRandomItem(): Item {
-  // placeholder
-  return { name: "name", description: "description", kind: 0, modifier: 0.2 }
 }
 </script>
 
