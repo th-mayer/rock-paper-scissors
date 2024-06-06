@@ -51,7 +51,7 @@ function getCurrent(req: any, res: any, next: any) {
 
 function updateItems(req: any, res: any, next: any) {
   const user_id: number = parseInt(req.params.id);
-  console.log("Update request body: " + req);
+  console.log("Update request body: " + req.body);
   dbUsers
     .update(user_id, req.body)
     .then((updated_user) => res.json(updated_user))

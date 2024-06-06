@@ -6,6 +6,7 @@ import { storeToRefs } from 'pinia';
 import * as Yup from "yup";
 import { router } from '../../router/router';
 import { Form, Field } from "vee-validate";
+import ChooseNewItem from '../../components/ChooseNewItem.vue';
 
 const alertStore = useAlertStore();
 const userStore = useUserStore();
@@ -24,6 +25,7 @@ const schema = Yup.object().shape({
 
 async function onSubmit(values:any) {
   let message: string;
+  console.log(values);
   try {
     await userStore.update(user.value.id, values);
     message = "User updated";
@@ -35,7 +37,6 @@ async function onSubmit(values:any) {
 }
 </script>
 
-// somwhere here needs to be the item roulette as well
 <template>
   <h1>Edit Account</h1>
   <template v-if="!(user?.loading || user?.error)">
@@ -59,11 +60,12 @@ async function onSubmit(values:any) {
         <div class="form-group">
           <button class="btn btn-primary" :disabled="isSubmitting">
             <span v-show="isSubmitting" class="spinner-border spinner-border-sm mr-1"></span>
-            Save
+            Save Changes
           </button>
         </div>
       </div>
     </Form>
+    <ChooseNewItem />
   </template>
   <template v-if="user?.loading">
     <div class="text-center m-5"></div>

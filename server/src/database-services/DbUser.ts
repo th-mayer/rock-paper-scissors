@@ -76,7 +76,7 @@ export class DbUser {
     const user = await this.getUser(user_id);
     if (!user) throw "User not found";
     // update items
-    if (data.items) {
+    if (data.item) {
       const updatedUser = await this.prismaUser.update({
         where: {
           id: user_id,
@@ -85,12 +85,16 @@ export class DbUser {
           items: {
             create: [
               {
-                modifier: data.items.modifier,
-                kind: data.items.kind,
+                name: data.item.name,
+                description: data.item.description,
+                modifier: data.item.modifier,
+                kind: data.item.kind,
               },
             ],
           },
-          itemCoin: data.itemCoin,
+          itemCoin: {
+            decrement: 1,
+          }
         },
         include: {
           items: true,

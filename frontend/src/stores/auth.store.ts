@@ -18,7 +18,6 @@ export const useAuthStore = defineStore("auth", {
   }),
   actions: {
     async login(username: string, hash: string) {
-      console.log("BaseURL: " + baseURL);
       try {
         const user = await fetchWrapper.post(`${baseURL}/authenticate`, { username, hash });
         // this.user refers to state user prop

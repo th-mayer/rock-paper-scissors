@@ -22,10 +22,6 @@ app.use("/users", userController);
 const httpServer = createServer(app);
 SocketServer(httpServer);
 
-//app.get("/", (req, res) => {
-//  res.send("Express Server running");
-//});
-
 httpServer.listen(port, () => {
   console.log("Backendserver running on port " + port);
 });
