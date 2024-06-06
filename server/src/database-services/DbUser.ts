@@ -4,7 +4,7 @@ import { sign } from "jsonwebtoken";
 import config from "../json/config.json";
 
 /**
- * DONT INSTANTIATE THIS CLASS! 
+ * DONT INSTANTIATE THIS CLASS!
  * USE THE "dbUsers" const from database-services/prisma-client.ts !
  */
 // TODO: make this a singleton
@@ -94,7 +94,7 @@ export class DbUser {
           },
           itemCoin: {
             decrement: 1,
-          }
+          },
         },
         include: {
           items: true,
@@ -104,6 +104,27 @@ export class DbUser {
       return updatedUser;
     }
     throw "Error when updating User";
+  }
+
+  async updateItemCoin(user_id: number) {
+    const user = await this.getUser(user_id);
+    if (!user) throw "User not found";
+    // increase ItemCoin by 1 after user has won a game
+    const updatedUser = await this.prismaUser.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        itemCoin: {
+          increment: 1,
+        },
+      },
+      include: {
+        items: true,
+      },
+    });
+    console.log(updatedUser);
+    return updatedUser;
   }
 
   // DELETE

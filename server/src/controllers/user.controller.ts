@@ -14,6 +14,7 @@ router.get("/", authorize(), getAll);
 router.get("/current", authorize(), getCurrent);
 router.get("/:id", authorize(), getById);
 router.put("/:id", authorize(), updateItems);
+router.put("/:id", authorize(), updateItemCoin);
 router.delete("/:id", authorize(), _delete);
 
 function authenticate(req: any, res: any, next: any) {
@@ -56,6 +57,13 @@ function updateItems(req: any, res: any, next: any) {
     .update(user_id, req.body)
     .then((updated_user) => res.json(updated_user))
     .catch((err) => next(err));
+}
+
+function updateItemCoin(req:any, res:any, next: any){
+  const user_id: number = parseInt(req.params.id);
+  dbUsers.updateItemCoin(user_id)
+  .then((updated_user) => res.json(updated_user))
+  .catch((err) => next(err));
 }
 
 function _delete(req: any, res: any, next: any) {
