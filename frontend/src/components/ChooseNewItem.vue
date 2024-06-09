@@ -26,7 +26,6 @@ const schema = {
   }
 }
 
-
 const item1 = generateRandomItem();
 const item2 = generateRandomItem();
 const item3 = generateRandomItem();
@@ -50,7 +49,7 @@ async function onSubmit(values: any) {
     <p>You don't have any ItemCoins to redeem. Win a match to gain ItemCoins!</p>
   </div>
 
-  <!-- <div v-if="user.itemCoin > 0"> -->
+  <div v-if="user.itemCoin > 0">
   <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
     <h4>Your Items</h4>
     <div class="row">
@@ -167,5 +166,5 @@ async function onSubmit(values: any) {
       </button>
     </div>
   </Form>
-  <!--</div>-->
+  </div>
 </template>

@@ -18,19 +18,16 @@ let { user } = storeToRefs(userStore);
 userStore.getById(id);
 
 const schema = Yup.object().shape({
-  email: Yup.string().required("Email adress is required"),
+  email: Yup.string().email().required("Email adress is required"),
   username: Yup.string().required("Username is required"),
   password: Yup.string().required("Password is required"),
 });
 
 async function onSubmit(values:any) {
-  let message: string;
-  console.log(values);
   try {
     await userStore.update(user.value.id, values);
-    message = "User updated";
     await router.push("/users");
-    alertStore.success(message);
+    alertStore.success("User updated");
   } catch (err) {
     alertStore.error(err);
   }
