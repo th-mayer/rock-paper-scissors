@@ -44,7 +44,6 @@ export const useUserStore = defineStore("users", {
     async updateItemCoin(id: any) {
       await fetchWrapper.put(`${baseURL}/${id}`);
 
-      
       // if logged in user updates their profile, update user saved in localStorage
       const authStore = useAuthStore();
       if (id === authStore.user.id) {

@@ -21,6 +21,9 @@ export class DbUser {
       where: {
         username: username,
       },
+      include: {
+        items: true,
+      },
     });
 
     if (!user || !(await bcrypt.compare(hash, user.hash))) {
@@ -54,6 +57,9 @@ export class DbUser {
         email: newUserData.email,
         username: newUserData.username,
         hash: newUserData.hash,
+        items: {
+          create: [{}, {}, {}],
+        },
       },
     });
   }
@@ -75,6 +81,7 @@ export class DbUser {
   async update(user_id: number, data: any) {
     const user = await this.getUser(user_id);
     if (!user) throw "User not found";
+    if (!data.exItem) throw "No replacement Item chosen!";
     // update items
     if (data.item) {
       const updatedUser = await this.prismaUser.update({
@@ -83,14 +90,17 @@ export class DbUser {
         },
         data: {
           items: {
-            create: [
-              {
+            update: {
+              where: {
+                id: data.exItem,
+              },
+              data: {
                 name: data.item.name,
                 description: data.item.description,
                 modifier: data.item.modifier,
                 kind: data.item.kind,
               },
-            ],
+            },
           },
           itemCoin: {
             decrement: 1,

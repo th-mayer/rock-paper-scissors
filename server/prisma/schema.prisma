@@ -26,9 +26,9 @@ model User {
 // 3 = prt_r; 4 = prt_p; 5 = prt_s;
 model Item {
   id            Int     @id @default(autoincrement())
-  name          String
-  description   String
-  modifier      Float   
+  name          String  @default("No Item")
+  description   String  @default("")
+  modifier      Float   @default(1)
   kind          Int     @default(99)
   
   // Relation field for Prisma, does not rlly exist as a field in the db
