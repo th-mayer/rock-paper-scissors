@@ -65,9 +65,10 @@ watchEffect(() => {
 </script>
 
 <template>
-  <p>{{ opponent_status }}</p>
-  <p>{{ me_status }}</p>
-
+  <div>
+    <p>{{ opponent_status }}</p>
+    <p>{{ me_status }}</p>
+  </div>
 </template>
 
 <style></style>

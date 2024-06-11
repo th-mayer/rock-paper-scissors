@@ -13,6 +13,6 @@ import Alert from './components/Alert.vue';
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 @import '@/css/main.scss';
 </style>
