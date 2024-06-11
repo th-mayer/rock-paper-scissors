@@ -25,11 +25,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
+
+/* these are gonna need media queries to style on phone obv */
 .card-rect {
     position: relative;
-    width: 40vw;
-    height: fit-content;
+    height: 50vh;
     margin: 0;
     background-color: #F5A3F6;
     padding: 20px;
@@ -40,22 +42,24 @@
     font-weight: 100;
     font-size: large;
     font-style: normal;
+    box-shadow: 7px 7px white;
+    aspect-ratio: 1/.8;
 }
 .card-topbar {
     position: relative;
-    width: 40vw;
-    height: 8vh;
+    height: 6vh;
     padding: 20px;
     margin: 0;
     background-color: #745CD8;
     border-radius: 20px;
-    transform: translateY(50px);
+    transform: translateY(55px);
     z-index: 1;
     font-family: tweety;
     letter-spacing: 1px;
     font-weight: 100;
     font-size: large;
     font-style: normal;
+    box-shadow: 7px 7px white;
 }
 .card-topbar h4 {
     margin-top: -10px;
