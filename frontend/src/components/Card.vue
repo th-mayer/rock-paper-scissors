@@ -29,6 +29,7 @@
 
 .card-container {
     width: fit-content;
+    height: fit-content;
     z-index: 1001;
     transform: translateY(-45px);
 }
@@ -46,7 +47,7 @@
 /* these are gonna need media queries to style on phone obv */
 .card-rect {
     position: relative;
-    height: 60vh;
+    height: fit-content;
     width: fit-content;
     margin: 0;
     background-color: #F5A3F6;
@@ -79,5 +80,40 @@
 .card-topbar h4 {
     margin-top: -10px;
     color: #ffffff;
+}
+
+.card-container button {
+  color: white;
+  background-color: #745cd8;
+  border: none;
+  border-radius: 50px;
+  padding: 2vh;
+  height: 8vh;
+  width: fit-content;
+  margin: 0 auto;
+  font-family: tweety;
+  font-size: 3vh;
+  box-shadow: 5px 5px white;
+}
+
+.card-container button:hover {
+  cursor: pointer;
+  background-color: white;
+  color:#745cd8;
+  box-shadow: 5px 5px #745cd8;
+  transition: 0.2s ease-in;
+}
+
+.card-container a {
+  font-size: 60%;
+  color: white;
+  text-decoration: underline;
+  width: fit-content;
+}
+
+.card-container p {
+    font-size: 3vh;
+    color: white;
+    margin: 0;
 }
 </style>

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { useUserStore } from "../../stores/users.store";
 import { useAlertStore } from "../../stores/alert.store";
 import { router } from "../../router/router";
+import Card from '../../components/Card.vue';
 ;
 
 const schema = Yup.object().shape({
@@ -26,33 +27,150 @@ async function onSubmit(values: any) {
 </script>
 
 <template>
-  <div class="card m-3">
-    <h4 class="card-header">Register</h4>
-    <div class="card-body">
+  <div class="register-div">
+    <Card title="Register">
+      <h1>hey you, register UwU</h1>
       <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
-        <div class="form-group">
-          <label>Email</label>
-          <Field name="email" type="text" class="form-control" :class="{ 'is-invalid': errors.email }" />
-          <div class="invalid-feedback">{{ errors.email }}</div>
+        <div class="form-section">
+          <div class="flex-col">
+            <div class="label-line">
+              <label>Email</label>
+              <div class="error">{{ errors.email }}</div>
+            </div>
+            <Field name="email" type="text" class="form-control margin-bottom" :class="{ 'is-invalid': errors.email }" />
+          </div>
         </div>
-        <div class="form-group">
-          <label>Username</label>
-          <Field name="username" type="text" class="form-control" :class="{ 'is-invalid': errors.username }" />
-          <div class="invalid-feedback">{{ errors.username }}</div>
+        <div class="form-section">
+          <div class="flex-col">
+            <div class="label-line">
+              <label>Username</label>
+              <div class="error">{{ errors.username }}</div>
+            </div>
+            <Field name="username" type="text" class="form-control margin-bottom" :class="{ 'is-invalid': errors.username }" />
+          </div>
         </div>
-        <div class="form-group">
-          <label>Password</label>
-          <Field name="hash" type="password" class="form-control" :class="{ 'is-invalid': errors.hash }" />
-          <div class="invalid-feedback">{{ errors.hash }}</div>
+        <div class="form-section">
+          <div class="flex-col">
+            <div class="label-line">
+              <label>Password</label>
+              <div class="error">{{ errors.hash }}</div>
+            </div>
+            <Field name="hash" type="password" class="form-control" :class="{ 'is-invalid': errors.hash }" />
+          </div>
         </div>
-        <div class="form-group">
-          <button class="btn btn-primary" :disabled="isSubmitting">
-            <span v-show="isSubmitting" class="spinner-border spinnder-border-sm mr-1"></span>
-            Login
-          </button>
-          <router-link to="login" class="btn btn-link">Cancel</router-link>
+        <div class="form-section flex-row">
+          <router-link to="login" class="cancel-link">Cancel registration</router-link>
+          <button class="login-btn" :disabled="isSubmitting">Login</button>
         </div>
       </Form>
-    </div>
+    </Card>
   </div>
 </template>
+
+<style>
+.register-div {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.flex-col {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.flex-row {  
+  color: white;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.form-control {
+  background-color: #745cd8;
+  border-radius: 30px;
+  border: none;
+  height: 5vh;
+  color: white;
+  padding-left: 10px;
+}
+
+.margin-bottom {
+  margin-bottom: 10px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #745cd8 inset !important;
+}
+
+input:-webkit-autofill{
+    -webkit-text-fill-color: white !important;
+}
+
+.form-control:focus {
+  background-color: #745cd8;
+  color: white;
+  border: none;
+  outline-color: #745cd8;
+  ;
+}
+
+.error {
+  color: rgb(239, 39, 122); margin-top: 2vh;
+  font-size: 60%;
+}
+
+.login-btn {
+  color: white;
+  background-color: #745cd8;
+  border: none;
+  border-radius: 50px;
+  padding: 3vh;
+  height: 13vh;
+  width: fit-content;
+  margin: 0 auto;
+  margin-top: 10px;
+  font-family: tweety;
+  font-size: 8vh;
+  box-shadow: 5px 5px white;
+}
+
+.login-btn:hover {
+  cursor: pointer;
+  background-color: white;
+  color:#745cd8;
+  box-shadow: 5px 5px #745cd8;
+  transition: 0.2s ease-in;
+}
+
+.cancel-link {
+  font-size: 60%;
+  color: white;
+  text-decoration: underline;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  margin-left: 13px;
+  width: fit-content;
+}
+
+.label-line{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.card-rect h1{
+    color: white;
+    margin: 0.5rem 0;
+    padding: 0;
+    white-space: nowrap;
+}
+</style>
