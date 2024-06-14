@@ -17,6 +17,7 @@ async function onSubmit(values: any) {
 </script>
 
 <template>
+  <div class="login-div">
   <Card title="Login">
     <h1>Hey you, login ^-^</h1>
     <Form
@@ -65,9 +66,19 @@ async function onSubmit(values: any) {
       </div>
     </Form>
   </Card>
+  </div>
 </template>
 
 <style>
+.login-div {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
 .flex-col {
   color: white;
   display: flex;

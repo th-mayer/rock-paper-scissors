@@ -7,7 +7,7 @@ import Background from './components/Background.vue';
 
 <template>
   <div class="app-container">
-    <Background/>
+    <Background class="ultimate-bg"/>
     <Alert />
     <SocketEvents msg="Connection Test"/>
     <div class="container pt-4 pb-4">
@@ -18,4 +18,12 @@ import Background from './components/Background.vue';
 
 <style lang="scss">
 @import '@/css/main.scss';
+.app-container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+.ultimate-bg {
+  position: fixed;
+}
 </style>
