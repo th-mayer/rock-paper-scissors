@@ -26,13 +26,9 @@ async function onSubmit(values: any) {
     >
       <div class="form-section">
         <div class="flex-col">
-          <div class="TEST">
-            <label>
-              Username
-              <div class="error">
-                {{ errors.username }}
-              </div>
-            </label>
+          <div class="lable-line">
+            <label>Username</label>
+            <div class="error">{{ errors.username }}</div>
           </div>
 
           <Field
@@ -47,7 +43,10 @@ async function onSubmit(values: any) {
       </div>
       <div class="form-section">
         <div class="flex-col">
-          <label>Password {{ errors.hash }} </label>
+            <div class="lable-line">
+              <label>Password</label>
+              <div class="error">{{ errors.hash }}</div>
+            </div>
           <Field
             name="hash"
             type="password"
@@ -59,12 +58,8 @@ async function onSubmit(values: any) {
         <!-- <div class="invalid-feedback">{{ errors.hash }}</div> -->
       </div>
       <div class="form-section flex-col">
-        <router-link to="register" class="register-link">Register</router-link>
+        <router-link to="register" class="register-link">No account? Register here!</router-link>
         <button class="login-btn" :disabled="isSubmitting">
-          <span
-            v-show="isSubmitting"
-            class="spinner-border spinnder-border-sm mr-1"
-          ></span>
           let me in!
         </button>
       </div>
@@ -89,11 +84,32 @@ async function onSubmit(values: any) {
   border-radius: 30px;
   border: none;
   height: 5vh;
+  color: white;
+  padding-left: 10px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #745cd8 inset !important;
+}
+
+input:-webkit-autofill{
+    -webkit-text-fill-color: white !important;
+}
+
+.form-control:focus {
+  background-color: #745cd8;
+  color: white;
+  border: none;
+  outline-color: #745cd8;
+  ;
 }
 
 .error {
-  color: darkred;
-  justify-content: flex-end;
+  color: rgb(239, 39, 122); margin-top: 2vh;
+  font-size: 60%;
 }
 
 .login-btn {
@@ -101,21 +117,43 @@ async function onSubmit(values: any) {
   background-color: #745cd8;
   border: none;
   border-radius: 50px;
-  height: 8vh;
-  width: 20vw;
+  padding: 3vh;
+  height: 13vh;
+  width: fit-content;
   margin: 0 auto;
   font-family: tweety;
-  font-size: 200%;
+  font-size: 8vh;
   box-shadow: 5px 5px white;
 }
 
-.register-link {
-  color: white;
-  text-decoration: underline;
+.login-btn:hover {
+  cursor: pointer;
+  background-color: white;
+  color:#745cd8;
+  box-shadow: 5px 5px #745cd8;
+  transition: 0.2s ease-in;
 }
 
-.TEST{
+.register-link {
+  font-size: 60%;
+  color: white;
+  text-decoration: underline;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  margin-left: 13px;
+  width: fit-content;
+}
+
+.lable-line{
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+
+.card-rect h1{
+    color: white;
+    margin: 0.5rem 0;
+    padding: 0;
+    white-space: nowrap;
 }
 </style>
