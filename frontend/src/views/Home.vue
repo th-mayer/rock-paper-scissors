@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../stores/auth.store';
+import HomeAccount from '../components/HomeAccount.vue';
+import Card from '../components/Card.vue';
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
@@ -11,9 +13,8 @@ const { user } = storeToRefs(authStore);
         <div class="flex-row">
             <HomeAccount></HomeAccount>
             <Card title="Leaderboard" class="Homecard">
-                <p><router-link :to="`/edit/${user.id}`">Manage Account and Items</router-link></p>
-                <button @click="authStore.logout()" class="btn btn-link">Logout</button>
-        </Card>
+                <p></p>
+            </Card>
         </div>
     </div>
 </template>
