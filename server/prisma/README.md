@@ -15,3 +15,8 @@ If you still run into issues with finding the .env variable try running:
 - a new ``migration.sql`` file will appear in the prisma/migrations directory
 
 Further details: <https://www.prisma.io/docs/orm/prisma-migrate/getting-started>
+
+## Merging
+
+It's possible your DB won't work anymore after merging branches. To correct this, run ``npx prisma reset``.
+This will reset your DB (**deleting all data!!**) and apply all migrations. 
