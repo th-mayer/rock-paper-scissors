@@ -7,10 +7,10 @@ const { alert } = storeToRefs(alertStore);
 </script>
 
 <template>
-  <div v-if="alert" class="container">
-    <div class="m-3">
+  <div v-if="alert" class="alert-container">
+    <div>
       <div class="alert alert-dismissable" :class="alert.type">
-        <button @click="alertStore.clear()" class="btn btn-link close">
+        <button @click="alertStore.clear()" class="close">
           x
         </button>
         {{ alert.message }} :(
@@ -23,23 +23,22 @@ const { alert } = storeToRefs(alertStore);
 .alert, .alert-dismissable{
   max-width: fit-content;
   padding: 10px;
-  margin: 0 auto;
-  margin-top: 2vh;
+  margin: 2vh auto 0 auto;
   background-color: rgb(239, 39, 122);
   color: white;
-  border-radius: 5px;
+  border-radius: 10px;
   font-family: tweety;
   font-size: 3vh;
 }
 
 .close{
   font-family: tweety;
-  font-size: 2.5vh;
+  font-size: 2.8vh;
   margin-left: auto;
   background-color: white;
   border: none;
   color: rgb(239, 39, 122);
-  border-radius: 2px;
+  border-radius: 5px;
   height: 3vh;
   aspect-ratio: 1/1;
 }

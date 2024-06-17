@@ -11,9 +11,12 @@
     </div>
     <div v-else class="card-container">
         <div class="card-topbar">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+            <div class="dots-container">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            
             <h4 class="card-header">{{ title }}</h4>
         </div>
         <div class="card-rect">
@@ -29,15 +32,6 @@
 </script>
 
 <style lang="scss">
-
-.dot {
-  height: 25px;
-  width: 25px;
-  margin: .2vw;
-  background-color: #ffffff;
-  border-radius: 50%;
-  display: inline-block;
-}
 
 .card-container {
     width: fit-content;
@@ -76,22 +70,19 @@
 .card-topbar {
     display: flex;
     text-align: center;
-    position: relative;
     height: 6vh;
     padding: 20px;
-    margin: 0;
     background-color: #745CD8;
     border-radius: 20px;
     transform: translateY(30px);
     z-index: 1;
     font-family: tweety;
     letter-spacing: 1px;
-    font-weight: 100;
     font-size: 5vh;
-    font-style: normal;
     box-shadow: 7px 7px white;
 }
 .card-topbar h4 {
+    text-align: center;
     margin: 0 auto;
     margin-top: -10px;
     color: #ffffff;
@@ -130,6 +121,21 @@
     font-size: 3vh;
     color: white;
     margin: 0;
+}
+
+.dots-container{
+    display: flex;
+    padding-top: .5vh;
+}
+
+.dot {
+    height: 30px;
+    width: 30px;
+    margin-left: .4vw;
+    margin-right: .4vw;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: inline-block;
 }
 
 </style>

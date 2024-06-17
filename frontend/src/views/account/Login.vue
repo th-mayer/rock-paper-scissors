@@ -9,7 +9,7 @@ const schema = Yup.object().shape({
   hash: Yup.string().required("Password is required"),
 });
 
-async function onSubmit(values : any) {
+async function onSubmit(values: any) {
   console.log(values);
   const authStore = useAuthStore();
   const { username, hash } = values;
@@ -19,54 +19,54 @@ async function onSubmit(values : any) {
 
 <template>
   <div class="login-div">
-  <Card title="Login">
-    <h1>Hey you, login ^-^</h1>
-    <Form
-      @submit="onSubmit"
-      :validation-schema="schema"
-      v-slot="{ errors, isSubmitting }"
-    >
-      <div class="form-section">
-        <div class="flex-col">
-          <div class="lable-line">
-            <label>Username</label>
-            <div class="error">{{ errors.username }}</div>
+    <Card title="Login">
+      <h1>Hey you, login ^-^</h1>
+      <Form
+        @submit="onSubmit"
+        :validation-schema="schema"
+        v-slot="{ errors, isSubmitting }"
+      >
+        <div class="form-section">
+          <div class="flex-col">
+            <div class="lable-line">
+              <label>Username</label>
+              <div class="error">{{ errors.username }}</div>
+            </div>
+
+            <Field
+              name="username"
+              type="text"
+              class="form-control margin-bottom"
+              :class="{ 'is-invalid': errors.username }"
+            />
           </div>
 
-          <Field
-            name="username"
-            type="text"
-            class="form-control margin-bottom"
-            :class="{ 'is-invalid': errors.username }"
-          />
+          <!-- <div class="invalid-feedback">{{ errors.username }}</div> -->
         </div>
-
-        <!-- <div class="invalid-feedback">{{ errors.username }}</div> -->
-      </div>
-      <div class="form-section">
-        <div class="flex-col">
+        <div class="form-section">
+          <div class="flex-col">
             <div class="lable-line">
               <label>Password</label>
               <div class="error">{{ errors.hash }}</div>
             </div>
-          <Field
-            name="hash"
-            type="password"
-            class="form-control"
-            :class="{ 'is-invalid': errors.hash }"
-          />
-        </div>
+            <Field
+              name="hash"
+              type="password"
+              class="form-control"
+              :class="{ 'is-invalid': errors.hash }"
+            />
+          </div>
 
-        <!-- <div class="invalid-feedback">{{ errors.hash }}</div> -->
-      </div>
-      <div class="form-section flex-col">
-        <router-link to="register" class="register-link">No account? Register here!</router-link>
-        <button class="login-btn" :disabled="isSubmitting">
-          let me in!
-        </button>
-      </div>
-    </Form>
-  </Card>
+          <!-- <div class="invalid-feedback">{{ errors.hash }}</div> -->
+        </div>
+        <div class="form-section flex-col">
+          <router-link to="register" class="register-link"
+            >No account? Register here!</router-link
+          >
+          <button class="login-btn" :disabled="isSubmitting">let me in!</button>
+        </div>
+      </Form>
+    </Card>
   </div>
 </template>
 
@@ -98,17 +98,18 @@ async function onSubmit(values : any) {
   height: 5vh;
   color: white;
   padding-left: 10px;
+  
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px #745cd8 inset !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #745cd8 inset !important;
 }
 
-input:-webkit-autofill{
-    -webkit-text-fill-color: white !important;
+input:-webkit-autofill {
+  -webkit-text-fill-color: white !important;
 }
 
 input {
@@ -124,7 +125,7 @@ input {
 }
 
 .error {
-  color: rgb(239, 39, 122); 
+  color: rgb(239, 39, 122);
   margin-top: 2vh;
   font-size: 60%;
 }
@@ -146,7 +147,7 @@ input {
 .login-btn:hover {
   cursor: pointer;
   background-color: white;
-  color:#745cd8;
+  color: #745cd8;
   box-shadow: 5px 5px #745cd8;
   transition: 0.2s ease-in;
 }
@@ -168,9 +169,9 @@ input {
 }
 
 .card-rect h1 {
-    color: white;
-    margin: 0.5rem 0;
-    padding: 0;
-    white-space: nowrap;
+  color: white;
+  margin: 0.5rem 0;
+  padding: 0;
+  white-space: nowrap;
 }
 </style>
