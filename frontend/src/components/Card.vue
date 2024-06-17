@@ -11,6 +11,9 @@
     </div>
     <div v-else class="card-container">
         <div class="card-topbar">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
             <h4 class="card-header">{{ title }}</h4>
         </div>
         <div class="card-rect">
@@ -26,6 +29,15 @@
 </script>
 
 <style lang="scss">
+
+.dot {
+  height: 25px;
+  width: 25px;
+  margin: .2vw;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: inline-block;
+}
 
 .card-container {
     width: fit-content;
@@ -62,6 +74,8 @@
     box-shadow: 7px 7px white;
 }
 .card-topbar {
+    display: flex;
+    text-align: center;
     position: relative;
     height: 6vh;
     padding: 20px;
@@ -78,6 +92,7 @@
     box-shadow: 7px 7px white;
 }
 .card-topbar h4 {
+    margin: 0 auto;
     margin-top: -10px;
     color: #ffffff;
 }
@@ -116,4 +131,5 @@
     color: white;
     margin: 0;
 }
+
 </style>

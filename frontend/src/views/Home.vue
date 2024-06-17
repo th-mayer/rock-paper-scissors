@@ -12,9 +12,9 @@ const { user } = storeToRefs(authStore);
     <div v-if="user">
         <div class="flex-row">
             <HomeAccount></HomeAccount>
-            <Card title="Leaderboard" class="Homecard">
-                <p></p>
-            </Card>
+            <Leaderboard>
+                <p>UserXY has XY wins - placeholder</p>
+            </Leaderboard>
         </div>
     </div>
 </template>

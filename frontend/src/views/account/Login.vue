@@ -111,16 +111,21 @@ input:-webkit-autofill{
     -webkit-text-fill-color: white !important;
 }
 
+input {
+  font-size: 3vh;
+  font-family: tweety;
+}
+
 .form-control:focus {
   background-color: #745cd8;
   color: white;
   border: none;
   outline-color: #745cd8;
-  ;
 }
 
 .error {
-  color: rgb(239, 39, 122); margin-top: 2vh;
+  color: rgb(239, 39, 122); 
+  margin-top: 2vh;
   font-size: 60%;
 }
 
@@ -156,13 +161,13 @@ input:-webkit-autofill{
   width: fit-content;
 }
 
-.lable-line{
+.lable-line {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.card-rect h1{
+.card-rect h1 {
     color: white;
     margin: 0.5rem 0;
     padding: 0;
