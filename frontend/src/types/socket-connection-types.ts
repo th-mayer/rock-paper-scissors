@@ -35,8 +35,15 @@ export type GameInstance = {
 
 // export type Items = [Item, Item, Item];
 
+// export type Item = {
+//   type: string;
+//   name: string;
+//   description: string;
+//   kind: number;
+//   modifier: number;
+// };
+
 export type Item = {
-  type: string;
   name: string;
   description: string;
   kind: number;
@@ -49,3 +56,12 @@ export type PlayerData = {
   health: number;
   items: Item[];
 };
+
+export enum Itemtype {
+  DamageRock = 0,
+  DamagePaper = 1,
+  DamageScissors = 2,
+  ProtectionRock = 3,
+  ProtectionPaper = 4,
+  ProtectionScissors = 5
+}
