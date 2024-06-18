@@ -5,13 +5,13 @@ import { ref } from "vue";
 
 const baseURL = `${import.meta.env.VITE_API_URL}/users`;
 
-export const useUserStore = defineStore("users",  () => {
-  const user = ref()
+export const useUserStore = defineStore("users", () => {
+  const user = ref();
 
-  async function register(user:any) {
+  async function register(user: any) {
     await fetchWrapper.post(`${baseURL}/register`, user);
   }
-  async function getById(id:any) {
+  async function getById(id: any) {
     user.value = { loading: true };
     try {
       user.value = await fetchWrapper.get(`${baseURL}/${id}`);
@@ -20,20 +20,19 @@ export const useUserStore = defineStore("users",  () => {
     }
   }
 
-  async function update(id:any, params: any) {
+  async function update(id: any, params: any) {
     await fetchWrapper.put(`${baseURL}/${id}`, params);
-  
+
     // if logged in user updates their profile, update user saved in localStorage
     const authStore = useAuthStore();
     if (id === authStore.user.id) {
       const user = { ...authStore.user, ...params };
       localStorage.setItem("user", JSON.stringify(user));
-  
       authStore.user = user;
     }
   }
 
-  async function updateItemCoin(id:any) {
+  async function updateItemCoin(id: any) {
     await fetchWrapper.put(`${baseURL}/${id}`);
     // if logged in user updates their profile, update user saved in localStorage
     const authStore = useAuthStore();
@@ -44,5 +43,5 @@ export const useUserStore = defineStore("users",  () => {
     }
   }
 
-  return { user, register, getById, update, updateItemCoin }
+  return { user, register, getById, update, updateItemCoin };
 });
