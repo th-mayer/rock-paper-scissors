@@ -2,3 +2,13 @@
 
 $base-color: #F5A3F6;
 $secondary-color: #745CD8;
+$alert-color: #ef277a;
+$bright-font-color: white;
+$backshadow: white;
+$main-font: tweety;
+$backdrop-color: #1f70c780;
+
+@font-face {
+    font-family: tweety;
+    src: url(../../public/assets/Tweety.ttf);
+}

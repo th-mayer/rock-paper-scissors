@@ -19,25 +19,31 @@ const { alert } = storeToRefs(alertStore);
   </div>
 </template>
 
-<style>
+<style lang="scss">
+
+@import '../css/_config.scss';
+
 .alert, .alert-dismissable{
+  position: absolute;
   max-width: fit-content;
   padding: 10px;
-  margin: 2vh auto 0 auto;
-  background-color: rgb(239, 39, 122);
-  color: white;
+  margin: 2vh 0 0 5vw;
+  background-color: $alert-color;
+  color: $bright-font-color;
   border-radius: 10px;
-  font-family: tweety;
+  font-family: $main-font;
   font-size: 3vh;
+  white-space: nowrap;
 }
+
 
 .close{
   font-family: tweety;
   font-size: 2.8vh;
   margin-left: auto;
-  background-color: white;
+  background-color: $backshadow;
   border: none;
-  color: rgb(239, 39, 122);
+  color: $alert-color;
   border-radius: 5px;
   height: 3vh;
   aspect-ratio: 1/1;
