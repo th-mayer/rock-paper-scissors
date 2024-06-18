@@ -15,6 +15,8 @@ const { alert } = storeToRefs(alertStore);
         </button>
        <p class="alert-danger" v-if="alert.type == 'alert-danger'">Danger! {{  alert.message }} :(</p> 
        <p class="alert-success" v-else>Wowie! {{ alert.message }} :)</p>
+       <p class="alert-danger" v-if="alert.type == 'alert-danger'">Danger! {{  alert.message }} :(</p> 
+       <p class="alert-success" v-else>Wowie! {{ alert.message }} :)</p>
       </div>
     </div>
   </div>
@@ -30,6 +32,13 @@ const { alert } = storeToRefs(alertStore);
   margin-left: 2vw;
   text-align: center;
   z-index: 10000;
+}
+
+.alert-container{
+  position: absolute;
+  margin-top: 2vh;
+  margin-left: 2vw;
+  text-align: center;
 }
 
 .alert, .alert-dismissable{
