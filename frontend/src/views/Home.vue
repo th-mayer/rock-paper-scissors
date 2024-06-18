@@ -2,7 +2,6 @@
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../stores/auth.store';
 import HomeAccount from '../components/HomeAccount.vue';
-import Card from '../components/Card.vue';
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
