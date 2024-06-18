@@ -3,8 +3,7 @@ import { Ref, ref, watchEffect } from 'vue';
 import { Socket, io } from 'socket.io-client';
 import { PlayerData } from '../types/socket-connection-types';
 
-const serverURL = "http://localhost:3000";
-const socket = io(serverURL);
+const socket = io(import.meta.env.VITE_API_URL);
 
 const socket_log: string = "[socket]: " // logging prefix
 let match_id: string // socket room and key for servers match dict

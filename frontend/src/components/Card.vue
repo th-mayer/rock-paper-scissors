@@ -11,7 +11,16 @@
     </div>
     <div v-else class="card-container">
         <div class="card-topbar">
+            <div class="dots-container">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            
             <h4 class="card-header">{{ title }}</h4>
+            <div>
+                <img>
+            </div>
         </div>
         <div class="card-rect">
             <slot></slot>
@@ -26,6 +35,7 @@
 </script>
 
 <style lang="scss">
+@import '../css/config';
 
 .card-container {
     width: fit-content;
@@ -37,7 +47,7 @@
 .backdrop {
   width: 100vw;
   height: 100vh;
-  background-color: rgba(31, 112, 199, 0.5);
+  background-color: $backdrop-color;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,70 +60,85 @@
     height: fit-content;
     width: fit-content;
     margin: 0;
-    background-color: #F5A3F6;
+    background-color: $base-color;
     padding: 20px;
     border-radius: 20px;
     z-index: 10;
-    font-family: tweety;
+    font-family: $main-font;
     letter-spacing: 1px;
-    font-weight: lighter;
     font-size: 5vh;
     font-style: normal;
-    box-shadow: 7px 7px white;
+    box-shadow: 7px 7px $backshadow;
 }
 .card-topbar {
-    position: relative;
+    display: flex;
+    text-align: center;
     height: 6vh;
     padding: 20px;
-    margin: 0;
-    background-color: #745CD8;
+    background-color: $secondary-color;
     border-radius: 20px;
     transform: translateY(30px);
     z-index: 1;
-    font-family: tweety;
+    font-family: $main-font;
     letter-spacing: 1px;
-    font-weight: 100;
     font-size: 5vh;
-    font-style: normal;
-    box-shadow: 7px 7px white;
+    box-shadow: 7px 7px $backshadow;
 }
 .card-topbar h4 {
+    text-align: center;
+    margin: 0 auto;
     margin-top: -10px;
-    color: #ffffff;
+    color: $bright-font-color;
 }
 
 .card-container button {
-  color: white;
-  background-color: #745cd8;
+  color: $bright-font-color;
+  background-color: $secondary-color;
   border: none;
   border-radius: 50px;
   padding: 2vh;
-  height: 8vh;
+  height: 6vh;
   width: fit-content;
   margin: 0 auto;
-  font-family: tweety;
+  font-family: $main-font;
   font-size: 3vh;
-  box-shadow: 5px 5px white;
+  box-shadow: 5px 5px $backshadow;
 }
 
 .card-container button:hover {
   cursor: pointer;
-  background-color: white;
-  color:#745cd8;
-  box-shadow: 5px 5px #745cd8;
+  background-color: $backshadow;
+  color: $secondary-color;
+  box-shadow: 5px 5px $secondary-color;
   transition: 0.2s ease-in;
 }
 
 .card-container a {
   font-size: 60%;
-  color: white;
+  color: $bright-font-color;
   text-decoration: underline;
   width: fit-content;
 }
 
 .card-container p {
     font-size: 3vh;
-    color: white;
+    color: $bright-font-color;
     margin: 0;
 }
+
+.dots-container{
+    display: flex;
+    padding-top: .5vh;
+}
+
+.dot {
+    height: 2.5vh;
+    aspect-ratio: 1/1;
+    margin-left: .4vw;
+    margin-right: .4vw;
+    background-color: $backshadow;
+    border-radius: 50%;
+    display: inline-block;
+}
+
 </style>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import SocketEvents from './components/SocketEvents.vue';
 import Alert from './components/Alert.vue';
 import Background from './components/Background.vue';
 
@@ -9,7 +8,6 @@ import Background from './components/Background.vue';
   <div class="app-container">
     <Background class="ultimate-bg"/>
     <Alert />
-    <SocketEvents msg="Connection Test"/>
     <div class="container pt-4 pb-4">
         <router-view />
     </div>

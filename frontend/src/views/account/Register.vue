@@ -60,7 +60,7 @@ async function onSubmit(values: any) {
         </div>
         <div class="form-section flex-row">
           <router-link to="login" class="cancel-link">Cancel registration</router-link>
-          <button class="login-btn" :disabled="isSubmitting">Login</button>
+          <button class="login-btn" :disabled="isSubmitting">Register</button>
         </div>
       </Form>
     </Card>

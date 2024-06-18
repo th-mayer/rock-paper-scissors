@@ -4,7 +4,7 @@ import { sign } from "jsonwebtoken";
 import config from "../json/config.json";
 
 /**
- * DONT INSTANTIATE THIS CLASS! 
+ * DONT INSTANTIATE THIS CLASS!
  * USE THE "dbUsers" const from database-services/prisma-client.ts !
  */
 // TODO: make this a singleton
@@ -20,6 +20,9 @@ export class DbUser {
     const user = await this.prismaUser.findUnique({
       where: {
         username: username,
+      },
+      include: {
+        items: true,
       },
     });
 
@@ -54,6 +57,9 @@ export class DbUser {
         email: newUserData.email,
         username: newUserData.username,
         hash: newUserData.hash,
+        items: {
+          create: [{}, {}, {}],
+        },
       },
     });
   }
@@ -75,22 +81,30 @@ export class DbUser {
   async update(user_id: number, data: any) {
     const user = await this.getUser(user_id);
     if (!user) throw "User not found";
+    if (!data.exItem) throw "No replacement Item chosen!";
     // update items
-    if (data.items) {
+    if (data.item) {
       const updatedUser = await this.prismaUser.update({
         where: {
           id: user_id,
         },
         data: {
           items: {
-            create: [
-              {
-                modifier: data.items.modifier,
-                kind: data.items.kind,
+            update: {
+              where: {
+                id: data.exItem,
               },
-            ],
+              data: {
+                name: data.item.name,
+                description: data.item.description,
+                modifier: data.item.modifier,
+                kind: data.item.kind,
+              },
+            },
           },
-          itemCoin: data.itemCoin,
+          itemCoin: {
+            decrement: 1,
+          },
         },
         include: {
           items: true,
@@ -100,6 +114,27 @@ export class DbUser {
       return updatedUser;
     }
     throw "Error when updating User";
+  }
+
+  async updateItemCoin(user_id: number) {
+    const user = await this.getUser(user_id);
+    if (!user) throw "User not found";
+    // increase ItemCoin by 1 after user has won a game
+    const updatedUser = await this.prismaUser.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        itemCoin: {
+          increment: 1,
+        },
+      },
+      include: {
+        items: true,
+      },
+    });
+    console.log(updatedUser);
+    return updatedUser;
   }
 
   // DELETE

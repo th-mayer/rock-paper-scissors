@@ -10,16 +10,14 @@ console.log({ user });
 
 <template>
     <Card title="Your Homepage" class="Homecard">
-            <h1>Hello, {{user.username}}!</h1>
-            <p>It is the perfect time for a thrilling match today!</p>
-            <router-link to="/edituser" class="link">Manage Account and Items</router-link>
-            <div class="flex-row">
-                <button @click="authStore.logout()">Logout</button>
-                <button @click="">Find Match</button>
-            </div>
+        <h1>Hello, {{ user.username }}!</h1>
+        <p>It is the perfect time for a thrilling match today!</p>
+        <router-link :to="`/edit/${user.id}`">Manage Account and Items</router-link>
+        <div class="flex-row">
+            <button @click="authStore.logout()">Logout</button>
+            <button><router-link to="/game">Find Match</router-link></button>
+        </div>
     </Card>
 </template>
 
-<style>
-
-</style>
+<style></style>
