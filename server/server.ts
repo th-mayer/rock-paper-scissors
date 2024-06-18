@@ -11,13 +11,16 @@ const corsOptions : CorsOptions = {
   origin: process.env.CLIENT_URL
 }
 
+// middleware
 app.use(cors(corsOptions));
 app.use(json());
 app.use(express.urlencoded({ extended: true }));
-app.use(errorHandler);
 
 // api routes
 app.use("/users", userController);
+
+// global error handler for json responses
+app.use(errorHandler);
 
 const httpServer = createServer(app);
 SocketServer(httpServer);
