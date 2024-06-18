@@ -16,6 +16,7 @@ import Background from './components/Background.vue';
 
 <style lang="scss">
 @import '@/css/main.scss';
+
 .app-container {
   width: 100%;
   height: 100%;

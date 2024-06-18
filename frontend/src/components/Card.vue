@@ -35,7 +35,7 @@
 </script>
 
 <style lang="scss">
-@import '../css/config';
+@import '../css/main.scss';
 
 .card-container {
     width: fit-content;
@@ -70,6 +70,7 @@
     font-style: normal;
     box-shadow: 7px 7px $backshadow;
 }
+
 .card-topbar {
     display: flex;
     text-align: center;
@@ -84,33 +85,12 @@
     font-size: 5vh;
     box-shadow: 7px 7px $backshadow;
 }
+
 .card-topbar h4 {
     text-align: center;
     margin: 0 auto;
     margin-top: -10px;
     color: $bright-font-color;
-}
-
-.card-container button {
-  color: $bright-font-color;
-  background-color: $secondary-color;
-  border: none;
-  border-radius: 50px;
-  padding: 2vh;
-  height: 6vh;
-  width: fit-content;
-  margin: 0 auto;
-  font-family: $main-font;
-  font-size: 3vh;
-  box-shadow: 5px 5px $backshadow;
-}
-
-.card-container button:hover {
-  cursor: pointer;
-  background-color: $backshadow;
-  color: $secondary-color;
-  box-shadow: 5px 5px $secondary-color;
-  transition: 0.2s ease-in;
 }
 
 .card-container a {

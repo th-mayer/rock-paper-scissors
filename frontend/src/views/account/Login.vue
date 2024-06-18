@@ -36,7 +36,7 @@ async function onSubmit(values: any) {
             <Field
               name="username"
               type="text"
-              class="form-control margin-bottom"
+              class="form-control margin-bottom-10"
               :class="{ 'is-invalid': errors.username }"
             />
           </div>
@@ -70,7 +70,9 @@ async function onSubmit(values: any) {
   </div>
 </template>
 
-<style>
+<style lang="scss">
+@import '@/css/main.scss';
+
 .login-div {
   width: 100vw;
   height: 100vh;
@@ -85,10 +87,6 @@ async function onSubmit(values: any) {
   display: flex;
   flex-direction: column;
   width: 100%;
-}
-
-.margin-bottom {
-  margin-bottom: 10px;
 }
 
 .form-control {

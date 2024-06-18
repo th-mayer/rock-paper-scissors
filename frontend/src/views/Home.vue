@@ -15,6 +15,7 @@ const { user } = storeToRefs(authStore);
                 <p>UserXY has XY wins - placeholder</p>
             </Leaderboard>
         </div>
+        <button class="router-link-in-button"><router-link to="/game">Find Match</router-link></button>
     </div>
 </template>
 
