@@ -18,6 +18,9 @@
             </div>
             
             <h4 class="card-header">{{ title }}</h4>
+            <div>
+                <img>
+            </div>
         </div>
         <div class="card-rect">
             <slot></slot>
@@ -63,7 +66,6 @@
     z-index: 10;
     font-family: $main-font;
     letter-spacing: 1px;
-    font-weight: lighter;
     font-size: 5vh;
     font-style: normal;
     box-shadow: 7px 7px $backshadow;
@@ -95,7 +97,7 @@
   border: none;
   border-radius: 50px;
   padding: 2vh;
-  height: 8vh;
+  height: 6vh;
   width: fit-content;
   margin: 0 auto;
   font-family: $main-font;
@@ -106,7 +108,7 @@
 .card-container button:hover {
   cursor: pointer;
   background-color: $backshadow;
-  color:#745cd8;
+  color: $secondary-color;
   box-shadow: 5px 5px $secondary-color;
   transition: 0.2s ease-in;
 }
@@ -130,11 +132,11 @@
 }
 
 .dot {
-    height: 30px;
-    width: 30px;
+    height: 2.5vh;
+    aspect-ratio: 1/1;
     margin-left: .4vw;
     margin-right: .4vw;
-    background-color: #ffffff;
+    background-color: $backshadow;
     border-radius: 50%;
     display: inline-block;
 }

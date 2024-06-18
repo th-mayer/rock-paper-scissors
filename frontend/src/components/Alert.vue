@@ -38,7 +38,7 @@ const { alert } = storeToRefs(alertStore);
 
 
 .close{
-  font-family: tweety;
+  font-family: $main-font;
   font-size: 2.8vh;
   margin-left: auto;
   background-color: $backshadow;
