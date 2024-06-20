@@ -7,7 +7,9 @@ import { ref } from "vue";
 const baseURL = `${import.meta.env.VITE_API_URL}/users`;
 
 export const useAuthStore = defineStore("auth", () => {
-  const user = ref();
+  // checks localStorage on page refresh, keeps user loggen in if token is present
+  // || check necessary bc ts : https://stackoverflow.com/questions/67700374/use-localstorage-getitem-with-typescript
+  const user = ref(JSON.parse(localStorage.getItem("user") || '""'));
   const returnURL = ref("");
 
   async function login(username: string, hash: string) {
@@ -16,9 +18,8 @@ export const useAuthStore = defineStore("auth", () => {
         username,
         hash,
       });
-      // this.user refers to state user prop
       user.value = fetchUser;
-      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("user", JSON.stringify(user.value));
       // redirect to prev URL or home page
       router.push(returnURL.value || "/");
     } catch (error) {
