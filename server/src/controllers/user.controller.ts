@@ -14,7 +14,7 @@ router.get("/", authorize(), getAll);
 router.get("/current", authorize(), getCurrent);
 router.get("/:id", authorize(), getById);
 router.put("/:id", authorize(), updateItems);
-router.put("/:id", authorize(), updateItemCoin);
+router.put("/:id/updateItemCoin", authorize(), updateItemCoin);
 router.delete("/:id", authorize(), _delete);
 
 function authenticate(req: any, res: any, next: any) {

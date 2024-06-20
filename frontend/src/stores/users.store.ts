@@ -11,6 +11,7 @@ export const useUserStore = defineStore("users", () => {
   async function register(user: any) {
     await fetchWrapper.post(`${baseURL}/register`, user);
   }
+
   async function getById(id: any) {
     user.value = { loading: true };
     try {
@@ -33,7 +34,7 @@ export const useUserStore = defineStore("users", () => {
   }
 
   async function updateItemCoin(id: any) {
-    await fetchWrapper.put(`${baseURL}/${id}`);
+    await fetchWrapper.put(`${baseURL}/${id}/updateItemCoin`);
     // if logged in user updates their profile, update user saved in localStorage
     const authStore = useAuthStore();
     if (id === authStore.user.id) {
