@@ -1,5 +1,5 @@
 /**
- * global error handler
+ * global error handler, converts express err msg to json
  */
 export const errorHandler = (err:any, req:any, res:any, next:any) => {
   switch (true) {

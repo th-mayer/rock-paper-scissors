@@ -21,18 +21,14 @@ export class DbUser {
       where: {
         username: username,
       },
-      include: {
-        items: true,
-      },
     });
 
     if (!user || !(await bcrypt.compare(hash, user.hash))) {
-      // TODO imporve error handling
       throw Error("Username or Password incorrect!");
     }
 
     //auth successful, sign JWT
-    const token = sign({ sub: user.id }, this.secret, { expiresIn: "7d" });
+    const token = sign({ sub: user.id }, this.secret, { expiresIn: "1d" });
     return { ...this.withoutHash(user), token };
   }
 
@@ -46,7 +42,6 @@ export class DbUser {
         },
       })
     ) {
-      // TODO improve error handling
       throw Error("Username " + newUserData.username + " is already taken");
     }
 
@@ -110,7 +105,6 @@ export class DbUser {
           items: true,
         },
       });
-      console.log(updatedUser);
       return updatedUser;
     }
     throw Error("Error when updating User");
@@ -133,7 +127,6 @@ export class DbUser {
         items: true,
       },
     });
-    console.log(updatedUser);
     return updatedUser;
   }
 
