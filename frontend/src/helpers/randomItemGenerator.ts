@@ -9,37 +9,38 @@ export function generateRandomItem(): Item {
     case 0:
       // 0 = dmg_r
       name = "Rock Damage";
-      modifier = Math.random();
+      // + converts string from toFixed back to a number
+      modifier = +Math.random().toFixed(2);
       description = `Grants extra damage when using Rock with a modifier of ${modifier}`;
       break;
     case 1:
       // 1 = dmg_p
       name = "Paper Damage";
-      modifier = Math.random();
+      modifier = +Math.random().toFixed(2);
       description = `Grants extra damage when using Paper with a modifier of ${modifier}`;
       break;
     case 2:
       // 2 = dmg_s
       name = "Scissors Damage";
-      modifier = Math.random();
+      modifier = +Math.random().toFixed(2);
       description = `Grants extra damage when using Scissors with a modifier of ${modifier}`;
       break;
     case 3:
       // 3 = prt_r
       name = "Rock Protection";
-      modifier = Math.random();
+      modifier = +Math.random().toFixed(2);
       description = `Grants extra protection against attacks using Rock with a modifier of ${modifier}`;
       break;
     case 4:
       // 4 = prt_p
       name = "Paper Protection";
-      modifier = Math.random();
+      modifier = +Math.random().toFixed(2);
       description = `Grants extra protection against attacks using Paper with a modifier of ${modifier}`;
       break;
     case 5:
       // 5 = prt_s
       name = "Scissors Protection";
-      modifier = Math.random();
+      modifier = +Math.random().toFixed(2);
       description = `Grants extra protection against attacks using Scissors with a modifier of ${modifier}`;
       break;
     default:
