@@ -5,10 +5,18 @@
 
 <template>
     <Card title="Item manager" class="Homecard">
-        <div class="flex-row">
+        <div class="flex-row item-container">
             <Item :item-kind="1" :multiplier="2.2" />
             <Item :item-kind="3" :multiplier="88.22" />
             <Item :item-kind="5" :multiplier="0.2" />
         </div>
     </Card>
 </template>
+
+<style lang="scss">
+@import '../css/main.scss';
+
+.item-container{
+    width: 35vw;
+}
+</style>
