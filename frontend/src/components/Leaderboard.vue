@@ -10,8 +10,9 @@ console.log({ user });
 
 <template>
     <Card title="Leaderboard" class="leaderbaord">
-        <div>
-        </div>
+    <div>
+        <p> scuse me </p>
+    </div>
     </Card>
 </template>
 

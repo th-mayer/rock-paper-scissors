@@ -8,25 +8,33 @@ const { user } = storeToRefs(authStore);
 </script>
 
 <template>
-  <div v-if="user">
+  <div class="home-container" v-if="user">
     <div class="flex-row">
       <HomeAccount></HomeAccount>
       <Leaderboard>
         <p>UserXY has XY wins - placeholder</p>
       </Leaderboard>
     </div>
-    <button id="match-button" class="router-link-in-button">
-      <router-link to="/game">Find Match</router-link>
-    </button>
+    <div class="button-container">
+      <button id="match-button" class="router-link-in-button">
+        <router-link to="/game">Find Match</router-link>
+      </button>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
 @import "../css/main.scss";
+
+.home-container {
+  height: 100vh;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;
 }
+
 .Homecard {
   margin: 5vh;
 }
@@ -35,20 +43,19 @@ const { user } = storeToRefs(authStore);
   background-color: $highlight-color;
   height: 15vh;
   width: fit-content;
-  
 }
 
-#match-button:hover{
-    background-color: $backshadow;
-    box-shadow: 7px 7px $highlight-color;
-    
+#match-button:hover {
+  background-color: $backshadow;
+  box-shadow: 7px 7px $highlight-color;
+
 }
 
-#match-button:hover > a{
-    color: $highlight-color;
+#match-button:hover>a {
+  color: $highlight-color;
 }
 
-#match-button > a {
-    font-size: 8vh;
+#match-button>a {
+  font-size: 8vh;
 }
 </style>

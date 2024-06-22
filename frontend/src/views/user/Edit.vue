@@ -69,7 +69,7 @@ async function onSubmit(values: any) {
           </div>
 
           <div class="btn-container">
-            <button class="btn router-link-in-button">
+            <button class="btn router-link-in-button test">
               <router-link to="/home">Discard</router-link>
             </button>
 
@@ -86,7 +86,7 @@ async function onSubmit(values: any) {
 </template>
 
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "../../css/main.scss";
 
 label {
@@ -126,14 +126,12 @@ label {
   padding: 10px;
 }
 
-.router-link-in-button>a {
+.test.router-link-in-button>a {
   color: $backshadow;
-  background-color: $alert-color;
 }
 
-.router-link-in-button:hover>a {
+.test.router-link-in-button:hover>a {
   color: $alert-color;
-  background-color: $backshadow;
 }
 
 .btn:first-child {
@@ -144,7 +142,8 @@ label {
 .btn:first-child:hover {
   color: $alert-color;
   background-color: $backshadow;
-  box-shadow: 7px 7px $alert-color
+  box-shadow: 7px 7px $alert-color;
+  transition: 0.2s ease-in;
 }
 
 .invalid-feedback {
