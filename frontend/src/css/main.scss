@@ -38,12 +38,15 @@ button:hover {
 
 /* styling to use router-links in buttons and still keep styling */
 
-.router-link-in-button > a {
-  text-decoration: none;
+.router-link-in-button  {
   font-size: 3vh;
   color: $bright-font-color;
 }
 
-.router-link-in-button:hover > a {
+.router-link-in-button:hover {
   color: $secondary-color;
+}
+
+.router-link-in-button a{
+  text-decoration: none;
 }

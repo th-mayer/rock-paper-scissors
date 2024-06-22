@@ -9,12 +9,14 @@ console.log({ user });
 </script>
 
 <template>
-    <Card title="Your Homepage" class="Homecard">
+    <Card title="your Account" class="Homecard">
         <h1>Hello, {{ user.username }}!</h1>
         <p>It is the perfect time for a thrilling match today!</p>
-        
+
         <div class="flex-row">
-            <button class="router-link-in-button"><router-link :to="`/edit/${user.id}`">Manage Account and Items</router-link></button>
+            <router-link :to="`/edit/${user.id}`">
+                <button class="router-link-in-button">Manage Account and Items</button>
+            </router-link>
             <button @click="authStore.logout()">Logout</button>
         </div>
     </Card>

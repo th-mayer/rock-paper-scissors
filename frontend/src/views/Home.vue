@@ -2,23 +2,30 @@
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../stores/auth.store";
 import HomeAccount from "../components/HomeAccount.vue";
+import Leaderboard from "../components/Leaderboard.vue";
+import ItemPreview from "../components/ItemPreview.vue";
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
 </script>
 
 <template>
-  <div class="home-container" v-if="user">
-    <div class="flex-row">
-      <HomeAccount></HomeAccount>
-      <Leaderboard>
-        <p>UserXY has XY wins - placeholder</p>
-      </Leaderboard>
-    </div>
-    <div class="button-container">
-      <button id="match-button" class="router-link-in-button">
-        <router-link to="/game">Find Match</router-link>
-      </button>
+  <div v-if="user">
+    <div class="home-container">
+      <div class="flex-row">
+        <div class="flex-column">
+          <HomeAccount></HomeAccount>
+          <ItemPreview></ItemPreview>
+        </div>
+        <Leaderboard></Leaderboard>
+      </div>
+      <div class="button-container">
+        <router-link to="/game">
+          <button id="match-button" class="router-link-in-button">
+            Find Match
+          </button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -26,13 +33,16 @@ const { user } = storeToRefs(authStore);
 <style lang="scss">
 @import "../css/main.scss";
 
-.home-container {
-  height: 100vh;
-}
-
 .flex-row {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.flex-bottom-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .Homecard {
@@ -41,21 +51,30 @@ const { user } = storeToRefs(authStore);
 
 #match-button {
   background-color: $highlight-color;
-  height: 15vh;
+  height: 12vh;
   width: fit-content;
+  margin-bottom: 3vh;
+  font-size: 6vh;
 }
 
 #match-button:hover {
+  color: $highlight-color;
   background-color: $backshadow;
   box-shadow: 7px 7px $highlight-color;
 
 }
 
-#match-button:hover>a {
-  color: $highlight-color;
+.button-container{
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: end;
 }
 
-#match-button>a {
-  font-size: 8vh;
+.home-container{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between
 }
 </style>

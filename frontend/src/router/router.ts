@@ -5,7 +5,7 @@ import { useAuthStore } from "../stores/auth.store";
 import AccountLayout from "../views/account/AccountLayout.vue";
 import Login from "../views/account/Login.vue";
 import Register from "../views/account/Register.vue";
-import Edit from "../views/user/Edit.vue";
+import Edit from "../views/user/AccountEdit.vue";
 import Game from "../views/game/Game.vue";
 
 export const router = createRouter({

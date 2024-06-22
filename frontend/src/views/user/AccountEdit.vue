@@ -69,9 +69,11 @@ async function onSubmit(values: any) {
           </div>
 
           <div class="btn-container">
-            <button class="btn router-link-in-button test">
-              <router-link to="/home">Discard</router-link>
-            </button>
+            <router-link to="/home">
+              <button class="btn router-link-in-button discard">
+                Discard
+              </button>
+            </router-link>
 
             <button class="btn" :disabled="isSubmitting">
               <span v-show="isSubmitting"></span>
@@ -126,11 +128,11 @@ label {
   padding: 10px;
 }
 
-.test.router-link-in-button>a {
+.discard.router-link-in-button>a {
   color: $backshadow;
 }
 
-.test.router-link-in-button:hover>a {
+.discard.router-link-in-button:hover>a {
   color: $alert-color;
 }
 

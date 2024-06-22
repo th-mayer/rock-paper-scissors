@@ -8,9 +8,7 @@ import Background from './components/Background.vue';
   <div class="app-container">
     <Background class="ultimate-bg"/>
     <Alert />
-    <div class="container pt-4 pb-4">
-        <router-view />
-    </div>
+    <router-view />
   </div>
 </template>
 
