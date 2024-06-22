@@ -83,18 +83,18 @@ async function onSubmit(values: any) {
 }
 
 .flex-col {
-  color: white;
+  color: $bright-font-color;
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
 .form-control {
-  background-color: #745cd8;
+  background-color: $secondary-color;
   border-radius: 30px;
   border: none;
   height: 5vh;
-  color: white;
+  color: $bright-font-color;
   padding-left: 10px;
   
 }
@@ -103,11 +103,11 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px #745cd8 inset !important;
+  -webkit-box-shadow: 0 0 0 30px $secondary-color inset !important;
 }
 
 input:-webkit-autofill {
-  -webkit-text-fill-color: white !important;
+  -webkit-text-fill-color: $bright-font-color !important;
 }
 
 input {
@@ -116,21 +116,21 @@ input {
 }
 
 .form-control:focus {
-  background-color: #745cd8;
-  color: white;
+  background-color: $secondary-color;
+  color: $bright-font-color;
   border: none;
-  outline-color: #745cd8;
+  outline-color: $secondary-color;
 }
 
 .error {
-  color: rgb(239, 39, 122);
+  color: $alert-color;
   margin-top: 2vh;
   font-size: 60%;
 }
 
 .login-btn {
-  color: white;
-  background-color: #745cd8;
+  color: $bright-font-color;
+  background-color: $secondary-color;
   border: none;
   border-radius: 50px;
   padding: 3vh;
@@ -139,20 +139,20 @@ input {
   margin: 0 auto;
   font-family: tweety;
   font-size: 8vh;
-  box-shadow: 5px 5px white;
+  box-shadow: 5px 5px $bright-font-color;
 }
 
 .login-btn:hover {
   cursor: pointer;
-  background-color: white;
-  color: #745cd8;
-  box-shadow: 5px 5px #745cd8;
+  background-color: $bright-font-color;
+  color: $secondary-color;
+  box-shadow: 5px 5px $secondary-color;
   transition: 0.2s ease-in;
 }
 
 .register-link {
   font-size: 60%;
-  color: white;
+  color: $bright-font-color;
   text-decoration: underline;
   margin-top: 2vh;
   margin-bottom: 2vh;
@@ -167,7 +167,7 @@ input {
 }
 
 .card-rect h1 {
-  color: white;
+  color: $bright-font-color;
   margin: 0.5rem 0;
   padding: 0;
   white-space: nowrap;

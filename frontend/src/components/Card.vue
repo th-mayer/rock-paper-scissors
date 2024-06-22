@@ -1,4 +1,5 @@
 <template>
+    <div>
     <div v-if=backdrop class="backdrop">
         <div class="card-container">
             <div class="card-topbar">
@@ -25,6 +26,7 @@
         <div class="card-rect">
             <slot></slot>
         </div>
+    </div>
     </div>
 </template>
 
