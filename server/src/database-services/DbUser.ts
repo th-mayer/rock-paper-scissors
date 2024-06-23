@@ -21,18 +21,14 @@ export class DbUser {
       where: {
         username: username,
       },
-      include: {
-        items: true,
-      },
     });
 
     if (!user || !(await bcrypt.compare(hash, user.hash))) {
-      // TODO imporve error handling
-      throw "Username or Password incorrect!";
+      throw Error("Username or Password incorrect!");
     }
 
     //auth successful, sign JWT
-    const token = sign({ sub: user.id }, this.secret, { expiresIn: "7d" });
+    const token = sign({ sub: user.id }, this.secret, { expiresIn: "1d" });
     return { ...this.withoutHash(user), token };
   }
 
@@ -46,8 +42,7 @@ export class DbUser {
         },
       })
     ) {
-      // TODO improve error handling
-      throw "Username " + newUserData.username + " is already taken";
+      throw Error("Username " + newUserData.username + " is already taken");
     }
 
     newUserData.hash = bcrypt.hashSync(newUserData.hash);
@@ -80,8 +75,8 @@ export class DbUser {
   // UPDATE
   async update(user_id: number, data: any) {
     const user = await this.getUser(user_id);
-    if (!user) throw "User not found";
-    if (!data.exItem) throw "No replacement Item chosen!";
+    if (!user) throw Error("User not found");
+    if (!data.exItem) throw Error("No replacement Item chosen!");
     // update items
     if (data.item) {
       const updatedUser = await this.prismaUser.update({
@@ -110,15 +105,14 @@ export class DbUser {
           items: true,
         },
       });
-      console.log(updatedUser);
       return updatedUser;
     }
-    throw "Error when updating User";
+    throw Error("Error when updating User");
   }
 
   async updateItemCoin(user_id: number) {
     const user = await this.getUser(user_id);
-    if (!user) throw "User not found";
+    if (!user) throw Error("User not found");
     // increase ItemCoin by 1 after user has won a game
     const updatedUser = await this.prismaUser.update({
       where: {
@@ -133,7 +127,6 @@ export class DbUser {
         items: true,
       },
     });
-    console.log(updatedUser);
     return updatedUser;
   }
 
