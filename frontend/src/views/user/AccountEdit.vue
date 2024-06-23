@@ -6,7 +6,6 @@ import { storeToRefs } from "pinia";
 import * as Yup from "yup";
 import { router } from "../../router/router";
 import { Form, Field } from "vee-validate";
-import ChooseNewItem from "../../components/ChooseNewItem.vue";
 import Card from "../../components/Card.vue";
 
 const alertStore = useAlertStore();
@@ -106,11 +105,12 @@ label {
 
 .btn-container {
   display: flex;
+  width: 100%;
+  justify-content: space-evenly;
 }
 
 .btn {
-  margin-top: 3vh;
-  justify-content: center;
+  margin-top: 2vh;
 }
 
 .form-container {
@@ -136,12 +136,12 @@ label {
   color: $alert-color;
 }
 
-.btn:first-child {
+.discard.router-link-in-button {
   color: $backshadow;
   background-color: $alert-color;
 }
 
-.btn:first-child:hover {
+.discard.router-link-in-button:hover {
   color: $alert-color;
   background-color: $backshadow;
   box-shadow: 7px 7px $alert-color;

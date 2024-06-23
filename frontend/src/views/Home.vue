@@ -46,7 +46,8 @@ const { user } = storeToRefs(authStore);
 }
 
 .Homecard {
-  margin: 5vh;
+  margin-top: 5vh;
+  margin-left: 5vh;
 }
 
 #match-button {
@@ -61,7 +62,6 @@ const { user } = storeToRefs(authStore);
   color: $highlight-color;
   background-color: $backshadow;
   box-shadow: 7px 7px $highlight-color;
-
 }
 
 .button-container{

@@ -19,9 +19,7 @@
             </div>
             
             <h4 class="card-header">{{ title }}</h4>
-            <div>
-                <img>
-            </div>
+        
         </div>
         <div class="card-rect">
             <slot></slot>

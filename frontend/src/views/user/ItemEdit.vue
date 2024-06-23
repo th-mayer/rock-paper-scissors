@@ -1,19 +1,36 @@
 <script setup lang="ts">
 import ChooseNewItem from "../../components/ChooseNewItem.vue";
 import Card from "../../components/Card.vue";
- 
+import Item from "../../components/Item.vue";
+import ItemPreview from "../../components/ItemPreview.vue";
+import ItemBox from "../../components/ItemBox.vue";
+import { Router } from "vue-router";
+
 </script>
 
 <template>
-    <ChooseNewItem />
-    
+    <Card title="item manager" class="Homecard">
+        <p>Click on one old and on one new Item to swap them!</p>
+        <h2>equipped</h2>
+        <ItemBox />
+        <h2>Other items</h2>
+        <ItemBox />
+        <div class="btn-container">
+            <button class="btn">
+                save
+            </button>
+        </div>
+    </Card>
+
+    <!--     
     <template v-if="user?.loading">
-        <div class="text-center m-5"></div>
-        <span class="spinner-border spinner-border-lg align-center"></span>
+        <div></div>
+        <span></span>
     </template>
     <template v-if="user?.error">
-        <div class="text-center m-5">
-            <div class="text-danger">Error loading user: {{ user.error }}</div>
+        <div>
+            <div>Error loading user: {{ user.error }}</div>
         </div>
     </template>
+    -->
 </template>

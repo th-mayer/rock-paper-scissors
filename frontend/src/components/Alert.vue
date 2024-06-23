@@ -15,8 +15,6 @@ const { alert } = storeToRefs(alertStore);
         </button>
        <p class="alert-danger" v-if="alert.type == 'alert-danger'">Danger! {{  alert.message }} :(</p> 
        <p class="alert-success" v-else>Wowie! {{ alert.message }} :)</p>
-       <p class="alert-danger" v-if="alert.type == 'alert-danger'">Danger! {{  alert.message }} :(</p> 
-       <p class="alert-success" v-else>Wowie! {{ alert.message }} :)</p>
       </div>
     </div>
   </div>

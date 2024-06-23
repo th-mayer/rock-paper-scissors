@@ -13,15 +13,20 @@ console.log({ user });
         <h1>Hello, {{ user.username }}!</h1>
         <p>It is the perfect time for a thrilling match today!</p>
 
-        <div class="flex-row">
+        <div class="flex-row margin-top-10">
             <router-link :to="`/edit/${user.id}`">
-                <button class="router-link-in-button">Manage Account and Items</button>
+                <button class="router-link-in-button acc-btn">edit Account</button>
             </router-link>
-            <button @click="authStore.logout()">Logout</button>
+            <button class="acc-btn" @click="authStore.logout()">Logout</button>
         </div>
     </Card>
 </template>
 
 <style lang="scss">
-    @import '@/css/main.scss';
+@import '@/css/main.scss';
+
+
+.acc-btn{
+    margin: 0;
+}
 </style>

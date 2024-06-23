@@ -1,14 +1,20 @@
 <script setup lang="ts">
-    import Card from './Card.vue';
-    import Item from './Item.vue';
+import Card from './Card.vue';
+import Item from './Item.vue';
+import ItemBox from './ItemBox.vue';
 </script>
 
 <template>
     <Card title="Item manager" class="Homecard">
-        <div class="flex-row item-container">
-            <Item :item-kind="1" :multiplier="2.2" />
-            <Item :item-kind="3" :multiplier="88.22" />
-            <Item :item-kind="5" :multiplier="0.2" />
+
+        <ItemBox />
+
+        <div class="flex-row">
+            <router-link to="/itemEdit">
+                <button class="margin-top-10">
+                    Configure Items
+                </button>
+            </router-link>
         </div>
     </Card>
 </template>
@@ -16,7 +22,5 @@
 <style lang="scss">
 @import '../css/main.scss';
 
-.item-container{
-    width: 35vw;
-}
+
 </style>

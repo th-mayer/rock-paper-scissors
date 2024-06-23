@@ -11,7 +11,7 @@ console.log({ user });
 
 <template>
     <Card title="Leaderboard" class="Homecard">
-        <h1>leaderboard</h1>
+        <h1>top 5 players</h1>
         <LeaderboardStats name="marco" wins="123" />
         <LeaderboardStats name="marco" wins="123" />
         <LeaderboardStats name="marco" wins="123" />

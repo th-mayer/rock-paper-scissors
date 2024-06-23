@@ -2,7 +2,7 @@
     <div class="leaderboardStats">
         <p>{{ name }}</p>
         <hr>
-        <p>{{ wins }}</p>
+        <p class="wins">{{ wins }} wins</p>
     </div>
 </template>
 
@@ -30,5 +30,9 @@ hr{
     margin-left: 1vw;
     margin-right: 1vw;
     transform: translateY(-1.2vh);
+}
+
+.wins{
+    white-space: nowrap;
 }
 </style>

@@ -22,7 +22,7 @@ button {
   padding: 2vh;
   height: 6vh;
   width: fit-content;
-  margin: 0 auto;
+  margin: 0;
   font-family: $main-font;
   font-size: 3vh;
   box-shadow: 5px 5px $backshadow;
@@ -49,4 +49,13 @@ button:hover {
 
 .router-link-in-button a{
   text-decoration: none;
+
+}
+
+/* general h2 styling */
+h2{
+  margin: 0;
+  padding: 0;
+  color: $bright-font-color;
+  font-size: 5vh;
 }

@@ -7,6 +7,7 @@ import Login from "../views/account/Login.vue";
 import Register from "../views/account/Register.vue";
 import Edit from "../views/user/AccountEdit.vue";
 import Game from "../views/game/Game.vue";
+import ItemEdit from "../views/user/ItemEdit.vue";
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -23,7 +24,8 @@ export const router = createRouter({
     },
     { path: "/edit/:id", component: Edit },
     { path: "/:pathMatch(.*)*", redirect: "/"},
-    { path: "/game", component: Game }
+    { path: "/game", component: Game },
+    { path: "/itemEdit", component: ItemEdit}
   ],
 });
 

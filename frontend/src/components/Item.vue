@@ -61,13 +61,14 @@
 @import '@/css/main.scss';
 
 div.itemDiv {
-    width:200px;
-    height:200px;
+    height: 23vh;
+    aspect-ratio: 1/1;
     border-radius: 20px;
     border-width: 5px;
     border-color: $bright-font-color;
     border-style: solid;
     border-color: $backshadow;
+    margin: 5px;
 }
 
 div.itemDiscription {
@@ -79,8 +80,12 @@ div.itemDiscription {
     border-radius: 20px;
     border-color: $backshadow;
     border-width: 3px;
-    border: 3px;
     border-style: solid;
+}
+
+div.itemDiv:hover{
+    border-color: $highlight-color;
+    transition: 0.1s ease-in;
 }
 
 div.itemDiscription > h2 {
@@ -98,11 +103,11 @@ div:hover > div.itemDiscription {
 }
 
 img {
-    width: 180px;
-    height: auto;
+    height: 100%;
 }
 
 .highlighted{
     color: $highlight-color;
 }
+
 </style>
