@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '../stores/auth.store';
 import Card from './Card.vue';
-import Item from './Item.vue';
 import ItemBox from './ItemBox.vue';
+
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
 </script>
 
 <template>
@@ -10,7 +14,7 @@ import ItemBox from './ItemBox.vue';
         <ItemBox />
 
         <div class="flex-row">
-            <router-link to="/itemEdit">
+            <router-link :to="`${user.id}/itemEdit`">
                 <button class="margin-top-10">
                     Configure Items
                 </button>

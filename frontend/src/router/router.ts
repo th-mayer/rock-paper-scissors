@@ -23,9 +23,9 @@ export const router = createRouter({
       ],
     },
     { path: "/edit/:id", component: Edit },
-    { path: "/:pathMatch(.*)*", redirect: "/"},
     { path: "/game", component: Game },
-    { path: "/itemEdit", component: ItemEdit}
+    { path: "/:id/itemEdit", component: ItemEdit },
+    { path: "/:pathMatch(.*)*", redirect: "/"},
   ],
 });
 
