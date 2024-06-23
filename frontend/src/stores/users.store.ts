@@ -7,6 +7,7 @@ const baseURL = `${import.meta.env.VITE_API_URL}/users`;
 
 export const useUserStore = defineStore("users", () => {
   const user = ref();
+  const users = ref();
 
   async function register(user: any) {
     await fetchWrapper.post(`${baseURL}/register`, user);
@@ -18,6 +19,15 @@ export const useUserStore = defineStore("users", () => {
       user.value = await fetchWrapper.get(`${baseURL}/${id}`);
     } catch (err) {
       user.value = { err };
+    }
+  }
+
+  async function getLeaderboard() {
+    users.value = { loading: true }
+    try {
+      users.value = await fetchWrapper.get(`${baseURL}/leaderboard`);
+    } catch (err) {
+      users.value = { err };
     }
   }
 
