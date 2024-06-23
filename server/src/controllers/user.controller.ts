@@ -12,9 +12,10 @@ router.post("/authenticate", authenticate);
 router.post("/register", register);
 router.get("/", authorize(), getAll);
 router.get("/current", authorize(), getCurrent);
+router.get("/leaderboard", authorize(), getLeaderboard);
 router.get("/:id", authorize(), getById);
 router.put("/:id", authorize(), updateItems);
-router.put("/:id/updateItemCoin", authorize(), updateItemCoin);
+router.put("/:id/updateWin", authorize(), updateWin);
 router.delete("/:id", authorize(), _delete);
 
 function authenticate(req: any, res: any, next: any) {
@@ -50,6 +51,13 @@ function getCurrent(req: any, res: any, next: any) {
   res.json(req.user);
 }
 
+function getLeaderboard(req: any, res: any, next: any) {
+  dbUsers
+    .getLeaderboard()
+    .then((users) => res.json(users))
+    .catch(next);
+}
+
 function updateItems(req: any, res: any, next: any) {
   const user_id: number = parseInt(req.params.id);
   dbUsers
@@ -58,11 +66,12 @@ function updateItems(req: any, res: any, next: any) {
     .catch((err) => next(err));
 }
 
-function updateItemCoin(req:any, res:any, next: any){
+function updateWin(req: any, res: any, next: any) {
   const user_id: number = parseInt(req.params.id);
-  dbUsers.updateItemCoin(user_id)
-  .then((updated_user) => res.json(updated_user))
-  .catch((err) => next(err));
+  dbUsers
+    .updateWinItemCoin(user_id)
+    .then((updated_user) => res.json(updated_user))
+    .catch((err) => next(err));
 }
 
 function _delete(req: any, res: any, next: any) {
