@@ -72,6 +72,22 @@ export class DbUser {
     return await this.getUser(user_id);
   }
 
+  async getLeaderboard() {
+    const users = await this.prismaUser.findMany({
+      orderBy: {
+        wins: "desc",
+      },
+    });
+    const sanitizedUser: { id: number; username: string; itemCoin: number; wins: number; }[] = [];
+    users.forEach((user) => {
+      const noHash = this.withoutHash(user);
+      const noEmail = this.withoutEmail(noHash);
+      sanitizedUser.push(noEmail);
+    });
+    console.log(sanitizedUser);
+    return sanitizedUser;
+  }
+
   // UPDATE
   async update(user_id: number, data: any) {
     const user = await this.getUser(user_id);
@@ -110,7 +126,7 @@ export class DbUser {
     throw Error("Error when updating User");
   }
 
-  async updateItemCoin(user_id: number) {
+  async updateWinItemCoin(user_id: number) {
     const user = await this.getUser(user_id);
     if (!user) throw Error("User not found");
     // increase ItemCoin by 1 after user has won a game
@@ -120,6 +136,9 @@ export class DbUser {
       },
       data: {
         itemCoin: {
+          increment: 1,
+        },
+        wins: {
           increment: 1,
         },
       },
@@ -155,5 +174,10 @@ export class DbUser {
   withoutHash(user: User) {
     const { hash, ...userWithoutHash } = user;
     return userWithoutHash;
+  }
+
+  withoutEmail(user: any) {
+    const { email, ...userWithoutEmail } = user;
+    return userWithoutEmail;
   }
 }
