@@ -84,11 +84,11 @@ onMounted(() => {
 }
 
 .card-rect p {
-    font-size: 4vh;
+    font-size: 3vh;
 }
 
 .card-rect h2 {
-    font-size: 8vh;
+    font-size: 6vh;
     letter-spacing: 4px;
 }
 

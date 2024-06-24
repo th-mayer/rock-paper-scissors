@@ -13,10 +13,10 @@ const props = defineProps({
 
 <template>
   <SocketEvents msg="Connection Test" />
-  <div class="flex-row">
+  <div class="player-row">
     <PlayerCard name="trinkl2342342311234" wins=234234 class="enemy">
     </PlayerCard>
-    <ItemBox />
+    <ItemBox height="15vh" width="15vh"/>
   </div>
 </template>
 
@@ -28,8 +28,11 @@ const props = defineProps({
   color: $bright-font-color;
 }
 
-.flex-row{
-  height: 20vh;
+.player-row{
+  display: flex;
+  height: 15vh;
+  width: 100vw;
   margin: 5vh;
+
 }
 </style>

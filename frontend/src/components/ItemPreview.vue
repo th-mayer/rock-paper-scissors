@@ -9,7 +9,7 @@ const { user } = storeToRefs(authStore);
 </script>
 
 <template>
-    <Card title="Item manager" class="Homecard">
+    <Card title="Item manager" class="Homecard" id="itembox">
 
         <ItemBox />
 
@@ -26,5 +26,7 @@ const { user } = storeToRefs(authStore);
 <style lang="scss">
 @import '../css/main.scss';
 
-
+#itembox{
+    height: 23vh;
+}
 </style>
