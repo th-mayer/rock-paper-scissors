@@ -122,6 +122,7 @@ label {
 }
 
 .col-right {
+  width: 20vw;
   flex: 1;
   display: flex;
   flex-direction: column;

@@ -3,7 +3,7 @@ import Item from './Item.vue';
 </script>
 
 <template>
-    <div class="flex-row item-container">
+    <div class="item-container">
         <Item :item-kind="1" :multiplier="2.2" />
         <Item :item-kind="3" :multiplier="88.22" />
         <Item :item-kind="5" :multiplier="0.2" />
@@ -14,6 +14,8 @@ import Item from './Item.vue';
 @import '../css/main.scss';
 
 .item-container {
+    display: flex;
     width: fit-content;
+    margin: 0;
 }
 </style>

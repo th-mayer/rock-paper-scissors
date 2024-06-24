@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { Ref, onMounted, ref } from "vue";
 
 const props = defineProps({
     name: String,
-    wins: Number,
+    wins: String,
     startHealth: Number,
 });
 
-const hb = ref(null);
-const hbred = ref(null);
-const hbblue = ref(null);
+const hb: Ref<HTMLElement | undefined> = ref();
+const hbred: Ref<HTMLElement | undefined> = ref();
+const hbblue: Ref<HTMLElement | undefined> = ref();
 
 const maxHealth = 100;
 let health = maxHealth;
@@ -17,23 +17,20 @@ let health = maxHealth;
 function updateBar() {
     const targetWidth = health * (100 / maxHealth) + "%";
 
-    if (hbred.value && hbblue.value && hb.value) {
-        hbred.value.style.width = targetWidth;
-        hb.value.style.width = targetWidth;
-        hbblue.value.style.width = targetWidth;
-    }
+    hbred.value!.style.width = targetWidth;
+    hb.value!.style.width = targetWidth;
+    hbblue.value!.style.width = targetWidth;
+
 }
 
-function dmg2() {
+function damage() {
     health = Math.max(0, health - 30); // Ensure health does not go below 0
     updateBar();
-    console.log("hii")
 }
 
 function heal() {
     health = Math.min(100, health + 30); // Ensure health does not go below 0
     updateBar();
-    console.log("hii")
 }
 
 onMounted(() => {
@@ -45,7 +42,7 @@ onMounted(() => {
 <template>
     <div class="card-rect">
         <div>
-            <p>{{ name }}</p>
+            <h2>{{ name }}</h2>
             <p>{{ wins }} wins</p>
         </div>
         <div>
@@ -58,7 +55,7 @@ onMounted(() => {
     </div>
 
     <div class="row">
-        <button @click="dmg2" class="add-damage btn" type="button">Damage</button>
+        <button @click="damage" class="add-damage btn" type="button">Damage</button>
         <button @click="heal" class="add-heal btn" type="button">Heal</button>
     </div>
 
@@ -68,8 +65,10 @@ onMounted(() => {
 @import '../css/main.scss';
 
 .card-rect {
+    display: flex;
+    flex-direction: column;
     position: relative;
-    height: fit-content;
+    height: 100%;
     width: fit-content;
     margin: 0;
     background-color: $base-color;
@@ -81,16 +80,26 @@ onMounted(() => {
     font-size: 5vh;
     font-style: normal;
     box-shadow: 7px 7px $backshadow;
+    justify-content: space-between;
+}
+
+.card-rect p {
+    font-size: 4vh;
+}
+
+.card-rect h2 {
+    font-size: 8vh;
+    letter-spacing: 4px;
 }
 
 .health-box {
     background-color: $backshadow;
-    height: 30px;
-    width: 500px;
+    height: 4vh;
+    width: 100%;
     margin: 0 auto;
     overflow: hidden;
     position: relative;
-    border-radius: 15px;
+    border-radius: 200px;
 }
 
 .health-bar {
@@ -101,7 +110,7 @@ onMounted(() => {
     position: absolute;
     top: 0;
     left: 0;
-    border-radius: 15px;
+    border-radius: 200px;
 }
 
 .health-bar-red {
@@ -113,7 +122,7 @@ onMounted(() => {
     left: 0;
     transition: width 2s ease;
     transition-delay: 0.3s;
-    border-radius: 15px;
+    border-radius: 200px;
 }
 
 .health-bar-blue {
@@ -124,6 +133,6 @@ onMounted(() => {
     top: 0;
     left: 0;
     transition: width 1s ease;
-    border-radius: 15px;
+    border-radius: 200px;
 }
 </style>

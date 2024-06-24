@@ -17,14 +17,16 @@ const { user } = storeToRefs(authStore);
           <HomeAccount></HomeAccount>
           <ItemPreview></ItemPreview>
         </div>
-        <Leaderboard></Leaderboard>
-      </div>
-      <div class="button-container">
-        <router-link to="/game">
-          <button id="match-button" class="router-link-in-button">
-            Find Match
-          </button>
-        </router-link>
+        <div class="flex-column">
+          <Leaderboard></Leaderboard>
+          <div class="button-container">
+            <router-link to="/game">
+              <button id="match-button" class="router-link-in-button">
+                Find Match
+              </button>
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -39,7 +41,7 @@ const { user } = storeToRefs(authStore);
   justify-content: space-evenly;
 }
 
-.flex-bottom-row{
+.flex-bottom-row {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -56,6 +58,7 @@ const { user } = storeToRefs(authStore);
   width: fit-content;
   margin-bottom: 3vh;
   font-size: 6vh;
+
 }
 
 #match-button:hover {
@@ -64,17 +67,24 @@ const { user } = storeToRefs(authStore);
   box-shadow: 7px 7px $highlight-color;
 }
 
-.button-container{
+.button-container {
   height: auto;
   display: flex;
   justify-content: center;
   align-items: end;
 }
 
-.home-container{
+.home-container {
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
 </style>

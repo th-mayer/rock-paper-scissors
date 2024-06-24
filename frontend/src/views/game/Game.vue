@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import SocketEvents from '../../components/SocketEvents.vue';
 import ItemBox from '../../components/ItemBox.vue';
-import Card from '../../components/Card.vue';
 import PlayerCard from '../../components/PlayerCard.vue';
 
 
@@ -14,10 +13,11 @@ const props = defineProps({
 
 <template>
   <SocketEvents msg="Connection Test" />
-  <PlayerCard name="trinkl" wins="3123" class="enemy">
-    <h1></h1>
-  </PlayerCard>
-  <ItemBox />
+  <div class="flex-row">
+    <PlayerCard name="trinkl2342342311234" wins=234234 class="enemy">
+    </PlayerCard>
+    <ItemBox />
+  </div>
 </template>
 
 <style lang="scss">
@@ -26,5 +26,10 @@ const props = defineProps({
 * {
   margin: 0;
   color: $bright-font-color;
+}
+
+.flex-row{
+  height: 20vh;
+  margin: 5vh;
 }
 </style>
