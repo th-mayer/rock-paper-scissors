@@ -63,6 +63,7 @@
 div.itemDiv {
     height: 23vh;
     aspect-ratio: 1/1;
+    background-color: $base-color;
     border-radius: 20px;
     border-width: 5px;
     border-color: $bright-font-color;
