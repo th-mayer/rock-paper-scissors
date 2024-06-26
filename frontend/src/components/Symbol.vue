@@ -1,10 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { boolean } from 'yup';
 
 
 const props = defineProps({
     type: Number,
+    isHighlighted: Boolean,
 });
+
+const highlightStyle = computed(() => {
+    if (props.isHighlighted) return "symbol-container img-highlight";
+    else return "symbol-container";
+})
 
 const pic = computed(() => {
     if (props.type == 0) return "../../public/assets/rock.png";
@@ -16,7 +23,7 @@ const pic = computed(() => {
 </script>
 
 <template>
-    <div class="symbol-container">
+    <div :class="highlightStyle">
         <img class="symbol-img" :src="pic" />
     </div>
 </template>
@@ -27,16 +34,29 @@ const pic = computed(() => {
 .symbol-container {
     height: 100%;
     display: flex;
+    border-color: $backshadow;
 }
 
 .symbol-img {
     height: 20vh;
     margin-left: 1vh;
     margin-right: 1vh;
+    border-color: $backshadow;
 }
 
 .symbol-img:hover {
     border-color: $highlight-color;
     cursor: pointer;
+}
+
+.highlighted {
+    border-color: $backshadow;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.symbol-container.img-highlight>img {
+    border-color: $secondary-color;
+    border-style: 2px solid;
 }
 </style>
