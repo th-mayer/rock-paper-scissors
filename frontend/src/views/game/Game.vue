@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import SocketEvents from '../../components/SocketEvents.vue';
-import ItemBox from '../../components/ItemBox.vue';
 import PlayerCard from '../../components/PlayerCard.vue';
 
 
@@ -15,7 +14,7 @@ const props = defineProps({
   <SocketEvents msg="Connection Test" />
   <div class="top-and-bottom">
     <div class="player-row">
-      <PlayerCard name="trinkl2342342311234" wins=234234 class="enemy" :topbar="true"/>
+      <PlayerCard name="trinkl" wins=234234 class="enemy" :topbar="true"/>
     </div>
     <div class="player-row right">
       <PlayerCard name="professorClever69" wins="123" class="player" />

@@ -44,15 +44,15 @@ const alignmentClass = computed(() => {
     else return "alignBottom";
 });
 
-const alignmentItemTooltip = computed(()=>{
+const alignmentItemTooltip = computed(() => {
     if (props.topbar) return false;
     else return true;
 });
 </script>
 
 <template>
-    <div class="card-rect" :class="alignmentClass">
-        <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" style="margin-right: 3vw;"/>
+    <div class="card-rect-player" :class="alignmentClass">
+        <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" style="margin-right: 3vw;" />
         <div class="name-and-hp">
             <div>
                 <h2>{{ name }}</h2>
@@ -66,7 +66,7 @@ const alignmentItemTooltip = computed(()=>{
                 </div>
             </div>
         </div>
-        <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip" style="margin-left: 3vw;"/>
+        <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip" style="margin-left: 3vw;" />
     </div>
 
     <div class="column">
@@ -78,12 +78,14 @@ const alignmentItemTooltip = computed(()=>{
 
 <style lang="scss">
 @import '../css/main.scss';
+
 .column {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-.card-rect {
+
+.card-rect-player {
     display: flex;
     flex-direction: row;
     position: relative;
@@ -107,13 +109,16 @@ const alignmentItemTooltip = computed(()=>{
     flex-direction: column;
     position: relative;
     height: 100%;
+    width: 30vw;
+    white-space: nowrap;
+    overflow-x: hidden;
 }
 
-.card-rect.alignTop {
+.card-rect-player.alignTop {
     align-self: self-start;
 }
 
-.card-rect.alignBottom {
+.card-rect-player.alignBottom {
     align-self: self-end;
 }
 
