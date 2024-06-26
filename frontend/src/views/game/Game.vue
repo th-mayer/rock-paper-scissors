@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SocketEvents from '../../components/SocketEvents.vue';
 import PlayerCard from '../../components/PlayerCard.vue';
+import SymbolSelector from '../../components/SymbolSelector.vue';
 
 
 const props = defineProps({
@@ -16,6 +17,7 @@ const props = defineProps({
     <div class="player-row">
       <PlayerCard name="trinkl" wins=234234 class="enemy" :topbar="true"/>
     </div>
+    <SymbolSelector />
     <div class="player-row right">
       <PlayerCard name="professorClever69" wins="123" class="player" />
     </div>
