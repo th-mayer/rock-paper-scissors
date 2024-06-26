@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import Item from './Item.vue';
 
+const props = defineProps({
+    tooltipUp: Boolean,
+});
 
 </script>
 
 <template>
     <div class="item-container">
-        <Item :item-kind="1" :multiplier="2.2"/>
-        <Item :item-kind="3" :multiplier="88.22"/>
-        <Item :item-kind="5" :multiplier="0.2" />
+        <Item :item-kind="1" :multiplier="2.2" :tooltipUp="props.tooltipUp"/>
+        <Item :item-kind="3" :multiplier="88.22" :tooltipUp="props.tooltipUp"/>
+        <Item :item-kind="5" :multiplier="0.2" :tooltipUp="props.tooltipUp"/>
     </div>
 </template>
 
@@ -16,7 +19,7 @@ import Item from './Item.vue';
 @import '../css/main.scss';
 
 .item-container {
-    height: 100%;
+    height: 85%;
     display: flex;
     margin: 0;
 }
