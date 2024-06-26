@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { Ref, onMounted, ref } from "vue";
+import { Ref, computed, onMounted, ref } from "vue";
+import ItemBox from "./ItemBox.vue";
 
 const props = defineProps({
     name: String,
     wins: String,
     startHealth: Number,
+    topbar: Boolean,
 });
 
 const hb: Ref<HTMLElement | undefined> = ref();
@@ -37,24 +39,37 @@ onMounted(() => {
     updateBar(); // Initialize the health bar on component mount
 });
 
+const alignmentClass = computed(() => {
+    if (props.topbar) return "alignTop";
+    else return "alignBottom";
+});
+
+const alignmentItemTooltip = computed(()=>{
+    if (props.topbar) return false;
+    else return true;
+});
 </script>
 
 <template>
-    <div class="card-rect">
-        <div>
-            <h2>{{ name }}</h2>
-            <p>{{ wins }} wins</p>
-        </div>
-        <div>
-            <div class="health-box">
-                <div ref="hbred" class="health-bar-red"></div>
-                <div ref="hbblue" class="health-bar-blue"></div>
-                <div ref="hb" class="health-bar"></div>
+    <div class="card-rect" :class="alignmentClass">
+        <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" style="margin-right: 3vw;"/>
+        <div class="name-and-hp">
+            <div>
+                <h2>{{ name }}</h2>
+                <p>{{ wins }} wins</p>
+            </div>
+            <div>
+                <div class="health-box">
+                    <div ref="hbred" class="health-bar-red"></div>
+                    <div ref="hbblue" class="health-bar-blue"></div>
+                    <div ref="hb" class="health-bar"></div>
+                </div>
             </div>
         </div>
+        <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip" style="margin-left: 3vw;"/>
     </div>
 
-    <div class="row">
+    <div class="column">
         <button @click="damage" class="add-damage btn" type="button">Damage</button>
         <button @click="heal" class="add-heal btn" type="button">Heal</button>
     </div>
@@ -63,10 +78,14 @@ onMounted(() => {
 
 <style lang="scss">
 @import '../css/main.scss';
-
-.card-rect {
+.column {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+}
+.card-rect {
+    display: flex;
+    flex-direction: row;
     position: relative;
     height: 100%;
     width: fit-content;
@@ -81,6 +100,21 @@ onMounted(() => {
     font-style: normal;
     box-shadow: 7px 7px $backshadow;
     justify-content: space-between;
+}
+
+.name-and-hp {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+}
+
+.card-rect.alignTop {
+    align-self: self-start;
+}
+
+.card-rect.alignBottom {
+    align-self: self-end;
 }
 
 .card-rect p {

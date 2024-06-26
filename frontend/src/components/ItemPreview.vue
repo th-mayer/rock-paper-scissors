@@ -11,7 +11,7 @@ const { user } = storeToRefs(authStore);
 <template>
     <Card title="Item manager" class="Homecard" id="itembox">
 
-        <ItemBox />
+        <ItemBox :tooltipUp="true" />
 
         <div class="flex-row">
             <router-link :to="`${user.id}/itemEdit`">
@@ -27,6 +27,10 @@ const { user } = storeToRefs(authStore);
 @import '../css/main.scss';
 
 #itembox{
-    height: 23vh;
+    height: 15vh;
+}
+
+#itembox .item-container img {
+    height: 20vh;
 }
 </style>

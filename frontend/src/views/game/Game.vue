@@ -13,10 +13,13 @@ const props = defineProps({
 
 <template>
   <SocketEvents msg="Connection Test" />
-  <div class="player-row">
-    <PlayerCard name="trinkl2342342311234" wins=234234 class="enemy">
-    </PlayerCard>
-    <ItemBox height="15vh" width="15vh"/>
+  <div class="top-and-bottom">
+    <div class="player-row">
+      <PlayerCard name="trinkl2342342311234" wins=234234 class="enemy" :topbar="true"/>
+    </div>
+    <div class="player-row right">
+      <PlayerCard name="professorClever69" wins="123" class="player" />
+    </div>
   </div>
 </template>
 
@@ -33,6 +36,16 @@ const props = defineProps({
   height: 15vh;
   width: 100vw;
   margin: 5vh;
+}
 
+.right {
+  justify-content: end;
+}
+
+.top-and-bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }
 </style>
