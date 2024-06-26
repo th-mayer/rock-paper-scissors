@@ -9,7 +9,7 @@ import { Router } from "vue-router";
 </script>
 
 <template>
-    <Card title="item manager" class="Homecard">
+    <Card title="item manager" class="Homecard item-manager">
         <p>Click on one old and on one new Item to swap them!</p>
         <h2>equipped</h2>
         <ItemBox />
@@ -27,10 +27,22 @@ import { Router } from "vue-router";
         <div></div>
         <span></span>
     </template>
-    <template v-if="user?.error">
+<template v-if="user?.error">
         <div>
             <div>Error loading user: {{ user.error }}</div>
         </div>
     </template>
-    -->
+-->
 </template>
+
+<style lang="scss">
+@import '../../css/main.scss';
+
+.item-manager .item-container {
+    height: 20vh;
+}
+
+.item-manager h2 {
+    margin-top: 5vh;
+}
+</style>

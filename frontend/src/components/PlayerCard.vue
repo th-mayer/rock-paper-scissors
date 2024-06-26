@@ -111,11 +111,11 @@ const alignmentItemTooltip = computed(() => {
     height: 100%;
 }
 
-.card-rect.alignTop {
+.card-rect-player.alignTop {
     align-self: self-start;
 }
 
-.card-rect.alignBottom {
+.card-rect-player.alignBottom {
     align-self: self-end;
 }
 
