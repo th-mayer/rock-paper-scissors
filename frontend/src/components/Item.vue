@@ -35,7 +35,7 @@ const itemSymbol = computed(() => {
             return item.symbols[props.itemKind];
         }
         else if (props.itemKind >= 3 && props.itemKind <= 5) {
-            return item.symbols[props.itemKind-3];
+            return item.symbols[props.itemKind - 3];
         }
     }
     return "";
@@ -65,7 +65,7 @@ const itemDescription = computed(() => {
 const itemModifier = computed(() => {
     if (props.itemKind) {
         if (props.itemKind >= 0 && props.itemKind <= 5) {
-            return props.multiplier+"x";
+            return props.multiplier + "x";
         }
     }
     return "";
@@ -93,7 +93,8 @@ function hideTooltip() {
     </div>
     <div class="itemDiscription" v-if="onHover" ref="tooltip" :class="tooltipPositionClass">
         <h2>{{ itemName }}</h2>
-        <p>{{ itemDescription[0] }}<span class="highlighted">{{ itemModifier }}</span>{{ itemDescription[1] + itemSymbol + "."}}</p>
+        <p>{{ itemDescription[0] }}<span class="highlighted">{{ itemModifier }}</span>{{ itemDescription[1] + itemSymbol
+            + "." }}</p>
     </div>
 </template>
 
@@ -114,10 +115,10 @@ div.itemDiscription {
     border-color: $backshadow;
     border-width: 3px;
     border-style: solid;
-    z-index: 1000;
+    z-index: 1002;
 }
 
-div.itemDiv:hover > img {
+div.itemDiv:hover>img {
     border-color: $highlight-color;
     transition: 0.1s ease-in;
 }
@@ -132,11 +133,11 @@ div.itemDiscription>p {
     font-size: 3vh;
 }
 
-div.itemDiscription.tooltipUp{
+div.itemDiscription.tooltipUp {
     bottom: 23vh;
 }
 
-div.itemDiscription.tooltipDown{
+div.itemDiscription.tooltipDown {
     top: 25vh;
 }
 

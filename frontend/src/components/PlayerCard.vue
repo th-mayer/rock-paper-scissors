@@ -95,7 +95,7 @@ const alignmentItemTooltip = computed(() => {
     background-color: $base-color;
     padding: 20px;
     border-radius: 20px;
-    z-index: 10;
+    z-index: 1002;
     font-family: $main-font;
     letter-spacing: 1px;
     font-size: 5vh;
