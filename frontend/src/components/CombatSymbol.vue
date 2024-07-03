@@ -36,18 +36,25 @@ const pic = computed(() => {
 }
 
 .combat-symbol-img.player {
-    transform: translateY(-16vh) translateX(-16vw) rotate(-20deg);
+    transform: translateY(10vh) translateX(-16vw) rotate(-90deg) scale(0.4);
+    opacity: 20%;
+    transition: 2s;
 }
 
 .combat-symbol-img.enemy {
     transform: translateY(-10vh) translateX(16vw) rotate(90deg) scale(0.4);
-    opacity: 0%;
+    opacity: 20%;
     transition: 2s;
 }
 
 //needs to be replaced lateron
 div:hover .combat-symbol-img.enemy{
     transform: translateY(16vh) translateX(16vw) rotate(160deg) scale(1);
+    opacity: 100%;
+}
+
+div:hover .combat-symbol-img.player {
+    transform: translateY(-16vh) translateX(-16vw) rotate(-20deg) scale(1);
     opacity: 100%;
 }
 
