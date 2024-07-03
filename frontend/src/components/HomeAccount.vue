@@ -28,4 +28,8 @@ const { user } = storeToRefs(authStore);
 .acc-btn{
     margin: 0;
 }
+
+.flex-row{
+    justify-content: space-evenly;
+}
 </style>
