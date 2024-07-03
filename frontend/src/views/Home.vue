@@ -12,13 +12,13 @@ const { user } = storeToRefs(authStore);
 <template>
   <div v-if="user">
     <div class="home-grid-container">
-      <div class="homeItem">
+      <div class="home-container homeItem">
         <HomeAccount></HomeAccount>
       </div>
-      <div class="leaderboardItem">
+      <div class="leaderboard-container leaderboardItem">
         <Leaderboard></Leaderboard>
       </div>
-      <div class="previewItem">
+      <div class="preview-container previewItem">
         <ItemPreview></ItemPreview>
       </div>
       <div class="button-container buttonItem">
@@ -36,15 +36,16 @@ const { user } = storeToRefs(authStore);
 @import "../css/main.scss";
 
 .home-grid-container {
+  width: 100vw;
   display: grid;
   grid-template-columns: auto auto;
   justify-content: center;
   align-items: center;
+  column-gap: 15vh;
 }
 
 .Homecard {
   margin-top: 5vh;
-  margin-left: 5vh;
 }
 
 #match-button {
@@ -63,7 +64,7 @@ const { user } = storeToRefs(authStore);
   box-shadow: 7px 7px $highlight-color;
 }
 
-.button-container {
+.button-container, .preview-container, .leaderboard-container, .home-container {
   height: auto;
   display: flex;
   justify-content: center;
