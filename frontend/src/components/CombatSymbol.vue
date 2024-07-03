@@ -37,13 +37,13 @@ const pic = computed(() => {
 
 .combat-symbol-img.player {
     transform: translateY(10vh) translateX(-16vw) rotate(-90deg) scale(0.4);
-    opacity: 20%;
+    opacity: 40%;
     transition: 2s;
 }
 
 .combat-symbol-img.enemy {
     transform: translateY(-10vh) translateX(16vw) rotate(90deg) scale(0.4);
-    opacity: 20%;
+    opacity: 40%;
     transition: 2s;
 }
 

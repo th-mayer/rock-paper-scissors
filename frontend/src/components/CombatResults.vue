@@ -3,5 +3,5 @@ import CombatSymbol from './CombatSymbol.vue';
 </script>
 
 <template>
-<CombatSymbol :type="0" />
+<CombatSymbol :type="2" />
 </template>
