@@ -127,7 +127,7 @@ const SocketServer = (server: any) => {
     for (let match_id in running_matches) {
       if (match_id == m_id) {
         delete running_matches[match_id];
-        break;
+        return;
       }
     }
   });
