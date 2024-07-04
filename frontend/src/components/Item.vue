@@ -12,7 +12,7 @@ let onHover = ref(false);
 const item = reactive({
     names: ["Heavy Stone", "Sharp Paper", "Pointy Scissors", "Brittle Stone", "Soggy Paper", "Blunt Scissors", "Empty Slot"],
     symbols: ["Stone", "Paper", "Scissors"],
-    pictures: ["../../public/assets/rockdmg.png", "../../public/assets/paperdmg.png", "../../public/assets/scissorsdmg.png", "../../public/assets/rockdefense.png", "../../public/assets/paperdefense.png", "../../public/assets/scissorsdefense.png", "../../public/assets/empty.png"],
+    pictures: ["../../public/assets/rockdmg.png", "../../public/assets/paperdmg.png", "../../public/assets/scissorsdmg.png", "../../public/assets/rockdefense.png", "../../public/assets/paperdefense.png", "../../public/assets/scissorsdefense.png", "../../public/assets/empty2.png"],
     descriptionDmg1: "Equipped person deals ",
     descriptionDmg2: " times the damage when winning with ",
     descriptionPro1: "Equipped person receives only ",

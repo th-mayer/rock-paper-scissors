@@ -123,7 +123,6 @@ watchEffect(() => {
 .player-row{
   display: flex;
   height: 15vh;
-  width: 100vw;
   margin: 5vh;
 }
 
