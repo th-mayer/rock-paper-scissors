@@ -6,14 +6,21 @@ import ItemBox from './ItemBox.vue';
 
 const authStore = useAuthStore();
 const { user } = storeToRefs(authStore);
+
+const userExistingItems = user.value.items;
+console.log(userExistingItems);
+const exItem1 = userExistingItems[0];
+const exItem2 = userExistingItems[1];
+const exItem3 = userExistingItems[2];
+
 </script>
 
 <template>
     <Card title="Item manager" class="Homecard" id="itembox">
 
-        <ItemBox :tooltipUp="true" />
+        <ItemBox :item1="exItem1" :item2="exItem2" :item3="exItem3" :tooltipUp="true" />
 
-        <div class="flex-row">
+        <div class="flex-row" v-if="!(user.loading || user.error)">
             <router-link :to="`${user.id}/itemEdit`">
                 <button class="margin-top-10">
                     Configure Items
@@ -26,7 +33,7 @@ const { user } = storeToRefs(authStore);
 <style lang="scss">
 @import '../css/main.scss';
 
-#itembox{
+#itembox {
     height: fit-content;
 }
 

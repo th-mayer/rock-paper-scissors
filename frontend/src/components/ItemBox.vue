@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import Item from './Item.vue';
 
-const props = defineProps({
-    tooltipUp: Boolean,
-});
+const props = defineProps<{
+    tooltipUp: boolean,
+    item1: { kind: number, multiplier: number },
+    item2: { kind: number, multiplier: number },
+    item3: { kind: number, multiplier: number },
+}>();
 
 </script>
 
 <template>
     <div class="item-container">
-        <Item :item-kind="1" :multiplier="2.2" :tooltipUp="props.tooltipUp"/>
-        <Item :item-kind="3" :multiplier="88.22" :tooltipUp="props.tooltipUp"/>
-        <Item :item-kind="5" :multiplier="0.2" :tooltipUp="props.tooltipUp"/>
+        <Item :item-kind="item1?.kind" :multiplier="item1?.multiplier" :tooltipUp="props.tooltipUp"/>
+        <Item :item-kind="item2?.kind" :multiplier="item2?.multiplier" :tooltipUp="props.tooltipUp"/>
+        <Item :item-kind="item3?.kind" :multiplier="item3?.multiplier" :tooltipUp="props.tooltipUp"/>
     </div>
 </template>
 

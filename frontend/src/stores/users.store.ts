@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 import { fetchWrapper } from "../helpers/fetchWrapper";
 import { useAuthStore } from "./auth.store";
-import { ref } from "vue";
+import { Ref, ref } from "vue";
 
 const baseURL = `${import.meta.env.VITE_API_URL}/users`;
 
 export const useUserStore = defineStore("users", () => {
-  const user = ref();
-  const users = ref();
+  const user: Ref<null | any> = ref(null);
+  const users: Ref<null | any> = ref(null);
 
   async function register(user: any) {
     await fetchWrapper.post(`${baseURL}/register`, user);
@@ -33,7 +33,6 @@ export const useUserStore = defineStore("users", () => {
 
   async function update(id: any, params: any) {
     await fetchWrapper.put(`${baseURL}/${id}`, params);
-
     // if logged in user updates their profile, update user saved in localStorage
     const authStore = useAuthStore();
     if (id === authStore.user.id) {

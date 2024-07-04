@@ -21,6 +21,9 @@ export class DbUser {
       where: {
         username: username,
       },
+      include: {
+        items: true,
+      },
     });
 
     if (!user || !(await bcrypt.compare(hash, user.hash))) {
@@ -78,7 +81,12 @@ export class DbUser {
         wins: "desc",
       },
     });
-    const sanitizedUser: { id: number; username: string; itemCoin: number; wins: number; }[] = [];
+    const sanitizedUser: {
+      id: number;
+      username: string;
+      itemCoin: number;
+      wins: number;
+    }[] = [];
     users.forEach((user) => {
       const noHash = this.withoutHash(user);
       const noEmail = this.withoutEmail(noHash);

@@ -28,7 +28,7 @@ function authenticate(req: any, res: any, next: any) {
 function register(req: any, res: any, next: any) {
   dbUsers
     .createUser(req.body)
-    .then(() => res.json({ message: "Registration succesful" }))
+    .then(() => res.json({ message: "Registration successful" }))
     .catch(next);
 }
 

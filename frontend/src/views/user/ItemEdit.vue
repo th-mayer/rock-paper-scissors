@@ -1,38 +1,92 @@
 <script setup lang="ts">
-import ChooseNewItem from "../../components/ChooseNewItem.vue";
 import Card from "../../components/Card.vue";
 import Item from "../../components/Item.vue";
-import ItemPreview from "../../components/ItemPreview.vue";
+import { useRoute } from "vue-router";
+import { useUserStore } from "../../stores/users.store";
+import { storeToRefs } from "pinia";
+import { useAlertStore } from "../../stores/alert.store";
+import { Form, Field } from "vee-validate";
+import { generateRandomItem } from "../../helpers/randomItemGenerator";
 import ItemBox from "../../components/ItemBox.vue";
-import { Router } from "vue-router";
+import { ref } from "vue";
+
+const route = useRoute();
+const id = route.params.id;
+const userStore = useUserStore();
+let { user } = storeToRefs(userStore);
+userStore.getById(id);
+
+console.log({ user });
+
+const exItem1 = ref();
+const exItem2 = ref();
+const exItem3 = ref();
+const item1 = ref();
+const item2 = ref();
+const item3 = ref();
+
+function generateItems(){
+    const userExistingItems = user.value.items;
+    console.log(userExistingItems);
+    exItem1.value = userExistingItems[0];
+    exItem2.value = userExistingItems[1];
+    exItem3.value = userExistingItems[2];
+
+    item1.value = generateRandomItem();
+    item2.value = generateRandomItem();
+    item3.value = generateRandomItem();
+}
+
+async function onSubmit(values: any) {
+    const alertStore = useAlertStore();
+    console.log(values);
+    try {
+        await userStore.update(user.value.id, values);
+        alertStore.success("Items updated");
+    } catch (error) {
+        alertStore.error(error);
+    }
+}
 
 </script>
 
 <template>
-    <Card title="item manager" class="Homecard item-manager">
-        <p>Click on one old and on one new Item to swap them!</p>
-        <h2>equipped</h2>
-        <ItemBox />
-        <h2>Other items</h2>
-        <ItemBox />
-        <div class="btn-container">
-            <button class="btn">
-                save
-            </button>
-        </div>
-    </Card>
-
-    <!--     
-    <template v-if="user?.loading">
-        <div></div>
-        <span></span>
+    <template v-if="!(user?.loading || user?.error) && user.itemCoin > 0">
+        <Card title="item manager" class="Homecard item-manager">
+            <p>Click to generate new items to choose from!</p>
+            <button class="btn" @click="generateItems">Generate Items</button>
+            <template v-if="exItem1">
+                <h2>your equipped items</h2>
+                <Form @submit="onSubmit">
+                    <Item :itemKind=exItem1.kind :multiplier="exItem1.modifier">
+                        <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" />
+                    </Item>
+                    <Item :itemKind="exItem2.kind" :multiplier="exItem2.modifier">
+                        <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" />
+                    </Item>
+                    <Item :itemKind="exItem3.kind" :multiplier="exItem3.modifier">
+                        <Field name="exItem" type="radio" :value="exItem3.id" :unchecked-value="false" />
+                    </Item>
+                    <h2>new items</h2>
+                    <!-- <ItemBox>
+                            <Item :itemKind="item1.kind" :multiplier="item1.modifier" />
+                            <Field name="item" type="radio" :value="item1" :unchecked-value="false" />
+                        <Item :itemKind="item2.kind" :multiplier="item2.modifier">
+                            <Field name="item" type="radio" :value="item2" :unchecked-value="false" />
+                        </Item>
+                        <Item :itemKind="item3.kind" :multiplier="item3.modifier">
+                            <Field name="item" type="radio" :value="item3" :unchecked-value="false" />
+                        </Item>
+                    </ItemBox> -->
+                </Form>
+            </template>
+            <div class="btn-container">
+                <button class="btn">
+                    save
+                </button>
+            </div>
+        </Card>
     </template>
-<template v-if="user?.error">
-        <div>
-            <div>Error loading user: {{ user.error }}</div>
-        </div>
-    </template>
--->
 </template>
 
 <style lang="scss">
