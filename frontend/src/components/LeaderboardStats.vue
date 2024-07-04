@@ -29,7 +29,7 @@ hr{
     color: $bright-font-color;
     margin-left: 1vw;
     margin-right: 1vw;
-    transform: translateY(-1.2vh);
+    transform: translateY(1.2vh);
 }
 
 .wins{

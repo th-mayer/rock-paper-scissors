@@ -11,22 +11,22 @@ const { user } = storeToRefs(authStore);
 
 <template>
   <div v-if="user">
-    <div class="home-container">
-      <div class="flex-row">
-        <div class="flex-column">
-          <HomeAccount></HomeAccount>
-          <ItemPreview></ItemPreview>
-        </div>
-        <div class="flex-column">
-          <Leaderboard></Leaderboard>
-          <div class="button-container">
-            <router-link to="/game">
-              <button id="match-button" class="router-link-in-button">
-                Find Match
-              </button>
-            </router-link>
-          </div>
-        </div>
+    <div class="home-grid-container">
+      <div class="home-container homeItem">
+        <HomeAccount></HomeAccount>
+      </div>
+      <div class="leaderboard-container leaderboardItem">
+        <Leaderboard></Leaderboard>
+      </div>
+      <div class="preview-container previewItem">
+        <ItemPreview></ItemPreview>
+      </div>
+      <div class="button-container buttonItem">
+        <router-link to="/game">
+          <button id="match-button" class="router-link-in-button">
+            Find Match
+          </button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -35,21 +35,17 @@ const { user } = storeToRefs(authStore);
 <style lang="scss">
 @import "../css/main.scss";
 
-.flex-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-.flex-bottom-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+.home-grid-container {
+  width: 100vw;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  align-items: center;
+  column-gap: 15vh;
 }
 
 .Homecard {
   margin-top: 5vh;
-  margin-left: 5vh;
 }
 
 #match-button {
@@ -58,7 +54,8 @@ const { user } = storeToRefs(authStore);
   width: fit-content;
   margin-bottom: 3vh;
   font-size: 6vh;
-
+  border-radius: 5vh;
+  align-self: center;
 }
 
 #match-button:hover {
@@ -67,24 +64,9 @@ const { user } = storeToRefs(authStore);
   box-shadow: 7px 7px $highlight-color;
 }
 
-.button-container {
+.button-container, .preview-container, .leaderboard-container, .home-container {
   height: auto;
   display: flex;
   justify-content: center;
-  align-items: end;
-}
-
-.home-container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
 }
 </style>

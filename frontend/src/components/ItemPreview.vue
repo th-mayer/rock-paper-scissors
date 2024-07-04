@@ -27,7 +27,7 @@ const { user } = storeToRefs(authStore);
 @import '../css/main.scss';
 
 #itembox{
-    height: 15vh;
+    height: fit-content;
 }
 
 #itembox .item-container img {

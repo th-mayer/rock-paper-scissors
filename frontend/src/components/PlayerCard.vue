@@ -89,7 +89,7 @@ const alignmentItemTooltip = computed(() => {
     display: flex;
     flex-direction: row;
     position: relative;
-    height: 100%;
+    height: 85%;
     width: fit-content;
     margin: 0;
     background-color: $base-color;
@@ -114,6 +114,14 @@ const alignmentItemTooltip = computed(() => {
     overflow-x: hidden;
 }
 
+.name-and-hp p{
+    font-size: 3vh;
+}
+
+.name-and-hp h2 {
+    font-size: 4.5vh;
+    color: $secondary-color;
+}
 .card-rect-player.alignTop {
     align-self: self-start;
 }

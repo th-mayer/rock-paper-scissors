@@ -16,6 +16,7 @@ console.log({ user });
         <LeaderboardStats name="marco" wins="123" />
         <LeaderboardStats name="marco" wins="123" />
         <LeaderboardStats name="marco" wins="123" />
+        <LeaderboardStats name="marco" wins="123" />
     </Card>
 </template>
 
