@@ -2,7 +2,7 @@
 import PlayerCard from '../../components/PlayerCard.vue';
 import SymbolSelector from '../../components/SymbolSelector.vue';
 import CombatResult from '../../components/CombatResults.vue';
-import { Ref, ref, watchEffect } from 'vue';
+import { computed, Ref, ref, watchEffect } from 'vue';
 import { Socket, io } from 'socket.io-client';
 import { PlayerData } from '../../types/socket-connection-types';
 
@@ -14,7 +14,37 @@ let chosen_symbol: string = '' // currently chosen symbol as char ('r','p','s' o
 
 // TODO: rework this somehow, looks weird
 let opponent_status: Ref;
-let me_status : Ref;
+let player_status : Ref;
+
+const opponent_name = computed(()=>{
+  if (opponent_status) return opponent_status.value.name;
+  else return "Opponent";
+}) 
+
+const opponent_wins = computed(()=>{
+  if (opponent_status) return opponent_status.value.wins;
+  else return 0;
+})
+
+const opponent_items = computed(()=>{
+  if (opponent_status) return opponent_status.value.items;
+  else return undefined;
+})
+
+const player_name = computed(()=>{
+  if (player_status) return player_status.value.name;
+  else return "You";
+}) 
+
+const player_wins = computed(()=>{
+  if (player_status) return player_status.value.wins;
+  else return 0;
+})
+
+const player_items = computed(()=>{
+  if (player_status) return player_status.value.items;
+  else return undefined;
+})
 
 // move this function to its own file?
 function confirmSymbolChoice(symbol: string) { // call to send chosen symbol to server
@@ -51,7 +81,7 @@ watchEffect(() => {
     // recheck https://vuejs.org/api/sfc-script-setup.html reactivity, if this is done the right way
     // assign values for ui updates
     opponent_status = ref(opponent);
-    me_status = ref(me);
+    player_status = ref(me);
     console.log(socket_log + "Found match");
   })
 
@@ -67,22 +97,17 @@ watchEffect(() => {
 
 })
 
-const props = defineProps({
-  enemyName: String,
-  playerName: String
-});
-
 </script>
 
 <template>
   <div class="top-and-bottom">
     <div class="player-row">
-      <PlayerCard name="trinkl" wins=234234 class="enemy" :topbar="true"/>
+      <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" class="enemy" :topbar="true"/>
     </div>
     <SymbolSelector @confirm-symbol="confirmSymbolChoice"/>
     <CombatResult />
     <div class="player-row right">
-      <PlayerCard name="professorClever69" wins="123" class="player" />
+      <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" class="player" :topbar="false" />
     </div>
   </div>
 </template>

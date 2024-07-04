@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import Item from './Item.vue';
+import ItemComp from './Item.vue';
+import { Item } from "../types/socket-connection-types"
 
 const props = defineProps<{
     tooltipUp: boolean,
-    item1: { kind: number, multiplier: number },
-    item2: { kind: number, multiplier: number },
-    item3: { kind: number, multiplier: number },
+    item1: Item,
+    item2: Item,
+    item3: Item,
 }>();
 
 </script>
 
 <template>
     <div class="item-container">
-        <Item :item-kind="item1?.kind" :multiplier="item1?.multiplier" :tooltipUp="props.tooltipUp"/>
-        <Item :item-kind="item2?.kind" :multiplier="item2?.multiplier" :tooltipUp="props.tooltipUp"/>
-        <Item :item-kind="item3?.kind" :multiplier="item3?.multiplier" :tooltipUp="props.tooltipUp"/>
+        <ItemComp :item-kind="item1?.kind" :multiplier="item1?.modifier" :tooltipUp="props.tooltipUp"/>
+        <ItemComp :item-kind="item2?.kind" :multiplier="item2?.modifier" :tooltipUp="props.tooltipUp"/>
+        <ItemComp :item-kind="item3?.kind" :multiplier="item3?.modifier" :tooltipUp="props.tooltipUp"/>
     </div>
 </template>
 

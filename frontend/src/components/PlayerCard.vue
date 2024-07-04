@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { Ref, computed, onMounted, ref } from "vue";
 import ItemBox from "./ItemBox.vue";
+import { Item } from "../types/socket-connection-types"
 
-const props = defineProps({
-    name: String,
-    wins: String,
-    startHealth: Number,
-    topbar: Boolean,
-});
+const props = defineProps<{
+    name: string,
+    wins: string,
+    topbar: boolean,
+    items: Array<Item>
+}>();
 
 const hb: Ref<HTMLElement | undefined> = ref();
 const hbred: Ref<HTMLElement | undefined> = ref();
@@ -15,6 +16,14 @@ const hbblue: Ref<HTMLElement | undefined> = ref();
 
 const maxHealth = 100;
 let health = maxHealth;
+
+const items = computed(()=>{
+    if (props.items) return props.items;
+    else {
+        let placeholder: Item = {kind: 99, modifier: 1};
+        return [placeholder,placeholder,placeholder];
+    }
+})
 
 function updateBar() {
     const targetWidth = health * (100 / maxHealth) + "%";
@@ -45,14 +54,13 @@ const alignmentClass = computed(() => {
 });
 
 const alignmentItemTooltip = computed(() => {
-    if (props.topbar) return false;
-    else return true;
+    return props.topbar;
 });
 </script>
 
 <template>
     <div class="card-rect-player" :class="alignmentClass">
-        <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" style="margin-right: 3vw;" />
+        <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]" :item3="items[2]" style="margin-right: 3vw;" />
         <div class="name-and-hp">
             <div>
                 <h2>{{ name }}</h2>
@@ -66,7 +74,7 @@ const alignmentItemTooltip = computed(() => {
                 </div>
             </div>
         </div>
-        <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip" style="margin-left: 3vw;" />
+        <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip"  :item1="items[0]" :item2="items[1]" :item3="items[2]"  style="margin-left: 3vw;" />
     </div>
 
     <div class="column">
