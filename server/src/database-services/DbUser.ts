@@ -21,9 +21,6 @@ export class DbUser {
       where: {
         username: username,
       },
-      include: {
-        items: true,
-      },
     });
 
     if (!user || !(await bcrypt.compare(hash, user.hash))) {
@@ -114,10 +111,8 @@ export class DbUser {
                 id: data.exItem,
               },
               data: {
-                name: data.item.name,
-                description: data.item.description,
-                modifier: data.item.modifier,
                 kind: data.item.kind,
+                modifier: data.item.modifier,
               },
             },
           },

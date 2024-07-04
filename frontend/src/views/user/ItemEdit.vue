@@ -25,7 +25,9 @@ const item1 = ref();
 const item2 = ref();
 const item3 = ref();
 
-function generateItems(){
+// defineEmits(["choose-item"]);
+
+function generateItems() {
     const userExistingItems = user.value.items;
     console.log(userExistingItems);
     exItem1.value = userExistingItems[0];
@@ -48,6 +50,16 @@ async function onSubmit(values: any) {
     }
 }
 
+// TODO actual validation
+const schema = {
+    item: (value: any) => {
+        if (value) {
+            return true;
+        }
+        return "Choose an Item!";
+    }
+}
+
 </script>
 
 <template>
@@ -55,35 +67,35 @@ async function onSubmit(values: any) {
         <Card title="item manager" class="Homecard item-manager">
             <p>Click to generate new items to choose from!</p>
             <button class="btn" @click="generateItems">Generate Items</button>
-            <template v-if="exItem1">
+            <div v-if="exItem1">
                 <h2>your equipped items</h2>
-                <Form @submit="onSubmit">
-                    <Item :itemKind=exItem1.kind :multiplier="exItem1.modifier">
+                <Form @submit="onSubmit" :validation-schema="schema">
+                    <!-- <ItemBox :item1="exItem1" :item2="exItem2" :item3="exItem3" :tooltip-up="true" /> -->
+                    <!-- <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" /> -->
+                    <div class="item-container">
+                        <Item :itemKind=exItem1.kind :multiplier="exItem1.modifier"/>
                         <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" />
-                    </Item>
-                    <Item :itemKind="exItem2.kind" :multiplier="exItem2.modifier">
-                        <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" />
-                    </Item>
-                    <Item :itemKind="exItem3.kind" :multiplier="exItem3.modifier">
+                        <Item :itemKind="exItem2.kind" :multiplier="exItem2.modifier" />
+                        <Field name="exItem" type="radio" :value="exItem2.id" :unchecked-value="false" />
+                        <Item :itemKind="exItem3.kind" :multiplier="exItem3.modifier" />
                         <Field name="exItem" type="radio" :value="exItem3.id" :unchecked-value="false" />
-                    </Item>
+                    </div>
                     <h2>new items</h2>
-                    <!-- <ItemBox>
-                            <Item :itemKind="item1.kind" :multiplier="item1.modifier" />
-                            <Field name="item" type="radio" :value="item1" :unchecked-value="false" />
-                        <Item :itemKind="item2.kind" :multiplier="item2.modifier">
-                            <Field name="item" type="radio" :value="item2" :unchecked-value="false" />
-                        </Item>
-                        <Item :itemKind="item3.kind" :multiplier="item3.modifier">
-                            <Field name="item" type="radio" :value="item3" :unchecked-value="false" />
-                        </Item>
-                    </ItemBox> -->
+                    <div class="item-container">
+                        <!-- <ItemBox :item1="item1" :item2="item2" :item3="item3" :tooltip-up="true" /> -->
+                        <Item :itemKind="item1.kind" :multiplier="item1.modifier" />
+                        <Field name="item" type="radio" :value="item1" :unchecked-value="false" />
+                        <Item :itemKind="item2.kind" :multiplier="item2.modifier" />
+                        <Field name="item" type="radio" :value="item2" :unchecked-value="false" />
+                        <Item :itemKind="item3.kind" :multiplier="item3.modifier" />
+                        <Field name="item" type="radio" :value="item3" :unchecked-value="false" />
+                    </div>
+                    <div class="btn-container">
+                        <button class="btn">
+                            save
+                        </button>
+                    </div>
                 </Form>
-            </template>
-            <div class="btn-container">
-                <button class="btn">
-                    save
-                </button>
             </div>
         </Card>
     </template>
