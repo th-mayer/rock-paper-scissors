@@ -54,7 +54,7 @@ const alignmentClass = computed(() => {
 });
 
 const alignmentItemTooltip = computed(() => {
-    return props.topbar;
+    return !props.topbar;
 });
 </script>
 

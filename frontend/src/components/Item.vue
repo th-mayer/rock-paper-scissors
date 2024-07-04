@@ -47,7 +47,7 @@ const itemPic = computed(() => {
             return item.pictures[props.itemKind];
         }
     }
-    return item.names[6];
+    return item.pictures[6];
 })
 
 const itemDescription = computed(() => {
