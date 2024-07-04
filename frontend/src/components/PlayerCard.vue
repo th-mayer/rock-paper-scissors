@@ -34,16 +34,6 @@ function updateBar() {
 
 }
 
-function damage() {
-    health = Math.max(0, health - 30); // Ensure health does not go below 0
-    updateBar();
-}
-
-function heal() {
-    health = Math.min(100, health + 30); // Ensure health does not go below 0
-    updateBar();
-}
-
 onMounted(() => {
     updateBar(); // Initialize the health bar on component mount
 });
@@ -76,12 +66,6 @@ const alignmentItemTooltip = computed(() => {
         </div>
         <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip"  :item1="items[0]" :item2="items[1]" :item3="items[2]"  style="margin-left: 3vw;" />
     </div>
-
-    <div class="column">
-        <button @click="damage" class="add-damage btn" type="button">Damage</button>
-        <button @click="heal" class="add-heal btn" type="button">Heal</button>
-    </div>
-
 </template>
 
 <style lang="scss">
