@@ -9,7 +9,7 @@ export type Match = {
 
 export type Player = {
   name: string;
-  level: number;
+  wins: number;
   items: Item[];
   socket: Socket;
 };
@@ -44,15 +44,13 @@ export type GameInstance = {
 // };
 
 export type Item = {
-  name: string;
-  description: string;
   kind: number;
   modifier: number;
 };
 
 export type PlayerData = {
   name: string;
-  level: number;
+  wins: number;
   health: number;
   items: Item[];
 };
