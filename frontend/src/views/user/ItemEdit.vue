@@ -9,6 +9,7 @@ import { Form, Field } from "vee-validate";
 import { generateRandomItem } from "../../helpers/randomItemGenerator";
 import ItemBox from "../../components/ItemBox.vue";
 import { ref } from "vue";
+import { number, object } from "yup";
 
 const route = useRoute();
 const id = route.params.id;
@@ -51,14 +52,13 @@ async function onSubmit(values: any) {
 }
 
 // TODO actual validation
-const schema = {
-    item: (value: any) => {
-        if (value) {
-            return true;
-        }
-        return "Choose an Item!";
-    }
-}
+const schema = object({
+    exItem: number().required(),
+    item: object({
+        kind: number(),
+        modifier: number()
+    }).required(),
+});
 
 </script>
 
