@@ -7,7 +7,6 @@ import { storeToRefs } from "pinia";
 import { useAlertStore } from "../../stores/alert.store";
 import { Form, Field } from "vee-validate";
 import { generateRandomItem } from "../../helpers/randomItemGenerator";
-import ItemBox from "../../components/ItemBox.vue";
 import { ref } from "vue";
 import { number, object } from "yup";
 
@@ -26,18 +25,18 @@ const item1 = ref();
 const item2 = ref();
 const item3 = ref();
 
-// defineEmits(["choose-item"]);
-
 function generateItems() {
-    const userExistingItems = user.value.items;
-    console.log(userExistingItems);
-    exItem1.value = userExistingItems[0];
-    exItem2.value = userExistingItems[1];
-    exItem3.value = userExistingItems[2];
-
+    getUserExistingItems();
     item1.value = generateRandomItem();
     item2.value = generateRandomItem();
     item3.value = generateRandomItem();
+}
+
+function getUserExistingItems(){
+    const userExistingItems = user.value.items;
+    exItem1.value = userExistingItems[0];
+    exItem2.value = userExistingItems[1];
+    exItem3.value = userExistingItems[2];
 }
 
 async function onSubmit(values: any) {
@@ -46,12 +45,16 @@ async function onSubmit(values: any) {
     try {
         await userStore.update(user.value.id, values);
         alertStore.success("Items updated");
+        // update existing items view
+        await userStore.getById(id);
+        console.log("2nd log");
+        console.log({ user });
+        getUserExistingItems();
     } catch (error) {
         alertStore.error(error);
     }
 }
 
-// TODO actual validation
 const schema = object({
     exItem: number().required(),
     item: object({
@@ -63,6 +66,13 @@ const schema = object({
 </script>
 
 <template>
+    <template v-if="!(user?.loading || user?.error) && user.itemCoin < 1">
+        <Card title="item manager" class="Homecard item-manager">
+            <div>
+                You don't have any item coins to redeem! Win a match to get an item coin!
+            </div>
+        </Card>
+    </template>
     <template v-if="!(user?.loading || user?.error) && user.itemCoin > 0">
         <Card title="item manager" class="Homecard item-manager">
             <p>Click to generate new items to choose from!</p>
@@ -98,6 +108,10 @@ const schema = object({
                 </Form>
             </div>
         </Card>
+    </template>
+    <template v-if="user.loading">
+        <!-- TODO loading spinner -->
+         <div>loading</div>
     </template>
 </template>
 

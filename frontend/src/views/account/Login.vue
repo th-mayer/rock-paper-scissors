@@ -10,7 +10,6 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values: any) {
-  console.log(values);
   const authStore = useAuthStore();
   const { username, hash } = values;
   await authStore.login(username, hash);
