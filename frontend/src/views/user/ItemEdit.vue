@@ -16,8 +16,6 @@ const userStore = useUserStore();
 let { user } = storeToRefs(userStore);
 userStore.getById(id);
 
-console.log({ user });
-
 const exItem1 = ref();
 const exItem2 = ref();
 const exItem3 = ref();
@@ -41,14 +39,11 @@ function getUserExistingItems(){
 
 async function onSubmit(values: any) {
     const alertStore = useAlertStore();
-    console.log(values);
     try {
         await userStore.update(user.value.id, values);
         alertStore.success("Items updated");
         // update existing items view
         await userStore.getById(id);
-        console.log("2nd log");
-        console.log({ user });
         getUserExistingItems();
     } catch (error) {
         alertStore.error(error);

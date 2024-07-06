@@ -4,9 +4,9 @@ import { Item } from "../types/socket-connection-types"
 
 const props = defineProps<{
     tooltipUp: boolean,
-    item1: Item,
-    item2: Item,
-    item3: Item,
+    item1: Item | null,
+    item2: Item | null,
+    item3: Item | null,
 }>();
 
 </script>
