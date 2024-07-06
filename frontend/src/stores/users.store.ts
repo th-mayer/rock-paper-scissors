@@ -53,5 +53,5 @@ export const useUserStore = defineStore("users", () => {
     }
   }
 
-  return { user, register, getById, getLeaderboard, update, updateItemCoin };
+  return { user, users, register, getById, getLeaderboard, update, updateItemCoin };
 });

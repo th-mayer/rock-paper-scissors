@@ -89,7 +89,6 @@ export class DbUser {
       const noEmail = this.withoutEmail(noHash);
       sanitizedUser.push(noEmail);
     });
-    console.log(sanitizedUser);
     return sanitizedUser;
   }
 
