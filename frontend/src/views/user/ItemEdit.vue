@@ -64,7 +64,7 @@ const schema = object({
     <template v-if="!(user?.loading || user?.error) && user.itemCoin < 1">
         <Card title="item manager" class="Homecard item-manager">
             <div>
-                You don't have any item coins to redeem! Win a match to get an item coin!
+                <p>You don't have any item coins to redeem! Win a match to get an item coin!</p>
             </div>
         </Card>
     </template>
@@ -78,7 +78,7 @@ const schema = object({
                     <!-- <ItemBox :item1="exItem1" :item2="exItem2" :item3="exItem3" :tooltip-up="true" /> -->
                     <!-- <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" /> -->
                     <div class="item-container">
-                        <Item :itemKind=exItem1.kind :multiplier="exItem1.modifier"/>
+                        <Item :itemKind=exItem1.kind :multiplier="exItem1.modifier" />
                         <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" />
                         <Item :itemKind="exItem2.kind" :multiplier="exItem2.modifier" />
                         <Field name="exItem" type="radio" :value="exItem2.id" :unchecked-value="false" />
@@ -106,7 +106,7 @@ const schema = object({
     </template>
     <template v-if="user.loading">
         <!-- TODO loading spinner -->
-         <div>loading</div>
+        <div>loading</div>
     </template>
 </template>
 
@@ -117,7 +117,17 @@ const schema = object({
     height: 20vh;
 }
 
+.item-manager{
+    height: 85vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .item-manager h2 {
     margin-top: 5vh;
+}
+
+.item-manager p{
+    padding: 1vh;
 }
 </style>
