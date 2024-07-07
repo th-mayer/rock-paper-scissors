@@ -46,7 +46,7 @@ async function onSubmit(values: any) {
         await userStore.getById(id);
         getUserExistingItems();
     } catch (error) {
-        alertStore.error(error);
+        alertStore.error("could not save changes");
     }
 }
 
@@ -61,7 +61,7 @@ const schema = object({
 </script>
 
 <template>
-    <template v-if="!(user?.loading || user?.error) && user.itemCoin < 1">
+    <template v-if="!(user?.loading || user?.error) && user.itemCoin > 0">
         <Card title="item manager" class="Homecard item-manager">
             <div>
                 <p>You don't have any item coins to redeem! Win a match to get an item coin!</p>
@@ -75,7 +75,7 @@ const schema = object({
             </div>
         </Card>
     </template>
-    <template v-if="!(user?.loading || user?.error) && user.itemCoin > 0">
+    <template v-if="!(user?.loading || user?.error) && user.itemCoin < 1">
         <Card title="item manager" class="Homecard item-manager">
             <p>Click to generate new items to choose from!</p>
             <button class="btn" @click="generateItems">Generate Items</button>
@@ -85,21 +85,23 @@ const schema = object({
                     <!-- <ItemBox :item1="exItem1" :item2="exItem2" :item3="exItem3" :tooltip-up="true" /> -->
                     <!-- <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" /> -->
                     <div class="item-container">
-                        <Item :itemKind=exItem1.kind :multiplier="exItem1.modifier" />
-                        <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" />
-                        <Item :itemKind="exItem2.kind" :multiplier="exItem2.modifier" />
-                        <Field name="exItem" type="radio" :value="exItem2.id" :unchecked-value="false" />
-                        <Item :itemKind="exItem3.kind" :multiplier="exItem3.modifier" />
+                        <Item :itemKind=exItem1.kind :multiplier="exItem1.modifier" :tooltipUp="false" />
+                        <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false"
+                            :tooltipUp="false" />
+                        <Item :itemKind="exItem2.kind" :multiplier="exItem2.modifier" :tooltipUp="false" />
+                        <Field name="exItem" type="radio" :value="exItem2.id" :unchecked-value="false"
+                            :tooltipUp="false" />
+                        <Item :itemKind="exItem3.kind" :multiplier="exItem3.modifier" :tooltipUp="false" />
                         <Field name="exItem" type="radio" :value="exItem3.id" :unchecked-value="false" />
                     </div>
                     <h2>new items</h2>
                     <div class="item-container">
                         <!-- <ItemBox :item1="item1" :item2="item2" :item3="item3" :tooltip-up="true" /> -->
-                        <Item :itemKind="item1.kind" :multiplier="item1.modifier" />
+                        <Item :itemKind="item1.kind" :multiplier="item1.modifier" :tooltipUp="false" />
                         <Field name="item" type="radio" :value="item1" :unchecked-value="false" />
-                        <Item :itemKind="item2.kind" :multiplier="item2.modifier" />
+                        <Item :itemKind="item2.kind" :multiplier="item2.modifier" :tooltipUp="false" />
                         <Field name="item" type="radio" :value="item2" :unchecked-value="false" />
-                        <Item :itemKind="item3.kind" :multiplier="item3.modifier" />
+                        <Item :itemKind="item3.kind" :multiplier="item3.modifier" :tooltipUp="false" />
                         <Field name="item" type="radio" :value="item3" :unchecked-value="false" />
                     </div>
                     <div class="btn-container">

@@ -29,7 +29,7 @@ async function onSubmit(values: any) {
     await router.push("/users");
     alertStore.success("User updated");
   } catch (err) {
-    alertStore.error(err);
+    alertStore.error("could not save changes");
   }
 }
 </script>

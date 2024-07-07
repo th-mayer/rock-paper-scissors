@@ -17,11 +17,11 @@ const exItem2 = ref<Item | null>(null);
 const exItem3 = ref<Item | null>(null);
 
 onBeforeMount(async () => {
-    await userStore.getById(authUser.value.id);
-    const userExistingItems = user.value.items;
-    exItem1.value = userExistingItems[0];
-    exItem2.value = userExistingItems[1];
-    exItem3.value = userExistingItems[2];
+  await userStore.getById(authUser.value.id);
+  const userExistingItems = user.value.items;
+  exItem1.value = userExistingItems[0];
+  exItem2.value = userExistingItems[1];
+  exItem3.value = userExistingItems[2];
 });
 </script>
 
