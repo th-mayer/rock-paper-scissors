@@ -85,7 +85,7 @@ const schema = object({
                     <!-- <ItemBox :item1="exItem1" :item2="exItem2" :item3="exItem3" :tooltip-up="true" /> -->
                     <!-- <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" /> -->
                     <div class="item-container">
-                        <Item :itemKind=exItem1.kind :multiplier="exItem1.modifier" :tooltipUp="true" />
+                        <Item :itemKind="exItem1.kind" :multiplier="exItem1.modifier" :tooltipUp="true" />
                         <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false"
                             :tooltipUp="false" />
                         <Item :itemKind="exItem2.kind" :multiplier="exItem2.modifier" :tooltipUp="true" />
@@ -97,11 +97,11 @@ const schema = object({
                     <h2>new items</h2>
                     <div class="item-container">
                         <!-- <ItemBox :item1="item1" :item2="item2" :item3="item3" :tooltip-up="true" /> -->
-                        <Item :itemKind=item1.kind :multiplier=item1.modifier :tooltipUp="false" />
+                        <Item :itemKind="item1.kind" :multiplier="item1.modifier" :tooltipUp="false" />
                         <Field name="item" type="radio" :value="item1" :unchecked-value="false" />
-                        <Item :itemKind=item2.kind :multiplier=item2.modifier :tooltipUp="false" />
+                        <Item :itemKind="item2.kind" :multiplier="item2.modifier" :tooltipUp="false" />
                         <Field name="item" type="radio" :value="item2" :unchecked-value="false" />
-                        <Item :itemKind=item3.kind :multiplier=item3.modifier :tooltipUp="false" />
+                        <Item :itemKind="item3.kind" :multiplier="item3.modifier" :tooltipUp="false" />
                         <Field name="item" type="radio" :value="item3" :unchecked-value="false" />
                     </div>
                     <div class="btn-container">
