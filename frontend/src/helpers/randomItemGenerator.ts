@@ -3,7 +3,7 @@ import { Item } from "../types/socket-connection-types";
 // TODO finetune modifier values
 export function generateRandomItem() {
   let modifier: any;
-  const kind = getRandomInt(5);
+  const kind = getRandomInt(6);
   switch (kind) {
     case 0:
       // 0 = dmg_r
@@ -33,6 +33,7 @@ export function generateRandomItem() {
     default:
       throw Error("Error when generating Item");
   }
+  console.log("kind: "+kind+" mod: "+modifier)
   return { kind, modifier };
 }
 

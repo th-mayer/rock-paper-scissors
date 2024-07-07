@@ -97,11 +97,11 @@ const schema = object({
                     <h2>new items</h2>
                     <div class="item-container">
                         <!-- <ItemBox :item1="item1" :item2="item2" :item3="item3" :tooltip-up="true" /> -->
-                        <Item :itemKind="item1.kind" :multiplier="item1.modifier" :tooltipUp="false" />
+                        <Item :itemKind=item1.kind :multiplier=item1.modifier :tooltipUp="false" />
                         <Field name="item" type="radio" :value="item1" :unchecked-value="false" />
-                        <Item :itemKind="item2.kind" :multiplier="item2.modifier" :tooltipUp="false" />
+                        <Item :itemKind=item2.kind :multiplier=item2.modifier :tooltipUp="false" />
                         <Field name="item" type="radio" :value="item2" :unchecked-value="false" />
-                        <Item :itemKind="item3.kind" :multiplier="item3.modifier" :tooltipUp="false" />
+                        <Item :itemKind=item3.kind :multiplier=item3.modifier :tooltipUp="false" />
                         <Field name="item" type="radio" :value="item3" :unchecked-value="false" />
                     </div>
                     <div class="btn-container">
