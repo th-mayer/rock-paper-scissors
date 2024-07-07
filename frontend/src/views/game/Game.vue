@@ -23,9 +23,16 @@ let match_id: string // socket room and key for servers match dict
 let game_phase: GamePhase = 3; // current game phase
 let chosen_symbol: string = '' // currently chosen symbol as char ('r','p','s' or '')
 
+let my_health = 100;
+let opp_health = 100;
+let my_symbol = "";
+let opp_symbol = "";
+
 // TODO: rework this somehow, looks weird
 let opponent_status: Ref;
 let player_status : Ref;
+
+const oppHp = ref(100);
 
 const opponent_name = computed(()=>{
   if (opponent_status) return opponent_status.value.name;
@@ -95,10 +102,10 @@ function confirmSymbolChoice(symbol: string) { // call to send chosen symbol to 
 
   socket.on("combat-round", (data) => { // called if both symbols are collected by server and combat was calculated by server
     // data contains the coosen symbol of player and opponent, and damage dealt
-    let my_new_health = data.myLife;
-    let my_symbol = data.mySymbol;
-    let opp_new_health = data.oppLife;
-    let opp_symbol = data.oppSymbol;
+    my_health = data.myLife;
+    my_symbol = data.mySymbol;
+    opp_health = data.oppLife;
+    opp_symbol = data.oppSymbol;
 
     game_phase = GamePhase.COMBAT;
   })
@@ -106,22 +113,22 @@ function confirmSymbolChoice(symbol: string) { // call to send chosen symbol to 
 </script>
 
 <template>
-  <loading-screen v-if="game_phase == GamePhase.BE_ADDED || game_phase == GamePhase.WAIT_QUEUE">
+  <div v-if="game_phase == GamePhase.BE_ADDED || game_phase == GamePhase.WAIT_QUEUE">
     <LoadingScreenComp />
-  </loading-screen>
-  <game-screen class="top-and-bottom" v-if="game_phase == GamePhase.SELECTION || game_phase == GamePhase.COMBAT">
-    <opponent-section class="player-row">
-      <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" class="enemy" :topbar="true"/>
-    </opponent-section>
+  </div>
+  <div class="top-and-bottom" v-if="game_phase == GamePhase.SELECTION || game_phase == GamePhase.COMBAT">
+    <div class="player-row">
+      <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" :health=opp_health class="enemy" :topbar="true"/>
+    </div>
     <SymbolSelector @confirm-symbol="confirmSymbolChoice" v-if="game_phase == GamePhase.SELECTION"/>
     <CombatResult />
-    <player-section class="player-row right">
-      <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" class="player" :topbar="false"/>
-    </player-section>
-  </game-screen>
-  <end-screen v-if="game_phase == GamePhase.END">
+    <div class="player-row right">
+      <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health=my_health class="player" :topbar="false"/>
+    </div>
+  </div>
+  <div v-if="game_phase == GamePhase.END">
     <EndScreenComp />
-  </end-screen>
+  </div>
 </template>
 
 <style lang="scss">

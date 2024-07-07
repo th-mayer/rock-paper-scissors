@@ -17,7 +17,7 @@ const item = reactive({
     descriptionDmg2: " times the damage when winning with ",
     descriptionPro1: "Equipped person receives only ",
     descriptionPro2: " times the damage when loosing aginst ",
-    descriptionEmpt: "Win a match to be able to place an item here",
+    descriptionEmpt: "Owner needs to win a match to be able to place an item here",
 })
 
 const itemName = computed(() => {
