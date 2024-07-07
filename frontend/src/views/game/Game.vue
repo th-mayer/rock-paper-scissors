@@ -2,19 +2,37 @@
 import PlayerCard from '../../components/PlayerCard.vue';
 import SymbolSelector from '../../components/SymbolSelector.vue';
 import CombatResult from '../../components/CombatResults.vue';
-import { computed, Ref, ref, watchEffect } from 'vue';
-import { Socket, io } from 'socket.io-client';
+import LoadingScreenComp from '../../components/LoadingScreen.vue';
+import EndScreenComp from '../../components/EndScreen.vue';
+import { computed, Ref, ref } from 'vue';
+import { io } from 'socket.io-client';
 import { PlayerData } from '../../types/socket-connection-types';
 
 const socket = io(import.meta.env.VITE_API_URL);
 
+enum GamePhase {
+  BE_ADDED,
+  WAIT_QUEUE,
+  SELECTION,
+  COMBAT,
+  END
+}
+
 const socket_log: string = "[socket]: " // logging prefix
 let match_id: string // socket room and key for servers match dict
+let game_phase: GamePhase = 3; // current game phase
 let chosen_symbol: string = '' // currently chosen symbol as char ('r','p','s' or '')
+
+let my_health = 100;
+let opp_health = 100;
+let my_symbol = "";
+let opp_symbol = "";
 
 // TODO: rework this somehow, looks weird
 let opponent_status: Ref;
 let player_status : Ref;
+
+const oppHp = ref(100);
 
 const opponent_name = computed(()=>{
   if (opponent_status) return opponent_status.value.name;
@@ -59,20 +77,10 @@ function confirmSymbolChoice(symbol: string) { // call to send chosen symbol to 
   }
 }
 
-// watch Socket events
-watchEffect(() => {
-  socket.on("connect", () => {
-    console.log(socket);
-
-    // socket.emit("gn", { name: "steph" });
-    // socket.on("gm", (arg) => {
-    //   console.log(arg);
-    // })
-  });
-
   socket.on("matchmaking-active", (m_id) => { // called if client was added to matchmaking
     match_id = m_id
     console.log(socket_log + "Matchmaking active")
+    game_phase = GamePhase.WAIT_QUEUE;
   })
 
   socket.on("initiate-match", (opponent: PlayerData, me: PlayerData, m_id: string) => { // called if a match was found
@@ -83,6 +91,7 @@ watchEffect(() => {
     opponent_status = ref(opponent);
     player_status = ref(me);
     console.log(socket_log + "Found match");
+    game_phase = GamePhase.SELECTION;
   })
 
   socket.on("choose-timeout", () => { // called if choosing timer runns out
@@ -93,22 +102,32 @@ watchEffect(() => {
 
   socket.on("combat-round", (data) => { // called if both symbols are collected by server and combat was calculated by server
     // data contains the coosen symbol of player and opponent, and damage dealt
-  })
+    my_health = data.myLife;
+    my_symbol = data.mySymbol;
+    opp_health = data.oppLife;
+    opp_symbol = data.oppSymbol;
 
-})
+    game_phase = GamePhase.COMBAT;
+  })
 
 </script>
 
 <template>
-  <div class="top-and-bottom">
+  <div v-if="game_phase == GamePhase.BE_ADDED || game_phase == GamePhase.WAIT_QUEUE">
+    <LoadingScreenComp />
+  </div>
+  <div class="top-and-bottom" v-if="game_phase == GamePhase.SELECTION || game_phase == GamePhase.COMBAT">
     <div class="player-row">
-      <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" class="enemy" :topbar="true"/>
+      <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" :health=opp_health class="enemy" :topbar="true"/>
     </div>
-    <SymbolSelector @confirm-symbol="confirmSymbolChoice"/>
+    <SymbolSelector @confirm-symbol="confirmSymbolChoice" v-if="game_phase == GamePhase.SELECTION"/>
     <CombatResult />
     <div class="player-row right">
-      <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" class="player" :topbar="false" />
+      <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health=my_health class="player" :topbar="false"/>
     </div>
+  </div>
+  <div v-if="game_phase == GamePhase.END">
+    <EndScreenComp />
   </div>
 </template>
 

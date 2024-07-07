@@ -1,21 +1,25 @@
 <script setup lang="ts">
-import { Ref, computed, onMounted, ref } from "vue";
+import { Ref, computed, onMounted, ref, watch } from "vue";
 import ItemBox from "./ItemBox.vue";
 import { Item } from "../types/socket-connection-types"
 
 const props = defineProps<{
     name: string,
-    wins: string,
+    wins: number,
     topbar: boolean,
+    health: number,
     items: Array<Item>
 }>();
+
+watch(() => props.health, () => {
+  updateBar();
+});
 
 const hb: Ref<HTMLElement | undefined> = ref();
 const hbred: Ref<HTMLElement | undefined> = ref();
 const hbblue: Ref<HTMLElement | undefined> = ref();
 
 const maxHealth = 100;
-let health = maxHealth;
 
 const items = computed(()=>{
     if (props.items) return props.items;
@@ -26,16 +30,15 @@ const items = computed(()=>{
 })
 
 function updateBar() {
-    const targetWidth = health * (100 / maxHealth) + "%";
+    const targetWidth = props.health * (100 / maxHealth) + "%";
 
     hbred.value!.style.width = targetWidth;
-    hb.value!.style.width = targetWidth;
     hbblue.value!.style.width = targetWidth;
-
+    hb.value!.style.width = targetWidth;
 }
 
 onMounted(() => {
-    updateBar(); // Initialize the health bar on component mount
+    updateBar();
 });
 
 const alignmentClass = computed(() => {
@@ -144,12 +147,13 @@ const alignmentItemTooltip = computed(() => {
 .health-bar {
     background-color: $secondary-color;
     height: 100%;
-    transition: width 1.5s ease;
-    transition-delay: 0.1s;
     position: absolute;
     top: 0;
     left: 0;
+    width: 100%;
     border-radius: 200px;
+    transition: width 1.5s ease;
+    transition-delay: 0.1s;
 }
 
 .health-bar-red {
