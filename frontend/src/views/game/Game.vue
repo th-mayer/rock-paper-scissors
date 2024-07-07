@@ -20,7 +20,7 @@ enum GamePhase {
 
 const socket_log: string = "[socket]: " // logging prefix
 let match_id: string // socket room and key for servers match dict
-let game_phase: GamePhase = 3; // current game phase
+let game_phase: GamePhase = 1; // current game phase
 let chosen_symbol: string = '' // currently chosen symbol as char ('r','p','s' or '')
 
 let my_health = 100;
