@@ -30,7 +30,7 @@ function generateItems() {
     item3.value = generateRandomItem();
 }
 
-function getUserExistingItems(){
+function getUserExistingItems() {
     const userExistingItems = user.value.items;
     exItem1.value = userExistingItems[0];
     exItem2.value = userExistingItems[1];
@@ -65,6 +65,13 @@ const schema = object({
         <Card title="item manager" class="Homecard item-manager">
             <div>
                 <p>You don't have any item coins to redeem! Win a match to get an item coin!</p>
+                <div class="btn-container">
+                    <router-link to="/home">
+                        <button class="btn router-link-in-button discard">
+                            back to home
+                        </button>
+                    </router-link>
+                </div>
             </div>
         </Card>
     </template>
@@ -117,17 +124,18 @@ const schema = object({
     height: 20vh;
 }
 
-.item-manager{
+.item-manager {
     height: 85vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .item-manager h2 {
     margin-top: 5vh;
 }
 
-.item-manager p{
+.item-manager p {
     padding: 1vh;
 }
 </style>
