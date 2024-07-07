@@ -9,7 +9,7 @@ const props = defineProps<{
 
 let onHover = ref(false);
 
-const item = reactive({
+const item = {
     names: ["Heavy Stone", "Sharp Paper", "Pointy Scissors", "Brittle Stone", "Soggy Paper", "Blunt Scissors", "Empty Slot"],
     symbols: ["Stone", "Paper", "Scissors"],
     pictures: ["../../public/assets/rockdmg.png", "../../public/assets/paperdmg.png", "../../public/assets/scissorsdmg.png", "../../public/assets/rockdefense.png", "../../public/assets/paperdefense.png", "../../public/assets/scissorsdefense.png", "../../public/assets/empty2.png"],
@@ -18,13 +18,15 @@ const item = reactive({
     descriptionPro1: "Equipped person receives only ",
     descriptionPro2: " times the damage when loosing against ",
     descriptionEmpt: "Owner needs to win a match to be able to place an item here",
-})
+};
 
 const itemName = computed(() => {
+    console.log(props.itemKind)
     if (props.itemKind) {
         if (props.itemKind >= 0 && props.itemKind <= 5) {
             return item.names[props.itemKind];
         }
+
     }
     return item.names[6];
 })

@@ -85,7 +85,7 @@ const schema = object({
                     <!-- <ItemBox :item1="exItem1" :item2="exItem2" :item3="exItem3" :tooltip-up="true" /> -->
                     <!-- <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" /> -->
                     <div class="item-container">
-                        <Item :itemKind=exItem1.kind :multiplier="exItem1.modifier" :tooltipUp="true" />
+                        <Item :itemKind="exItem1.kind" :multiplier="exItem1.modifier" :tooltipUp="true" />
                         <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false"
                             :tooltipUp="false" />
                         <Item :itemKind="exItem2.kind" :multiplier="exItem2.modifier" :tooltipUp="true" />
