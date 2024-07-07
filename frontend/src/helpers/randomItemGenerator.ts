@@ -1,33 +1,23 @@
-import { Item } from "../types/socket-connection-types";
-
-// TODO finetune modifier values
 export function generateRandomItem() {
   let modifier: any;
   const kind = getRandomInt(6);
-  switch (kind) {
-    case 0:
-      // 0 = dmg_r
-      // + converts string from toFixed back to a number
+  switch (kind) { // kind means what kind of item it is:
+    case 0: //rock damage
       modifier = randomDamage();
       break;
-    case 1:
-      // 1 = dmg_p
+    case 1: //paper damage
       modifier = randomDamage();
       break;
-    case 2:
-      // 2 = dmg_s
+    case 2: //scissors damage
       modifier = randomDamage();
       break;
-    case 3:
-      // 3 = prt_r
+    case 3: //rock protection
       modifier = randomDefense();
       break;
-    case 4:
-      // 4 = prt_p
+    case 4: //paper protection
       modifier = randomDefense();
       break;
-    case 5:
-      // 5 = prt_s
+    case 5: //scissors protection
       modifier =  randomDefense();
       break;
     default:

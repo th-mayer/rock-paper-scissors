@@ -32,8 +32,6 @@ let opp_symbol = "";
 let opponent_status: Ref;
 let player_status : Ref;
 
-const oppHp = ref(100);
-
 const opponent_name = computed(()=>{
   if (opponent_status) return opponent_status.value.name;
   else return "Opponent";

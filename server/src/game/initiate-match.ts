@@ -51,22 +51,22 @@ export const initiateMatch = (io: Server, match: Match, match_id: string) => {
     for (let i = 0; i < 3; i++) {
       switch (player.items[i].kind) {
         case 0: {
-          stats.dmg_modifier.rock = player.items[i].modifier;
+          stats.dmg_modifier.rock *= player.items[i].modifier;
         }
         case 1: {
-          stats.dmg_modifier.paper = player.items[i].modifier;
+          stats.dmg_modifier.paper *= player.items[i].modifier;
         }
         case 2: {
-          stats.dmg_modifier.scissors = player.items[i].modifier;
+          stats.dmg_modifier.scissors *= player.items[i].modifier;
         }
         case 3: {
-          stats.protection_modifier.rock = player.items[i].modifier;
+          stats.protection_modifier.rock *= player.items[i].modifier;
         }
         case 4: {
-          stats.protection_modifier.paper = player.items[i].modifier;
+          stats.protection_modifier.paper *= player.items[i].modifier;
         }
         case 5: {
-          stats.protection_modifier.scissors = player.items[i].modifier;
+          stats.protection_modifier.scissors *= player.items[i].modifier;
         }
         default: {
         }

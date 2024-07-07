@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps<{
     itemKind: number,
@@ -46,22 +46,18 @@ const itemPic = computed(() => {
 })
 
 const itemDescription = computed(() => {
-    if (props.itemKind) {
-        if (props.itemKind >= 0 && props.itemKind <= 2) {
-            return [item.descriptionDmg1, item.descriptionDmg2];
-        }
-        if (props.itemKind >= 3 && props.itemKind <= 5) {
-            return [item.descriptionPro1, item.descriptionPro2];
-        }
+    if (props.itemKind >= 0 && props.itemKind <= 2) {
+        return [item.descriptionDmg1, item.descriptionDmg2];
+    }
+    if (props.itemKind >= 3 && props.itemKind <= 5) {
+        return [item.descriptionPro1, item.descriptionPro2];
     }
     return [item.descriptionEmpt, ""];
 })
 
 const itemModifier = computed(() => {
-    if (props.itemKind) {
-        if (props.itemKind >= 0 && props.itemKind <= 5) {
-            return props.multiplier + "x";
-        }
+    if (props.itemKind >= 0 && props.itemKind <= 5) {
+        return props.multiplier + "x";
     }
     return "";
 })
