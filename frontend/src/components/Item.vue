@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
 
-const props = defineProps({
-    itemKind: Number,
-    multiplier: Number,
-    tooltipUp: Boolean,
-});
+const props = defineProps<{
+    itemKind: number,
+    multiplier: number,
+    tooltipUp: boolean,
+}>();
 
 let onHover = ref(false);
 

@@ -121,7 +121,7 @@ function confirmSymbolChoice(symbol: string) { // call to send chosen symbol to 
       <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" :health=opp_health class="enemy" :topbar="true"/>
     </div>
     <SymbolSelector @confirm-symbol="confirmSymbolChoice" v-if="game_phase == GamePhase.SELECTION"/>
-    <CombatResult />
+    <CombatResult v-if="game_phase == GamePhase.COMBAT" />
     <div class="player-row right">
       <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health=my_health class="player" :topbar="false"/>
     </div>

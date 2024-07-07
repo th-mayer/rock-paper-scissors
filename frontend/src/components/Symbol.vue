@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { boolean } from 'yup';
 
 
 const props = defineProps({
