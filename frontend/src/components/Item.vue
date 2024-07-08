@@ -5,7 +5,16 @@ const props = defineProps<{
     itemKind: number,
     multiplier: number,
     tooltipUp: boolean,
+    isHighlighted: boolean | undefined;
 }>();
+
+const emit = defineEmits<{
+    (e: 'click', event: MouseEvent): void;
+}>();
+
+function handleClick(event: MouseEvent) {
+    emit('click', event);
+}
 
 let onHover = ref(false);
 
@@ -22,7 +31,7 @@ const item = {
 
 const itemName = computed(() => {
     if (props.itemKind >= 0 && props.itemKind <= 5) {
-            
+
         return item.names[props.itemKind];
     }
     return item.names[6];
@@ -30,10 +39,10 @@ const itemName = computed(() => {
 
 const itemSymbol = computed(() => {
     if (props.itemKind >= 0 && props.itemKind <= 2) {
-            return item.symbols[props.itemKind];
+        return item.symbols[props.itemKind];
     }
     else if (props.itemKind >= 3 && props.itemKind <= 5) {
-            return item.symbols[props.itemKind - 3];
+        return item.symbols[props.itemKind - 3];
     }
     return "";
 })
@@ -76,10 +85,17 @@ function showTooltip() {
 function hideTooltip() {
     onHover.value = false;
 }
+
+const highlightStyle = computed(() => {
+    if (props.isHighlighted) return "itemDiv item-highlight";
+    else return "itemDiv";
+})
+
+
 </script>
 
 <template>
-    <div class="itemDiv" @mouseenter="showTooltip" @mouseleave="hideTooltip">
+    <div :class="highlightStyle" @mouseenter="showTooltip" @mouseleave="hideTooltip" @click="handleClick">
         <img :src=itemPic>
     </div>
     <div class="itemDiscription" v-if="onHover" ref="tooltip" :class="tooltipPositionClass">
@@ -143,5 +159,10 @@ img {
 
 .highlighted {
     color: $highlight-color;
+}
+
+.itemDiv.item-highlight>img {
+    border-color: $secondary-color;
+    border-style: 2px solid;
 }
 </style>
