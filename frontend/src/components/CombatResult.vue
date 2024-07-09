@@ -48,7 +48,7 @@ const playerPic = computed(() => {
         case "s":
             return "../../public/assets/scissors.png";
         default:
-            return "";
+            return "../../public/assets/nosymbol.png";
     }
 });
 
