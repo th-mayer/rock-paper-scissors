@@ -16,6 +16,21 @@ const exItem1 = ref<Item | null>(null);
 const exItem2 = ref<Item | null>(null);
 const exItem3 = ref<Item | null>(null);
 
+const item1 = computed(() => {
+  if (exItem1) return exItem1.value;
+  else return { kind: 99, modifier: 0 };
+});
+
+const item2 = computed(() => {
+  if (exItem2) return exItem2.value;
+  else return { kind: 99, modifier: 0 };
+});
+
+const item3 = computed(() => {
+  if (exItem3) return exItem3.value;
+  else return { kind: 99, modifier: 0 };
+});
+
 onBeforeMount(async () => {
   await userStore.getById(authUser.value.id);
   const userExistingItems = user.value.items;
@@ -23,27 +38,12 @@ onBeforeMount(async () => {
   exItem2.value = userExistingItems[1];
   exItem3.value = userExistingItems[2];
 });
-
-const item1 = computed(() => {
-  if (exItem1) return exItem1.value
-  else return { kind: 99, modifier: 0 }
-})
-
-const item2 = computed(() => {
-  if (exItem2) return exItem2.value
-  else return { kind: 99, modifier: 0 }
-})
-
-const item3 = computed(() => {
-  if (exItem3) return exItem3.value
-  else return { kind: 99, modifier: 0 }
-})
 </script>
 
 <template>
   <Card title="Item manager" class="Homecard" id="itembox">
     <template v-if="!(user.loading || user.error)">
-      <ItemBox :item1="item1" :item2="item2" :item3="item3" :tooltipUp="true" />
+      <ItemBox :item1="item1!" :item2="item2!" :item3="item3!" :tooltipUp="true" />
     </template>
     <template v-if="user.loading">
       <!-- TODO loading spinner -->
