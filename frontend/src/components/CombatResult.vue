@@ -13,6 +13,7 @@ let enemy = "enemy";
 let player = "player";
 let show = "show";
 let showSymbols = ref(false);
+let showResult = ref(false);
 
 const props = defineProps({
     player_name: String,
@@ -22,46 +23,70 @@ const props = defineProps({
 });
 
 const symbolClasses = computed(() => {
-    if (showSymbols.value) return symbolClass + show;
-    else return symbolClass;
-
-})
+    return symbolClass + (showSymbols.value ? show : '');
+});
 
 const opponentPic = computed(() => {
-    if (props.opponent_symbol == "r") return "../../public/assets/rock.png";
-    else if (props.opponent_symbol == "p") return "../../public/assets/paper.png";
-    else if (props.opponent_symbol == "s") return "../../public/assets/scissors.png";
-    return;
-})
+    switch (props.opponent_symbol) {
+        case "r":
+            return "../../public/assets/rock.png";
+        case "p":
+            return "../../public/assets/paper.png";
+        case "s":
+            return "../../public/assets/scissors.png";
+        default:
+            return "../../public/assets/nosymbol.png";
+    }
+});
 
 const playerPic = computed(() => {
-    if (props.player_symbol == "r") return "../../public/assets/rock.png";
-    else if (props.player_symbol == "p") return "../../public/assets/paper.png";
-    else if (props.player_symbol == "s") return "../../public/assets/scissors.png";
-    return;
-})
+    switch (props.player_symbol) {
+        case "r":
+            return "../../public/assets/rock.png";
+        case "p":
+            return "../../public/assets/paper.png";
+        case "s":
+            return "../../public/assets/scissors.png";
+        default:
+            return "";
+    }
+});
 
 const win = computed(() => {
-    if (props.player_symbol == "r" && props.opponent_symbol == "s" || props.player_symbol == "p" && props.opponent_symbol == "r" || props.player_symbol == "s" && props.opponent_symbol == "p") return ws.PLAYER_WIN;
+    if (
+        (props.player_symbol === "r" && props.opponent_symbol === "s") ||
+        (props.player_symbol === "p" && props.opponent_symbol === "r") ||
+        (props.player_symbol === "s" && props.opponent_symbol === "p")
+    ) return ws.PLAYER_WIN;
 
-    else if (props.player_symbol == "s" && props.opponent_symbol == "r" || props.player_symbol == "r" && props.opponent_symbol == "p" || props.player_symbol == "p" && props.opponent_symbol == "s") return ws.OPPONENT_WIN;
+    if (
+        (props.player_symbol === "s" && props.opponent_symbol === "r") ||
+        (props.player_symbol === "r" && props.opponent_symbol === "p") ||
+        (props.player_symbol === "p" && props.opponent_symbol === "s")
+    ) return ws.OPPONENT_WIN;
 
-    else return ws.TIE;
-})
+    return ws.TIE;
+});
 
 onMounted(() => {
     setTimeout(() => {
         showSymbols.value = true;
-    }, 1000)
-});
-
+    }, 500);
+    setTimeout(() => {
+        showResult.value = true;
+    }, 2500);
+    setTimeout(() => {
+        showSymbols.value = false;
+        showResult.value = false;
+    }, 5000);
+})
 </script>
 
 <template>
     <div class="combatResult">
-        <Card>
-            <p v-if="win == ws.PLAYER_WIN">{{ player_name }} wins this round! </p>
-            <p v-else-if="win == ws.OPPONENT_WIN">{{ opponent_name }} wins this round!</p>
+        <Card v-if="showResult">
+            <p v-if="win === ws.PLAYER_WIN">{{ player_name }} wins this round!</p>
+            <p v-else-if="win === ws.OPPONENT_WIN">{{ opponent_name }} wins this round!</p>
             <p v-else>Tie!</p>
         </Card>
     </div>
@@ -75,6 +100,7 @@ onMounted(() => {
         </div>
     </div>
 </template>
+
 
 <style lang="scss">
 @import '../css/main.scss';

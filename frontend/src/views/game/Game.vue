@@ -122,7 +122,7 @@ socket.on("combat-round", (data) => { // called if both symbols are collected by
     </div>
     <SymbolSelector @confirm-symbol="confirmSymbolChoice" v-if="game_phase == GamePhase.SELECTION" />
     <CombatResult v-if="game_phase == GamePhase.RESULT" :player_name="player_name" :opponent_name="opponent_name"
-      player_symbol="p" opponent_symbol="r" />
+      player_symbol="p" opponent_symbol="" />
     <div class="player-row right">
       <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health=my_health class="player"
         :topbar="false" />
