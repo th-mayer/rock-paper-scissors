@@ -13,17 +13,17 @@ export const addToMatchmaking = (io: Server, player: Player) => {
     return;
   }
 
-  newMatchmakingEntry(player);
+  newMatchmakingEntry(player, io);
 };
 
-function newMatchmakingEntry(player: Player){
+function newMatchmakingEntry(player: Player, io: any){
   // If no match is suitable, a new entry into matchmaking will be created
   let match: Match = {
-    level: player.level,
     player1: player,
     player2: null,
     instance: null,
   }; // create match
   let match_id: string = generateUUID(); // generate id for matchmaking and later socket room
   running_matches[match_id] = match; // add match to matchmaking dict
+  io.emit("matchmaking-active", match_id)
 }

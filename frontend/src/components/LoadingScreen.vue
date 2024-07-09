@@ -1,5 +1,15 @@
 <script setup lang="ts">
 import Card from './Card.vue';
+const emit = defineEmits(['cancel-matchmaking'])
+
+
+const props = defineProps({
+    inQueue: Boolean,
+});
+
+function cancelMatchmaking() {
+    if (props.inQueue) emit("cancel-matchmaking");
+}
 
 </script>
 
@@ -12,11 +22,12 @@ import Card from './Card.vue';
             <div></div>
             <div></div>
         </div>
-        <p>Finding your perfect match...</p>
+        <p v-if="props.inQueue">Finding your perfect match...</p>
+        <p v-else>Wait to be added to matchmaking...</p>
 
         <div class="btn-container">
             <router-link to="/home">
-                <button class="btn router-link-in-button discard">
+                <button class="btn router-link-in-button discard" @click="cancelMatchmaking">
                     cancel matchmaking
                 </button>
             </router-link>

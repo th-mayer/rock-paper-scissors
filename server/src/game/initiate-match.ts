@@ -81,13 +81,15 @@ export const initiateMatch = (io: Server, match: Match, match_id: string) => {
     "initiate-match",
     {
       name: match.player2!.name,
+      health: 100,
+      wins: match.player2!.wins,
       items: match.player2!.items,
-      level: match.player2!.level,
     },
     {
       name: match.player1.name,
+      health: 100,
+      wins: match.player1.wins,
       items: match.player1.items,
-      level: match.player1.level,
     },
     match_id
   );
@@ -95,13 +97,15 @@ export const initiateMatch = (io: Server, match: Match, match_id: string) => {
     "initiate-match",
     {
       name: match.player1.name,
+      health: 100,
+      wins: match.player1.wins,
       items: match.player1.items,
-      level: match.player1.level,
     },
     {
       name: match.player2!.name,
+      health: 100,
+      wins: match.player2!.wins,
       items: match.player2!.items,
-      level: match.player2!.level,
     },
     match_id
   );
