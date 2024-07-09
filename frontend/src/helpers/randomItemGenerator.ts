@@ -1,5 +1,7 @@
-export function generateRandomItem() {
-  let modifier: any;
+import { Item } from "../types/socket-connection-types";
+
+export function generateRandomItem(): Item {
+  let modifier: number;
   const kind = getRandomInt(6);
   switch (kind) { // kind means what kind of item it is:
     case 0: //rock damage
@@ -31,19 +33,19 @@ function getRandomInt(max: number) {
   return Math.floor(Math.random()*max)
 }
 
-function randomDamage(){
+function randomDamage(): number {
   let dmgModifier = 1.15;
   while (true){
     if(Math.random() < 0.8) dmgModifier += 0.05;
-    else return dmgModifier.toFixed(2);
+    else return +dmgModifier.toFixed(2);
   }
 }
 
-function randomDefense(){
+function randomDefense(): number {
   let defModifier = 0.95;
   while (true){
     if(Math.random() < 0.8) defModifier *= 0.97;
-    else return defModifier.toFixed(2);
+    else return +defModifier.toFixed(2);
   }
 }
 

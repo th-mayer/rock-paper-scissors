@@ -54,12 +54,3 @@ export type PlayerData = {
   health: number;
   items: Item[];
 };
-
-export enum Itemtype {
-  DamageRock = 0,
-  DamagePaper = 1,
-  DamageScissors = 2,
-  ProtectionRock = 3,
-  ProtectionPaper = 4,
-  ProtectionScissors = 5
-}

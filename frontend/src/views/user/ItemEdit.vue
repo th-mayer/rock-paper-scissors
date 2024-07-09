@@ -19,7 +19,7 @@ userStore.getById(id);
 const selectOwnArray: Ref<boolean[]> = ref([false, false, false]);
 const selectGenArray: Ref<boolean[]> = ref([false, false, false]);
 
-const exItem1 = ref();
+const exItem1 = ref()
 const exItem2 = ref();
 const exItem3 = ref();
 const item1 = ref();
@@ -98,6 +98,7 @@ function getUserExistingItems() {
 }
 
 async function onSubmit(values: any) {
+    console.log("try submit")
     const alertStore = useAlertStore();
     try {
         await userStore.update(user.value.id, values);
@@ -117,6 +118,22 @@ const schema = object({
         modifier: number()
     }).required(),
 });
+
+const checkedOwnItem = computed(()=>{
+    console.log("recalc checkedownitem")
+        if (selectOwnArray.value[0]) return exItem1.value.id;
+        else if (selectOwnArray.value[1]) return exItem2.value.id;
+        else if (selectOwnArray.value[2]) return exItem3.value.id;
+        else return null;
+})
+
+const checkedGenItem = computed(()=>{
+    console.log("recalc checkedgenitem")
+        if (selectGenArray.value[0]) return item1.value;
+        else if (selectGenArray.value[1]) return item2.value;
+        else if (selectGenArray.value[2]) return item3.value;
+        else return null; 
+})
 
 </script>
 
@@ -149,32 +166,22 @@ const schema = object({
                     <div class="item-container">
                         <Item :itemKind="exItem1.kind" :multiplier="exItem1.modifier" :tooltipUp="true"
                             :isHighlighted="ownItem1Highlight" @click="chooseOwnItem1" />
-                        <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="ownItem1Highlight"
-                            :tooltipUp="false" style="visibility:hidden;" />
                         <Item :itemKind="exItem2.kind" :multiplier="exItem2.modifier" :tooltipUp="true"
                             :isHighlighted="ownItem2Highlight" @click="chooseOwnItem2" />
-                        <Field name="exItem" type="radio" :value="exItem2.id" :unchecked-value="ownItem2Highlight"
-                            :tooltipUp="false" style="visibility:hidden;" />
                         <Item :itemKind="exItem3.kind" :multiplier="exItem3.modifier" :tooltipUp="true"
                             :isHighlighted="ownItem3Highlight" @click="chooseOwnItem3" />
-                        <Field name="exItem" type="radio" :value="exItem3.id" :unchecked-value="ownItem3Highlight"
-                            :tooltipUp="false" style="visibility:hidden;" />
+                        <Field name="exitem" type="checkbox" :value="checkedOwnItem" style="visibility:hidden;" :unchecked-value="true"/>
                     </div>
                     <h2>new items</h2>
                     <div class="item-container">
                         <!-- <ItemBox :item1="item1" :item2="item2" :item3="item3" :tooltip-up="true" /> -->
                         <Item :itemKind="item1.kind" :multiplier="item1.modifier" :tooltipUp="false"
                             :isHighlighted="genItem1Highlight" @click="chooseGenItem1" />
-                        <Field name="item" type="radio" :value="item1" :unchecked-value="genItem1Highlight"
-                            style="visibility:hidden;" />
                         <Item :itemKind="item2.kind" :multiplier="item2.modifier" :tooltipUp="false"
                             :isHighlighted="genItem2Highlight" @click="chooseGenItem2" />
-                        <Field name="item" type="radio" :value="item2" :unchecked-value="genItem2Highlight"
-                            style="visibility:hidden;" />
                         <Item :itemKind="item3.kind" :multiplier="item3.modifier" :tooltipUp="false"
                             :isHighlighted="genItem3Highlight" @click="chooseGenItem3" />
-                        <Field name="item" type="radio" :value="item3" :unchecked-value="genItem3Highlight"
-                            style="visibility:hidden;" />
+                        <Field name="item" type="checkbox" :value="checkedGenItem" style="visibility:hidden;" :unchecked-value="true"/>
                     </div>
                     <div class="flex-row itemEditBtns">
                         <div class="btn-container">
@@ -182,18 +189,15 @@ const schema = object({
                                 save
                             </button>
                         </div>
-
-                        <div class="btn-container">
+                    </div>
+                </Form>
+                <div class="btn-container">
                             <router-link to="/home">
                                 <button class="btn router-link-in-button discard">
                                     Discard
                                 </button>
                             </router-link>
                         </div>
-                    </div>
-
-
-                </Form>
             </div>
         </Card>
     </template>
