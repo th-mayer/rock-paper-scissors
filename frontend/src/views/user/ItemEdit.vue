@@ -9,6 +9,7 @@ import { Form, Field } from "vee-validate";
 import { generateRandomItem } from "../../helpers/randomItemGenerator";
 import { computed, Ref, ref } from "vue";
 import { number, object } from "yup";
+import LoadingScreen from "../../components/LoadingScreen.vue";
 
 const route = useRoute();
 const id = route.params.id;
@@ -136,7 +137,8 @@ const schema = object({
     </template>
     <template v-if="!(user?.loading || user?.error) && user.itemCoin < 1">
         <Card title="item manager" class="Homecard item-manager">
-            <div class="generateItems">
+            <div class="generateItems flex-col">
+                <p v-if="!exItem1">You need to generate some Items before you can manage them.</p>
                 <button class="btn" @click="generateItems">Generate Items</button>
             </div>
             <div v-if="exItem1">
@@ -196,8 +198,7 @@ const schema = object({
         </Card>
     </template>
     <template v-if="user.loading">
-        <!-- TODO loading spinner -->
-        <div>loading</div>
+        <LoadingScreen />
     </template>
 </template>
 
