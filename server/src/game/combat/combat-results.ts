@@ -9,14 +9,20 @@ export const emitCombatResults = (
   player2_dmg: number,
   player2_symbol: string
 ) => {
-  let instance = running_matches[match_id].instance!;
+  let instance = running_matches[match_id].instance;
 
-  instance.player1.hp - player1_dmg;
-  instance.player2.hp - player2_dmg;
+  instance.player1.hp -= player1_dmg;
+  instance.player2.hp -= player2_dmg;
 
   let player1_hp = instance.player1.hp;
   let player2_hp = instance.player2.hp;
-
+  console.log(player1_dmg, player2_dmg)
+  console.log({
+    mySymbol: player1_symbol,
+    myLife: player1_hp,
+    oppSymbol: player2_symbol,
+    oppLife: player2_hp,
+  })
   // Send results to players
   io.to(running_matches[match_id].player1.socket.id).emit("combat-round", {
     mySymbol: player1_symbol,

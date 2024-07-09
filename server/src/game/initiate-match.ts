@@ -54,23 +54,30 @@ export const initiateMatch = (io: Server, match: MatchmakingMatch, match_id: str
       switch (player.items[i].kind) {
         case 0: {
           stats.dmg_modifier.rock *= player.items[i].modifier;
+          break;
         }
         case 1: {
           stats.dmg_modifier.paper *= player.items[i].modifier;
+          break;
         }
         case 2: {
           stats.dmg_modifier.scissors *= player.items[i].modifier;
+          break;
         }
         case 3: {
           stats.protection_modifier.rock *= player.items[i].modifier;
+          break;
         }
         case 4: {
           stats.protection_modifier.paper *= player.items[i].modifier;
+          break;
         }
         case 5: {
           stats.protection_modifier.scissors *= player.items[i].modifier;
+          break;
         }
         default: {
+          break;
         }
       }
     }

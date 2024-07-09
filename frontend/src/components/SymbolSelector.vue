@@ -7,7 +7,7 @@ const timer: Ref<HTMLElement | undefined> = ref();
 const show = ref(true);
 const selectArray: Ref<boolean[]> = ref([false, false, false]);
 
-const emit = defineEmits(['confirm-symbol'])
+const emit = defineEmits(['confirm-symbol','confirm-last'])
 
 const rockHighlight = computed(() => {
     return selectArray.value[0];
@@ -31,6 +31,7 @@ function startTimer() {
 
 function removeWindow() {
     show.value = false;
+    emit('confirm-last')
 }
 
 function chooseRock() {
@@ -49,7 +50,7 @@ function chooseScissors() {
     selectArray.value[2] = !selectArray.value[2];
     selectArray.value[1] = false;
     selectArray.value[0] = false;
-    if (selectArray.value[0]) emit("confirm-symbol", 's'); else emit("confirm-symbol", '');
+    if (selectArray.value[2]) emit("confirm-symbol", 's'); else emit("confirm-symbol", '');
 }
 onMounted(() => {
     setTimeout(startTimer, 500); // Initialize the health bar on component mount

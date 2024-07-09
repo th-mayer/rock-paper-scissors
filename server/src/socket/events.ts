@@ -53,59 +53,29 @@ const SocketServer = (server: any) => {
     });
   
     socket.on("choice", (data) => {
-      var choice = data.choice; // symbol send by client
-      var match = running_matches[data.m_id]; // get match, with by client provided match_id
-  
+      let choice = data.choice; // symbol send by client
+      let match = running_matches[data.m_id]; // get match, with by client provided match_id
+      let player;
+
       if (socket.id == match.player1.socket.id) {
-        match.instance!.player1.chosen = true;
+        player = match.instance.player1;
+        console.log("player 1 choice: "+choice)
       } else if (socket.id == match.player2?.socket.id) {
-        match.instance!.player2.chosen = true;
+        player = match.instance.player2;
+        console.log("player 2 choice: "+choice)
       }
-  
-      switch (
-        choice // put choice into game instance
-      ) {
-        case "r": {
-          if (socket.id == match.player1.socket.id) {
-            match.instance!.player1.symbol = "r";
-          }
-          if (socket.id == match.player2!.socket.id) {
-            match.instance!.player2.symbol = "r";
-          }
-        }
-        case "p": {
-          if (socket.id == match.player1.socket.id) {
-            match.instance!.player1.symbol = "p";
-          }
-          if (socket.id == match.player2!.socket.id) {
-            match.instance!.player2.symbol = "p";
-          }
-        }
-        case "s": {
-          if (socket.id == match.player1.socket.id) {
-            match.instance!.player1.symbol = "s";
-          }
-          if (socket.id == match.player2!.socket.id) {
-            match.instance!.player2.symbol = "s";
-          }
-        }
-        case "": {
-          if (socket.id == match.player1.socket.id) {
-            match.instance!.player1.symbol = "";
-          }
-          if (socket.id == match.player2!.socket.id) {
-            match.instance!.player2.symbol = "";
-          }
-        }
-      }
+      
+      player!.chosen = true;
+      player!.symbol = choice;
+      
   
       if (
-        match.instance!.player1.chosen == true &&
-        match.instance!.player2.chosen == true
+        match.instance.player1.chosen == true &&
+        match.instance.player2.chosen == true
       ) {
         calculateCombat(io, data.m_id);
-        match.instance!.player1.chosen = false;
-        match.instance!.player2.chosen = false;
+        match.instance.player1.chosen = false;
+        match.instance.player2.chosen = false;
       }
     });
   });

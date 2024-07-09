@@ -36,7 +36,7 @@ enum GamePhase {
 const socket_log: string = "[socket]: " // logging prefix
 let match_id: string // socket room and key for servers match dict
 let game_phase: Ref<GamePhase> = ref(GamePhase.BE_ADDED); // current game phase
-let chosen_symbol: string = '' // currently chosen symbol as char ('r','p','s' or '')
+let chosen_symbol: string = "" // currently chosen symbol as char ('r','p','s' or '')
 
 let my_health: Ref<number> = ref(100);
 let opp_health: Ref<number> = ref(100);
@@ -77,7 +77,6 @@ const player_items = computed(() => {
   else return undefined;
 })
 
-// move this function to its own file?
 function confirmSymbolChoice(symbol: string) { // call to send chosen symbol to server
   if (symbol && match_id) {
     socket.emit("choice", { choice: symbol, m_id: match_id });
@@ -106,13 +105,12 @@ socket.on("initiate-match", (data) => { // called if a match was found
   opponent_status.value = data.opponent;
   player_status.value = data.player;
   console.log(socket_log + "Found match");
-  game_phase.value = GamePhase.SELECTION;
+  startSelectionPhase();
 })
 
 socket.on("choose-timeout", () => { // called if choosing timer runns out
   // request the chosen symbol for this round
-  confirmSymbolChoice(chosen_symbol);
-  console.log(socket_log + "Choose Timout, server requested the last chosen symbol '" + chosen_symbol + "");
+  getLastChoice();
 })
 
 socket.on("combat-round", (data) => { // called if both symbols are collected by server and combat was calculated by server
@@ -123,8 +121,23 @@ socket.on("combat-round", (data) => { // called if both symbols are collected by
   opp_health.value = data.oppLife;
   opp_symbol.value = data.oppSymbol;
 
-  game_phase.value = GamePhase.RESULT;
+  startResultPhase();
 })
+
+function getLastChoice() {
+  confirmSymbolChoice(chosen_symbol);
+  console.log(socket_log + "Choose Timout, server requested the last chosen symbol '" + chosen_symbol + "");
+}
+
+function startSelectionPhase() {
+  game_phase.value = GamePhase.SELECTION;
+}
+
+function startResultPhase() {
+  game_phase.value = GamePhase.RESULT;
+  chosen_symbol = "";
+  setTimeout(startSelectionPhase, 5000);
+}
 </script>
 
 <template>
@@ -133,14 +146,14 @@ socket.on("combat-round", (data) => { // called if both symbols are collected by
   </div>
   <div class="top-and-bottom" v-if="game_phase == GamePhase.SELECTION || game_phase == GamePhase.RESULT">
     <div class="player-row">
-      <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" :health=opp_health class="enemy"
+      <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" :health="opp_health" class="enemy"
         :topbar="true" />
     </div>
-    <SymbolSelector @confirm-symbol="confirmSymbolChoice" v-if="game_phase == GamePhase.SELECTION" />
+    <SymbolSelector @confirm-symbol="confirmSymbolChoice" @confirm-last="getLastChoice" v-if="game_phase == GamePhase.SELECTION" />
     <CombatResult v-if="game_phase == GamePhase.RESULT" :player_name="player_name" :opponent_name="opponent_name"
       :player_symbol="my_symbol" :opponent_symbol="opp_symbol" />
     <div class="player-row right">
-      <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health=my_health class="player"
+      <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health="my_health" class="player"
         :topbar="false" />
     </div>
   </div>
