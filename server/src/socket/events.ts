@@ -27,17 +27,16 @@ const SocketServer = (server: any) => {
       console.log(`${connectedClients} clients are online`);
     });
 
-    socket.on("start-matchmaking", async (data) => {
+    socket.on("start-matchmaking", async (user) => {
+      console.log(user)
       // called by client if he wants to be added to matchmaking
   
       // TODO: check what the JSON obj sent by client socket actually looks like
       // assumption: user { id, email, username, hash, items: {item1, item2, item3}, itemCoin }
-      let user = await dbUsers.getUserById(1);
-      var items: Item[] = user.items;
   
-      var player: Player = {
+      let player: Player = {
         name: user.username,
-        items: items,
+        items: user.items,
         socket: socket,
         wins: user.wins,
       };
@@ -53,7 +52,7 @@ const SocketServer = (server: any) => {
       }
     });
   
-    socket.on("choice", (socket: Socket, data) => {
+    socket.on("choice", (data) => {
       var choice = data.choice; // symbol send by client
       var match = running_matches[data.m_id]; // get match, with by client provided match_id
   

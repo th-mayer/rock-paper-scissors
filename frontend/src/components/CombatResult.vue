@@ -56,13 +56,13 @@ const win = computed(() => {
     if (
         (props.player_symbol === "r" && props.opponent_symbol === "s") ||
         (props.player_symbol === "p" && props.opponent_symbol === "r") ||
-        (props.player_symbol === "s" && props.opponent_symbol === "p")
+        (props.player_symbol === "s" && props.opponent_symbol === "p") || (props.player_symbol !== "" && props.opponent_symbol === "")
     ) return ws.PLAYER_WIN;
 
     if (
         (props.player_symbol === "s" && props.opponent_symbol === "r") ||
         (props.player_symbol === "r" && props.opponent_symbol === "p") ||
-        (props.player_symbol === "p" && props.opponent_symbol === "s")
+        (props.player_symbol === "p" && props.opponent_symbol === "s") || (props.opponent_symbol !== "" && props.player_symbol === "")
     ) return ws.OPPONENT_WIN;
 
     return ws.TIE;

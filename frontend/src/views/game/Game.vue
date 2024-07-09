@@ -15,10 +15,14 @@ const socket = io(import.meta.env.VITE_API_URL);
 const userStore = useUserStore();
 let { user } = storeToRefs(userStore);
 
-onBeforeMount(async () => {
+onBeforeMount(async () => { //Get the User before mounting
   await userStore.getCurrentUser();
   console.log(user.value);
 });
+
+onMounted(()=>{ //Add User to Matchmaking as soon as the app mounts this site
+  setTimeout(()=>{socket.emit("start-matchmaking", user.value)}, 1000);
+})
 
 enum GamePhase {
   BE_ADDED,
@@ -34,42 +38,42 @@ let match_id: string // socket room and key for servers match dict
 let game_phase: Ref<GamePhase> = ref(GamePhase.BE_ADDED); // current game phase
 let chosen_symbol: string = '' // currently chosen symbol as char ('r','p','s' or '')
 
-let my_health = 100;
-let opp_health = 100;
-let my_symbol = "";
-let opp_symbol = "";
+let my_health: Ref<number> = ref(100);
+let opp_health: Ref<number> = ref(100);
+let my_symbol: Ref<string> = ref("");
+let opp_symbol: Ref<string> = ref("");
 
-// TODO: rework this somehow, looks weird
-let opponent_status: Ref;
-let player_status: Ref;
+
+const opponent_status = ref()
+const player_status= ref()
 
 const opponent_name = computed(() => {
-  if (opponent_status) return opponent_status.value.name;
+  if (opponent_status.value) return opponent_status.value.name;
   else return "Opponent";
 })
 
 const opponent_wins = computed(() => {
-  if (opponent_status) return opponent_status.value.wins;
+  if (opponent_status.value) return opponent_status.value.wins;
   else return 0;
 })
 
 const opponent_items = computed(() => {
-  if (opponent_status) return opponent_status.value.items;
+  if (opponent_status.value) return opponent_status.value.items;
   else return undefined;
 })
 
 const player_name = computed(() => {
-  if (player_status) return player_status.value.name;
+  if (player_status.value) return player_status.value.name;
   else return "player";
 })
 
 const player_wins = computed(() => {
-  if (player_status) return player_status.value.wins;
+  if (player_status.value) return player_status.value.wins;
   else return 0;
 })
 
 const player_items = computed(() => {
-  if (player_status) return player_status.value.items;
+  if (player_status.value) return player_status.value.items;
   else return undefined;
 })
 
@@ -96,13 +100,11 @@ socket.on("matchmaking-active", (m_id) => { // called if client was added to mat
   game_phase.value = GamePhase.WAIT_QUEUE;
 })
 
-socket.on("initiate-match", (opponent: PlayerData, me: PlayerData, m_id: string) => { // called if a match was found
-  match_id = m_id;
-
-  // recheck https://vuejs.org/api/sfc-script-setup.html reactivity, if this is done the right way
-  // assign values for ui updates
-  opponent_status = ref(opponent);
-  player_status = ref(me);
+socket.on("initiate-match", (data) => { // called if a match was found
+  match_id = data.m_id;
+  console.log("me:" + data.player, "opponent: "+ data.opponent)
+  opponent_status.value = data.opponent;
+  player_status.value = data.player;
   console.log(socket_log + "Found match");
   game_phase.value = GamePhase.SELECTION;
 })
@@ -115,16 +117,13 @@ socket.on("choose-timeout", () => { // called if choosing timer runns out
 
 socket.on("combat-round", (data) => { // called if both symbols are collected by server and combat was calculated by server
   // data contains the coosen symbol of player and opponent, and damage dealt
-  my_health = data.myLife;
-  my_symbol = data.mySymbol;
-  opp_health = data.oppLife;
-  opp_symbol = data.oppSymbol;
+  console.log(socket_log+"Combat results arrived from server.")
+  my_health.value = data.myLife;
+  my_symbol.value = data.mySymbol;
+  opp_health.value = data.oppLife;
+  opp_symbol.value = data.oppSymbol;
 
   game_phase.value = GamePhase.RESULT;
-})
-
-onMounted(()=>{
-  socket.emit("start-matchmaking")
 })
 </script>
 
@@ -139,7 +138,7 @@ onMounted(()=>{
     </div>
     <SymbolSelector @confirm-symbol="confirmSymbolChoice" v-if="game_phase == GamePhase.SELECTION" />
     <CombatResult v-if="game_phase == GamePhase.RESULT" :player_name="player_name" :opponent_name="opponent_name"
-      player_symbol="p" opponent_symbol="" />
+      :player_symbol="my_symbol" :opponent_symbol="opp_symbol" />
     <div class="player-row right">
       <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health=my_health class="player"
         :topbar="false" />

@@ -1,10 +1,16 @@
 import { Socket } from "socket.io";
 
 
-export type Match = {
+export type MatchmakingMatch = {
   player1: Player;
   player2: Player | null;
   instance: GameInstance | null;
+};
+
+export type Match = {
+  player1: Player;
+  player2: Player;
+  instance: GameInstance;
 };
 
 export type Player = {
