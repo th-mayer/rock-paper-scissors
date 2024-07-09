@@ -4,12 +4,21 @@ import SymbolSelector from '../../components/SymbolSelector.vue';
 import CombatResult from '../../components/CombatResult.vue';
 import LoadingScreenComp from '../../components/LoadingScreen.vue';
 import EndScreenComp from '../../components/EndScreen.vue';
-import { computed, onMounted, Ref, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, Ref, ref } from 'vue';
 import { io } from 'socket.io-client';
 import { PlayerData } from '../../types/socket-connection-types';
 import { useUserStore } from '../../stores/users.store';
+import { storeToRefs } from 'pinia';
 
 const socket = io(import.meta.env.VITE_API_URL);
+
+const userStore = useUserStore();
+let { user } = storeToRefs(userStore);
+
+onBeforeMount(async () => {
+  await userStore.getCurrentUser();
+  console.log(user.value);
+});
 
 enum GamePhase {
   BE_ADDED,
