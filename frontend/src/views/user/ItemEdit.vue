@@ -5,10 +5,8 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "../../stores/users.store";
 import { storeToRefs } from "pinia";
 import { useAlertStore } from "../../stores/alert.store";
-import { Form, Field } from "vee-validate";
 import { generateRandomItem } from "../../helpers/randomItemGenerator";
 import { computed, Ref, ref } from "vue";
-import { number, object } from "yup";
 import LoadingScreen from "../../components/LoadingScreen.vue";
 
 const route = useRoute();
@@ -97,55 +95,54 @@ function getUserExistingItems() {
     exItem3.value = userExistingItems[2];
 }
 
-async function onSubmit(values: any) {
-    console.log("try submit")
+async function onSubmit(event: Event) {
+    event.preventDefault();
     const alertStore = useAlertStore();
+    const formData = new FormData(event.target as HTMLFormElement);
+
+    const values = {
+        exItem: Number(formData.get("exItem")),
+        item: {
+            kind: Number(formData.get("itemKind")),
+            modifier: Number(formData.get("itemModifier"))
+        }
+    };
+
     try {
         await userStore.update(user.value.id, values);
         alertStore.success("Items updated");
-        // update existing items view
         await userStore.getById(id);
         getUserExistingItems();
     } catch (error) {
-        alertStore.error("could not save changes");
+        alertStore.error("Could not save changes");
     }
 }
 
-const schema = object({
-    exItem: number().required(),
-    item: object({
-        kind: number(),
-        modifier: number()
-    }).required(),
-});
-
-const checkedOwnItem = computed(()=>{
-    console.log("recalc checkedownitem")
-        if (selectOwnArray.value[0]) return exItem1.value.id;
-        else if (selectOwnArray.value[1]) return exItem2.value.id;
-        else if (selectOwnArray.value[2]) return exItem3.value.id;
-        else return null;
+const checkedOwnItem = computed(() => {
+    if (selectOwnArray.value[0]) return exItem1.value.id;
+    else if (selectOwnArray.value[1]) return exItem2.value.id;
+    else if (selectOwnArray.value[2]) return exItem3.value.id;
+    else return null;
 })
 
-const checkedGenItem = computed(()=>{
-    console.log("recalc checkedgenitem")
-        if (selectGenArray.value[0]) return item1.value;
-        else if (selectGenArray.value[1]) return item2.value;
-        else if (selectGenArray.value[2]) return item3.value;
-        else return null; 
+const checkedGenItem = computed(() => {
+    if (selectGenArray.value[0]) return item1.value;
+    else if (selectGenArray.value[1]) return item2.value;
+    else if (selectGenArray.value[2]) return item3.value;
+    else return null; 
 })
 
 </script>
 
 <template>
     <template v-if="!(user?.loading || user?.error) && user.itemCoin > 0">
-        <Card title="item manager" class="Homecard item-manager">
+        <Card title="Item Manager" class="Homecard item-manager">
             <div>
                 <p>You don't have any item coins to redeem! Win a match to get an item coin!</p>
                 <div class="btn-container">
                     <router-link to="/home">
                         <button class="btn router-link-in-button discard">
-                            back to home
+                            Back to Home
                         </button>
                     </router-link>
                 </div>
@@ -153,16 +150,14 @@ const checkedGenItem = computed(()=>{
         </Card>
     </template>
     <template v-if="!(user?.loading || user?.error) && user.itemCoin < 1">
-        <Card title="item manager" class="Homecard item-manager">
+        <Card title="Item Manager" class="Homecard item-manager">
             <div class="generateItems flex-col">
-                <p v-if="!exItem1">You need to generate some Items before you can manage them.</p>
+                <p v-if="!exItem1">You need to generate some items before you can manage them.</p>
                 <button class="btn" @click="generateItems">Generate Items</button>
             </div>
             <div v-if="exItem1">
-                <h2>your equipped items</h2>
-                <Form @submit="onSubmit" :validation-schema="schema">
-                    <!-- <ItemBox :item1="exItem1" :item2="exItem2" :item3="exItem3" :tooltip-up="true" /> -->
-                    <!-- <Field name="exItem" type="radio" :value="exItem1.id" :unchecked-value="false" /> -->
+                <h2>Your Equipped Items</h2>
+                <form @submit="onSubmit">
                     <div class="item-container">
                         <Item :itemKind="exItem1.kind" :multiplier="exItem1.modifier" :tooltipUp="true"
                             :isHighlighted="ownItem1Highlight" @click="chooseOwnItem1" />
@@ -170,34 +165,34 @@ const checkedGenItem = computed(()=>{
                             :isHighlighted="ownItem2Highlight" @click="chooseOwnItem2" />
                         <Item :itemKind="exItem3.kind" :multiplier="exItem3.modifier" :tooltipUp="true"
                             :isHighlighted="ownItem3Highlight" @click="chooseOwnItem3" />
-                        <Field name="exitem" type="checkbox" :value="checkedOwnItem" style="visibility:hidden;" :unchecked-value="true"/>
+                        <input type="hidden" name="exItem" :value="checkedOwnItem">
                     </div>
-                    <h2>new items</h2>
+                    <h2>New Items</h2>
                     <div class="item-container">
-                        <!-- <ItemBox :item1="item1" :item2="item2" :item3="item3" :tooltip-up="true" /> -->
                         <Item :itemKind="item1.kind" :multiplier="item1.modifier" :tooltipUp="false"
                             :isHighlighted="genItem1Highlight" @click="chooseGenItem1" />
                         <Item :itemKind="item2.kind" :multiplier="item2.modifier" :tooltipUp="false"
                             :isHighlighted="genItem2Highlight" @click="chooseGenItem2" />
                         <Item :itemKind="item3.kind" :multiplier="item3.modifier" :tooltipUp="false"
                             :isHighlighted="genItem3Highlight" @click="chooseGenItem3" />
-                        <Field name="item" type="checkbox" :value="checkedGenItem" style="visibility:hidden;" :unchecked-value="true"/>
+                        <input type="hidden" name="itemKind" :value="checkedGenItem?.kind">
+                        <input type="hidden" name="itemModifier" :value="checkedGenItem?.modifier">
                     </div>
                     <div class="flex-row itemEditBtns">
                         <div class="btn-container">
-                            <button class="btn ">
-                                save
+                            <button class="btn">
+                                Save
                             </button>
                         </div>
                     </div>
-                </Form>
+                </form>
                 <div class="btn-container">
-                            <router-link to="/home">
-                                <button class="btn router-link-in-button discard">
-                                    Discard
-                                </button>
-                            </router-link>
-                        </div>
+                    <router-link to="/home">
+                        <button class="btn router-link-in-button discard">
+                            Discard
+                        </button>
+                    </router-link>
+                </div>
             </div>
         </Card>
     </template>
@@ -213,7 +208,6 @@ const checkedGenItem = computed(()=>{
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .item-manager .item-container {
