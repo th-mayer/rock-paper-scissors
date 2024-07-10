@@ -12,7 +12,7 @@ const props = defineProps<{
 }>();
 
 watch(() => props.health, () => {
-    updateBar();
+  setTimeout(updateBar,2000);
 });
 
 const hb: Ref<HTMLElement | undefined> = ref();

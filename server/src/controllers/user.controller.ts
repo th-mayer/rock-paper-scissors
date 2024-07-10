@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authorize } from "../express-middleware/authorize";
 import dbUsers from "../database-services/prisma-client";
+import { parseArgs } from "util";
 
 const router = Router();
 
@@ -68,8 +69,9 @@ function updateItems(req: any, res: any, next: any) {
 
 function updateWin(req: any, res: any, next: any) {
   const user_id: number = parseInt(req.params.id);
+  const win: boolean = req.params.win; // SOMEONE HAS TO CHECK THIS, IT WORKS BUT I JUST ASSUMED WHAT HAD TO BE DONE !!!!
   dbUsers
-    .updateWinItemCoin(user_id)
+    .updateWinItemCoin(user_id, win)
     .then((updated_user) => res.json(updated_user))
     .catch((err) => next(err));
 }

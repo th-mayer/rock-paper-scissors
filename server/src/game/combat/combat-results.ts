@@ -1,5 +1,7 @@
 import { Server } from "socket.io";
 import { running_matches } from "../dicts/running-matches-dict";
+import dbUsers from "../../database-services/prisma-client";
+import { endMatch } from "../end-match";
 
 export const emitCombatResults = (
   io: Server, // Socket Server, needs to be passed so this file can use io.emit()
@@ -31,17 +33,11 @@ export const emitCombatResults = (
   });
 
   if (instance.player1.hp <= 0 && instance.player2.hp <= 0) { // Find out if somone died
-    io.to(match_id).emit("game-end", "stalemate");
+    endMatch(io,match_id,0)
   } else if (instance.player1.hp <= 0) {
-    io.to(match_id).emit(
-      "game-end",
-      running_matches[match_id].player1.socket.id
-    );
+    endMatch(io,match_id,2)
   } else if (instance.player2.hp <= 0) {
-    io.to(match_id).emit(
-      "game-end",
-      running_matches[match_id].player2.socket.id
-    );
+    endMatch(io,match_id,1)
   }
 
   function clipHealth(newHealth: number): number { // Make sure the combatresult, wont put player health below 0 or above 100

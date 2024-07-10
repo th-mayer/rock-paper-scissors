@@ -1,7 +1,15 @@
 <script setup lang="ts">
 import Alert from './components/Alert.vue';
 import Background from './components/Background.vue';
+import socket from './socket';
 
+socket.on('connect', () => {
+  console.log('[socket]: Connected to server');
+});
+
+socket.on('disconnect', () => {
+  console.log('[socket]: Disconnected from server');
+});
 </script>
 
 <template>
