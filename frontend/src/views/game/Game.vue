@@ -171,10 +171,6 @@ function startResultPhase() {
 <style lang="scss">
 @import "../../css/main.scss";
 
-* {
-  margin: 0;
-  color: $bright-font-color;
-}
 
 .player-row {
   display: flex;

@@ -115,14 +115,16 @@ label {
 
 .form-container {
   display: flex;
+
 }
 
 .col-left {
+  display: flex;
   flex: 1;
 }
 
 .col-right {
-  width: 20vw;
+  width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -156,4 +158,37 @@ label {
   font-size: 2.5vh;
   margin-top: .5vh;
 }
+
+/* Tablet styles */
+@media (max-width: 768px) {
+  .editProfile .col-left{
+    font-size: 6vw;
+    align-items: center;
+  }
+  .col-right{
+    width: fit-content;
+  }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+  .card-rect h1 {
+    font-size: 10vw;
+
+  }
+
+  label {
+    font-size: 10vw;
+  }
+
+  .register-link {
+    font-size: 3vw;
+  }
+
+  button.login-btn {
+    font-size: 14vw;
+    border-radius: 60px;
+  }
+}
+
 </style>

@@ -10,7 +10,7 @@ const { user } = storeToRefs(authStore);
 </script>
 
 <template>
-  <div v-if="user">
+  <div v-if="user" class="fullscreen">
     <div class="home-grid-container">
       <div class="home-container homeItem">
         <HomeAccount></HomeAccount>
@@ -74,12 +74,61 @@ const { user } = storeToRefs(authStore);
   justify-content: center;
 }
 
+@media (max-width: 1100px) {
+  .home-grid-container {
+    grid-template-columns: auto;
+    row-gap: 5vh;
+    padding-bottom: 12vh;
+  }
+
+  .home-grid-container h2{
+    font-size: 8vw;
+  }
+
+  .button-container {
+    width: 100vw;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    bottom: 0;
+  }
+
+  #match-button {
+    font-size: 4vw;
+    height: 8vh;
+    padding: 4vw;
+    position: relative;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    margin: 0;
+    margin-bottom: 5vh;
+  }
+
+  .button-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px;
+    right: -10px;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(2, 1, 55, 0.8), rgba(241, 24, 51, 0));
+    z-index: -1;
+  }
+}
+
+
 /* Tablet styles */
 @media (max-width: 768px) {
   .home-grid-container {
     grid-template-columns: auto;
     row-gap: 5vh;
     padding-bottom: 12vh;
+  }
+
+  .home-grid-container h2{
+    font-size: 8vw;
   }
 
   .button-container {
@@ -110,7 +159,7 @@ const { user } = storeToRefs(authStore);
     left: -10px;
     right: -10px;
     bottom: 0;
-    background: linear-gradient(to top, hsla(241, 96%, 11%, 0.8), rgba(241, 24, 51, 0));
+    background: linear-gradient(to top, rgba(2, 1, 55, 0.8), rgba(241, 24, 51, 0));
     z-index: -1;
   }
 }

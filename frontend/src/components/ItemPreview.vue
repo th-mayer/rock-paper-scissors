@@ -80,10 +80,4 @@ onBeforeMount(async () => {
 }
 }
 
-/* Phone styles */
-@media (max-width: 480px) {
-  #itembox{
-    margin: 2vw;
-  }
-}
 </style>

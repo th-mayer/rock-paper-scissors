@@ -19,10 +19,10 @@ onBeforeMount(async () => {
 
 <template>
     <Card title="Leaderboard" class="Homecard leaderboard">
-        <h1>top 5 players</h1>
+        <h2>top 5 players</h2>
         <template v-if="users.loading">
             <!-- todo: loadin spinner -->
-             <div>loading</div>
+            <div>loading</div>
         </template>
         <template v-if="!(users.loading || users.error)">
             <LeaderboardStats v-for="user in leaderboard" :name="user.username" :wins="user.wins" />
@@ -31,16 +31,24 @@ onBeforeMount(async () => {
 </template>
 
 <style>
+.leaderboard h2 {
+    font-size: 6vw;
+}
+
+/* shit in between styles */
+@media (max-width: 110px) {
+    .leaderboard {
+        width: 100vw;
+    }
+}
 
 /* Tablet styles */
 @media (max-width: 768px) {
- .leaderboard{
-    width: 90vw;
- }
+    .leaderboard {
+        width: 90vw;
+    }
 }
 
 /* Phone styles */
-@media (max-width: 480px) {
-
-}
+@media (max-width: 480px) {}
 </style>

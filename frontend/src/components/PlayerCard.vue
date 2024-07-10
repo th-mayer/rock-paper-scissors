@@ -12,7 +12,7 @@ const props = defineProps<{
 }>();
 
 watch(() => props.health, () => {
-  updateBar();
+    updateBar();
 });
 
 const hb: Ref<HTMLElement | undefined> = ref();
@@ -21,11 +21,11 @@ const hbblue: Ref<HTMLElement | undefined> = ref();
 
 const maxHealth = 100;
 
-const items = computed(()=>{
+const items = computed(() => {
     if (props.items) return props.items;
     else {
-        let placeholder: Item = {kind: 99, modifier: 1};
-        return [placeholder,placeholder,placeholder];
+        let placeholder: Item = { kind: 99, modifier: 1 };
+        return [placeholder, placeholder, placeholder];
     }
 })
 
@@ -53,7 +53,8 @@ const alignmentItemTooltip = computed(() => {
 
 <template>
     <div class="card-rect-player" :class="alignmentClass">
-        <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]" :item3="items[2]" style="margin-right: 3vw;" />
+        <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]"
+            :item3="items[2]" style="margin-right: 3vw;" />
         <div class="name-and-hp">
             <div>
                 <h2>{{ name }}</h2>
@@ -67,7 +68,8 @@ const alignmentItemTooltip = computed(() => {
                 </div>
             </div>
         </div>
-        <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip"  :item1="items[0]" :item2="items[1]" :item3="items[2]"  style="margin-left: 3vw;" />
+        <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]"
+            :item3="items[2]" style="margin-left: 3vw;" />
     </div>
 </template>
 
@@ -109,7 +111,7 @@ const alignmentItemTooltip = computed(() => {
     overflow-x: hidden;
 }
 
-.name-and-hp p{
+.name-and-hp p {
     font-size: 3vh;
 }
 
@@ -117,21 +119,13 @@ const alignmentItemTooltip = computed(() => {
     font-size: 4.5vh;
     color: $secondary-color;
 }
+
 .card-rect-player.alignTop {
     align-self: self-start;
 }
 
 .card-rect-player.alignBottom {
     align-self: self-end;
-}
-
-.card-rect p {
-    font-size: 3vh;
-}
-
-.card-rect h2 {
-    font-size: 6vh;
-    letter-spacing: 4px;
 }
 
 .health-box {

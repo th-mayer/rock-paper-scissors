@@ -2,6 +2,8 @@
 
 * {
   font-family: tweety;
+  margin: 0;
+  color: $bright-font-color;
 }
 
 .app-container {
@@ -54,12 +56,4 @@ button:hover {
 .router-link-in-button a{
   text-decoration: none;
 
-}
-
-/* general h2 styling */
-h2{
-  margin: 0;
-  padding: 0;
-  color: $bright-font-color;
-  font-size: 5vh;
 }

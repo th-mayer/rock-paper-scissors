@@ -35,6 +35,13 @@ hr {
 .wins {
     white-space: nowrap;
 }
+/* Tablet styles */
+@media (max-width: 1100px) {
+    .leaderboardStats {
+        width: 80vw;
+        max-width: 600px;
+    }
+}
 
 /* Tablet styles */
 @media (max-width: 768px) {

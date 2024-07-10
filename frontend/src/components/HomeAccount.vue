@@ -9,7 +9,7 @@ const { user } = storeToRefs(authStore);
 
 <template>
     <Card title="your Account" class="Homecard account">
-        <h1>Hello, {{ user.username }}!</h1>
+        <h2>Hello, {{ user.username }}!</h2>
         <p>It is the perfect time for a thrilling match today!</p>
 
         <div class="flex-row margin-top-10">
