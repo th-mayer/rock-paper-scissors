@@ -37,6 +37,7 @@ const socket_log: string = "[socket]: " // logging prefix
 let match_id: string // socket room and key for servers match dict
 let game_phase: Ref<GamePhase> = ref(GamePhase.BE_ADDED); // current game phase
 let chosen_symbol: string = "" // currently chosen symbol as char ('r','p','s' or '')
+let chosen: boolean = false;
 
 let my_health: Ref<number> = ref(100);
 let opp_health: Ref<number> = ref(100);
@@ -78,7 +79,8 @@ const player_items = computed(() => {
 })
 
 function confirmSymbolChoice(symbol: string) { // call to send chosen symbol to server
-  if (symbol && match_id) {
+  console.log("confirmsymbolchoice: "+symbol)
+  if (symbol == "" || symbol == "r" || symbol == "p" || symbol == "s" && match_id) {
     socket.emit("choice", { choice: symbol, m_id: match_id });
     chosen_symbol = symbol;
     console.log(socket_log + "choice: " + symbol + " confirmed");
@@ -125,8 +127,10 @@ socket.on("combat-round", (data) => { // called if both symbols are collected by
 })
 
 function getLastChoice() {
-  confirmSymbolChoice(chosen_symbol);
-  console.log(socket_log + "Choose Timout, server requested the last chosen symbol '" + chosen_symbol + "");
+  if (!chosen) {
+    confirmSymbolChoice(chosen_symbol);
+    console.log(socket_log + "Choose Timout, server requested the last chosen symbol '" + chosen_symbol + "");
+  }
 }
 
 function startSelectionPhase() {
@@ -136,7 +140,8 @@ function startSelectionPhase() {
 function startResultPhase() {
   game_phase.value = GamePhase.RESULT;
   chosen_symbol = "";
-  setTimeout(startSelectionPhase, 5000);
+  chosen = false;
+  setTimeout(startSelectionPhase, 6500);
 }
 </script>
 
