@@ -14,8 +14,14 @@ export function handleDisconnect(socket_id: string, io: Server) {
         let player1socket = running_matches[match_id]?.player1?.socket;
         let player2socket = running_matches[match_id]?.player1?.socket;
 
-        if (player1socket) player1socket.leave(match_id); // Remove sockets from the rooms
-        if (player2socket) player2socket.leave(match_id);
+        if (player1socket) {
+            player1socket.leave(match_id); // Remove sockets from the rooms
+            if (socket_in_matches[player1socket.id]) delete socket_in_matches[player1socket.id]; // Remove from sockets in matches dict
+        } 
+        if (player2socket) {
+            player2socket.leave(match_id);
+            if (socket_in_matches[player1socket.id]) delete socket_in_matches[player1socket.id];
+        }
 
         for (let m_id in open_matches) { // Remove remaining match from his dict (could be open or running match)
             if (m_id === match_id) {
