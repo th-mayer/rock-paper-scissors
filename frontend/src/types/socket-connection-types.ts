@@ -1,7 +1,6 @@
 import { Socket } from "socket.io-client";
 
 export type Match = {
-  level: number;
   player1: Player;
   player2: Player | null;
   instance: GameInstance | null;
@@ -9,7 +8,7 @@ export type Match = {
 
 export type Player = {
   name: string;
-  level: number;
+  wins: number;
   items: Item[];
   socket: Socket;
 };
@@ -33,35 +32,14 @@ export type GameInstance = {
   player2: PlayerStats;
 };
 
-// export type Items = [Item, Item, Item];
-
-// export type Item = {
-//   type: string;
-//   name: string;
-//   description: string;
-//   kind: number;
-//   modifier: number;
-// };
-
 export type Item = {
-  name: string;
-  description: string;
   kind: number;
   modifier: number;
 };
 
 export type PlayerData = {
   name: string;
-  level: number;
+  wins: number;
   health: number;
   items: Item[];
 };
-
-export enum Itemtype {
-  DamageRock = 0,
-  DamagePaper = 1,
-  DamageScissors = 2,
-  ProtectionRock = 3,
-  ProtectionPaper = 4,
-  ProtectionScissors = 5
-}

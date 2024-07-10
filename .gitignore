@@ -34,3 +34,5 @@ coverage
 .env* 
 node_modules/
 dist
+server/prisma/dev.db
+server/prisma/dev.db

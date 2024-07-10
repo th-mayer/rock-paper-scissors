@@ -1,49 +1,53 @@
 import { Item } from "../types/socket-connection-types";
 
-// TODO finetune modifier values
 export function generateRandomItem(): Item {
-  let name, description: string;
-  // + converts string from toFixed back to a number
-  let modifier: number = +Math.random().toFixed(2);
+  let modifier: number;
   const kind = getRandomInt(6);
-  switch (kind) {
-    case 0:
-      // 0 = dmg_r
-      name = "Rock Damage";
-      description = `Grants extra damage when using Rock with a modifier of ${modifier}`;
+  switch (kind) { // kind means what kind of item it is:
+    case 0: //rock damage
+      modifier = randomDamage();
       break;
-    case 1:
-      // 1 = dmg_p
-      name = "Paper Damage";
-      description = `Grants extra damage when using Paper with a modifier of ${modifier}`;
+    case 1: //paper damage
+      modifier = randomDamage();
       break;
-    case 2:
-      // 2 = dmg_s
-      name = "Scissors Damage";
-      description = `Grants extra damage when using Scissors with a modifier of ${modifier}`;
+    case 2: //scissors damage
+      modifier = randomDamage();
       break;
-    case 3:
-      // 3 = prt_r
-      name = "Rock Protection";
-      description = `Grants extra protection against attacks using Rock with a modifier of ${modifier}`;
+    case 3: //rock protection
+      modifier = randomDefense();
       break;
-    case 4:
-      // 4 = prt_p
-      name = "Paper Protection";
-      description = `Grants extra protection against attacks using Paper with a modifier of ${modifier}`;
+    case 4: //paper protection
+      modifier = randomDefense();
       break;
-    case 5:
-      // 5 = prt_s
-      name = "Scissors Protection";
-      description = `Grants extra protection against attacks using Scissors with a modifier of ${modifier}`;
+    case 5: //scissors protection
+      modifier =  randomDefense();
       break;
     default:
       throw Error("Error when generating Item");
   }
-  return { name, description, kind, modifier };
+  console.log("kind: "+kind+" mod: "+modifier)
+  return { kind, modifier };
 }
 
 function getRandomInt(max: number) {
-  return Math.floor(Math.random() * max);
+  return Math.floor(Math.random()*max)
 }
+
+function randomDamage(): number {
+  let dmgModifier = 1.15;
+  while (true){
+    if(Math.random() < 0.8) dmgModifier += 0.05;
+    else return +dmgModifier.toFixed(2);
+  }
+}
+
+function randomDefense(): number {
+  let defModifier = 0.95;
+  while (true){
+    if(Math.random() < 0.8) defModifier *= 0.97;
+    else return +defModifier.toFixed(2);
+  }
+}
+
+
 

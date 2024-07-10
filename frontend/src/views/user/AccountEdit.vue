@@ -29,7 +29,7 @@ async function onSubmit(values: any) {
     await router.push("/users");
     alertStore.success("User updated");
   } catch (err) {
-    alertStore.error(err);
+    alertStore.error("could not save changes");
   }
 }
 </script>
@@ -122,6 +122,7 @@ label {
 }
 
 .col-right {
+  width: 20vw;
   flex: 1;
   display: flex;
   flex-direction: column;

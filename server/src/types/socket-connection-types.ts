@@ -1,18 +1,24 @@
 import { Socket } from "socket.io";
 
-export type Match = {
-  level: number;
+
+export type MatchmakingMatch = {
   player1: Player;
   player2: Player | null;
   instance: GameInstance | null;
 };
 
+export type Match = {
+  player1: Player;
+  player2: Player;
+  instance: GameInstance;
+};
+
 export type Player = {
   name: string;
-  level: number;
+  wins: number;
   items: Item[];
   socket: Socket;
-  token: string;
+  userID: number;
 };
 
 export type PlayerStats = {
@@ -34,11 +40,28 @@ export type GameInstance = {
   player2: PlayerStats;
 };
 
-// export type Items = [ Item, Item, Item ]
-
 export type Item = {
-  name: string;
-  description: string;
   kind: number;
   modifier: number;
 };
+
+export type PlayerData = {
+  name: string;
+  wins: number;
+  health: number;
+  items: Item[];
+};
+
+function isValidItem(item: any): item is Item {
+  return typeof item.kind === 'number' && typeof item.modifier === 'number';
+}
+
+export function isValidUser(user: any): user is { username: string; wins: number; items: Item[], id: number } {
+  return (
+    typeof user.username === 'string' &&
+    typeof user.wins === 'number' &&
+    typeof user.id === 'number' &&
+    Array.isArray(user.items) &&
+    user.items.every(isValidItem)
+  );
+}

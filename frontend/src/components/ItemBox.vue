@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import Item from './Item.vue';
+import ItemComp from './Item.vue';
+import { Item } from "../types/socket-connection-types"
+
+const props = defineProps<{
+    tooltipUp: boolean,
+    item1: Item,
+    item2: Item,
+    item3: Item,
+}>();
+
 </script>
 
 <template>
-    <div class="flex-row item-container">
-        <Item :item-kind="1" :multiplier="2.2" />
-        <Item :item-kind="3" :multiplier="88.22" />
-        <Item :item-kind="5" :multiplier="0.2" />
+    <div class="item-container">
+        <ItemComp :item-kind="item1?.kind" :multiplier="item1?.modifier" :tooltipUp="props.tooltipUp" :is-highlighted="false" />
+        <ItemComp :item-kind="item2?.kind" :multiplier="item2?.modifier" :tooltipUp="props.tooltipUp" :is-highlighted="false" />
+        <ItemComp :item-kind="item3?.kind" :multiplier="item3?.modifier" :tooltipUp="props.tooltipUp" :is-highlighted="false"/>
     </div>
 </template>
 
@@ -14,6 +23,8 @@ import Item from './Item.vue';
 @import '../css/main.scss';
 
 .item-container {
-    width: fit-content;
+    height: 85%;
+    display: flex;
+    margin: 0;
 }
 </style>

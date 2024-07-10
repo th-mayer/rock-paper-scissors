@@ -24,6 +24,7 @@ function makeRequest(requestType: string) {
     if (body) {
       requestOptions.headers.append("Content-Type", "application/json");
       requestOptions.body = JSON.stringify(body);
+      console.log(body);
     }
     return fetch(url, requestOptions).then(handleResponse);
   };

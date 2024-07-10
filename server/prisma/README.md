@@ -18,5 +18,5 @@ Further details: <https://www.prisma.io/docs/orm/prisma-migrate/getting-started>
 
 ## Merging
 
-It's possible your DB won't work anymore after merging branches. To correct this, run ``npx prisma reset``.
-This will reset your DB (**deleting all data!!**) and apply all migrations. 
+It's possible your DB won't work anymore after merging branches. To correct this, run ``npx prisma migrate reset``.
+This will reset your DB (**deleting all data!!**) and apply all migrations.

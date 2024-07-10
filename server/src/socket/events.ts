@@ -1,9 +1,12 @@
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
 import { addToMatchmaking } from "../game/add-to-matchmaking";
 import { running_matches } from "../game/dicts/running-matches-dict";
-import { Item, Player } from "../types/socket-connection-types";
+import { open_matches } from "../game/dicts/open-matches-dict";
+import { socket_in_matches } from "../game/dicts/socket-in-match-dict";
+import { Item, Player, isValidUser } from "../types/socket-connection-types";
 import { calculateCombat } from "../game/combat/combat-calculate";
-import dbUsers from "../database-services/prisma-client";
+import { handleDisconnect } from "../game/handle-disconnect";
+import { reconnect } from "../game/handle-reconnect";
 
 const SocketServer = (server: any) => {
   const io = new Server(server, {
@@ -14,10 +17,7 @@ const SocketServer = (server: any) => {
 
   const connectedClients = () => io.engine.clientsCount;
 
-  /**
-   * Events
-   */
-  io.on("connect", (socket) => {
+  io.on("connect", (socket) => { // The socket connection is now open and can listen for the emits from client
     console.log("Connected!");
     console.log(`${socket.id} connected`);
     console.log(`${connectedClients()} clients are online`);
@@ -25,168 +25,70 @@ const SocketServer = (server: any) => {
     socket.on("disconnect", (reason) => {
       console.log(`${socket.id} disconnected`);
       console.log(`${connectedClients} clients are online`);
+      handleDisconnect(socket.id, io);
     });
 
-    // socket.emit("gm", "frens");
-
-    // socket.on("gn", (arg) => {
-    //   console.log(arg);
-    // });
-  });
-
-  // shouldnt these all be in io.on as socket.on("event-name") ?
-  io.on("start-matchmaking", async (data) => {
-    // called by client if he wants to be added to matchmaking
-
-    // TODO: check what the JSON obj sent by client socket actually looks like
-    // assumption: user { id, email, username, hash, items: {item1, item2, item3}, itemCoin }
-    let user = await dbUsers.getUserById(data.user.id);
-    let userItems = user.items;
-    var items: Item[] = [];
-
-    for (let i = 0; i < 3; i++) {
-      let item: Item = { kind: 0, description: "", name: "", modifier: 1 };
-      // item kinds go from 0 - 5, these numbers represent the following:
-      // 0 = dmg_r; 1 = dmg_p; 2 = dmg_s; 3 = prt_r; 4 = prt_p; 5 = prt_s;
-      switch (userItems[i].kind) {
-        case 0: {
-          item.description =
-            "Equipped person deals " +
-            userItems[i].modifier +
-            "x times the damage when winning with rock";
-          item.kind = userItems[i].kind;
-          item.name = "Heavy Stone";
-          item.modifier = userItems[i].modifier;
+    socket.on("start-matchmaking", async (user) => { // called by client if he wants to be added to matchmaking
+      for (let socket_id in socket_in_matches) { // This is problematic, disconnectHandler will end match and delete match from dict
+        if (socket_id === socket.id) {           // and this leads to .instance beeing null and the server crashes.
+          reconnect(io,socket.id,socket_in_matches[socket_id]); // TODO: find a way to make disconnect only handle when app is being closed
+          return;
         }
-        case 1: {
-          item.description =
-            "Equipped person deals " +
-            userItems[i].modifier +
-            "x times the damage when winning with paper";
-          item.kind = userItems[i].kind;
-          item.name = "Sharp Paper";
-          item.modifier = userItems[i].modifier;
-        }
-        case 2: {
-          item.description =
-            "Equipped person deals " +
-            userItems[i].modifier +
-            "x times the damage when winning with scissors";
-          item.kind = userItems[i].kind;
-          item.name = "Pointy Scissors";
-          item.modifier = userItems[i].modifier;
-        }
-        case 3: {
-          item.description =
-            "Equipped person receives only " +
-            userItems[i].modifier +
-            "x times damage when loosing aginst rock";
-          item.kind = userItems[i].kind;
-          item.name = "Brittle Stons";
-          item.modifier = userItems[i].modifier;
-        }
-        case 4: {
-          item.description =
-            "Equipped person receives only " +
-            userItems[i].modifier +
-            "x times damage when loosing aginst paper";
-          item.kind = userItems[i].kind;
-          item.name = "Damp Paper";
-          item.modifier = userItems[i].modifier;
-        }
-        case 5: {
-          item.description =
-            "Equiped person receives only " +
-            userItems[i].modifier +
-            "x times damage when loosing aginst scissors";
-          item.kind = userItems[i].kind;
-          item.name = "Blunt Scissors";
-          item.modifier = userItems[i].modifier;
-        }
-        default: {
-          item.description = "No Item equipped in this slot";
-          item.kind = 99;
-          item.name = "None";
-          item.modifier = 1;
-        }
-        items.push(item);
       }
-    }
-
-    var player: Player = {
-      name: "name",
-      level: 10,
-      items: items,
-      socket: data.socket,
-      token: data.token,
-    };
-    addToMatchmaking(io, player);
-  });
-
-  io.on("abort-matchmaking", (m_id) => {
-    for (let match_id in running_matches) {
-      if (match_id == m_id) {
-        delete running_matches[match_id];
-        break;
+      if (isValidUser(user)) { // Validate that passed user variable contains all needed data, to prevent runtime problems
+// TODO MAYBE: Shouldent the backend get the user, so the frontend cant "cheat" a selfmed user object?
+        let player: Player = {
+          name: user.username,
+          items: user.items,
+          socket: socket,
+          wins: user.wins,
+          userID: user.id,
+        };
+        addToMatchmaking(io, player);
+      } else {
+        io.to(socket.id).emit("game-crashed", "The user object passed from client was wrong or incomplete")
       }
-    }
-  });
+    });
 
-  io.on("choice", (socket: Socket, data) => {
-    var choice = data.choice; // symbol send by client
-    var match = running_matches[data.m_id]; // get match, with by client provided match_id
+    socket.on("abort-matchmaking", (m_id) => {
+      for (let match_id in open_matches) {
+        if (match_id == m_id) {
+          delete open_matches[match_id];
+          return;
+        }
+      }
+    });
+  
+    socket.on("choice", (data) => {
+      let choice = data.choice; // symbol send by client
+      let match = running_matches[data.m_id]; // get match, with by client provided match_id
+      let player;
 
-    if (socket.id == match.player1.socket.id) {
-      match.instance!.player1.chosen = true;
-    } else if (socket.id == match.player2?.socket.id) {
-      match.instance!.player2.chosen = true;
-    }
-
-    switch (
-      choice // put choice into game instance
-    ) {
-      case "r": {
+      if (match) { // Make sure, there even is a match in running_matches
         if (socket.id == match.player1.socket.id) {
-          match.instance!.player1.symbol = "r";
+          player = match.instance.player1;
+          console.log("player 1 choice: "+choice)
+        } else if (socket.id == match.player2.socket.id) {
+          player = match.instance.player2;
+          console.log("player 2 choice: "+choice)
+        } else { // If he is not inside of the game, alert him, and remove him from game
+          io.to(socket.id).emit("game-crashed", "You were not inside of the game, you have been connected to")
+          return;
         }
-        if (socket.id == match.player2!.socket.id) {
-          match.instance!.player2.symbol = "r";
+        player.chosen = true; // Set chosen to true, since this player has already chosen
+        player.symbol = choice; // Set the symbol to what was passed by the client
+        if (
+          match.instance.player1.chosen == true && // Check if both have already chosen
+          match.instance.player2.chosen == true
+        ) {
+          calculateCombat(io, data.m_id);
+          match.instance.player1.chosen = false; // Reset the choesen boolean
+          match.instance.player2.chosen = false;
         }
+      } else { // Inform client, he got a depricated match-id key and remove him from game
+        io.to(socket.id).emit("game-crashed", "Your match_id is depricated or the match already ended")
+        return;
       }
-      case "p": {
-        if (socket.id == match.player1.socket.id) {
-          match.instance!.player1.symbol = "p";
-        }
-        if (socket.id == match.player2!.socket.id) {
-          match.instance!.player2.symbol = "p";
-        }
-      }
-      case "s": {
-        if (socket.id == match.player1.socket.id) {
-          match.instance!.player1.symbol = "s";
-        }
-        if (socket.id == match.player2!.socket.id) {
-          match.instance!.player2.symbol = "s";
-        }
-      }
-      case "": {
-        if (socket.id == match.player1.socket.id) {
-          match.instance!.player1.symbol = "";
-        }
-        if (socket.id == match.player2!.socket.id) {
-          match.instance!.player2.symbol = "";
-        }
-      }
-    }
-
-    if (
-      match.instance!.player1.chosen == true &&
-      match.instance!.player2.chosen == true
-    ) {
-      calculateCombat(io, data.m_id);
-      match.instance!.player1.chosen = false;
-      match.instance!.player2.chosen = false;
-    }
+    });
   });
-};
-export default SocketServer;
+ }; export default SocketServer;

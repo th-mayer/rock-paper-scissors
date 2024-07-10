@@ -10,7 +10,6 @@ const schema = Yup.object().shape({
 });
 
 async function onSubmit(values: any) {
-  console.log(values);
   const authStore = useAuthStore();
   const { username, hash } = values;
   await authStore.login(username, hash);
@@ -21,27 +20,16 @@ async function onSubmit(values: any) {
   <div class="login-div">
     <Card title="Login">
       <h1>Hey you, login ^-^</h1>
-      <Form
-        @submit="onSubmit"
-        :validation-schema="schema"
-        v-slot="{ errors, isSubmitting }"
-      >
+      <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
         <div class="form-section">
           <div class="flex-col">
             <div class="lable-line">
               <label>Username</label>
               <div class="error">{{ errors.username }}</div>
             </div>
-
-            <Field
-              name="username"
-              type="text"
-              class="form-control margin-bottom-10"
-              :class="{ 'is-invalid': errors.username }"
-            />
+            <Field name="username" type="text" class="form-control margin-bottom-10"
+              :class="{ 'is-invalid': errors.username }" />
           </div>
-
-          <!-- <div class="invalid-feedback">{{ errors.username }}</div> -->
         </div>
         <div class="form-section">
           <div class="flex-col">
@@ -49,20 +37,11 @@ async function onSubmit(values: any) {
               <label>Password</label>
               <div class="error">{{ errors.hash }}</div>
             </div>
-            <Field
-              name="hash"
-              type="password"
-              class="form-control"
-              :class="{ 'is-invalid': errors.hash }"
-            />
+            <Field name="hash" type="password" class="form-control" :class="{ 'is-invalid': errors.hash }" />
           </div>
-
-          <!-- <div class="invalid-feedback">{{ errors.hash }}</div> -->
         </div>
         <div class="form-section flex-col">
-          <router-link to="register" class="register-link"
-            >No account? Register here!</router-link
-          >
+          <router-link to="register" class="register-link">No account? Register here!</router-link>
           <button class="login-btn" :disabled="isSubmitting">let me in!</button>
         </div>
       </Form>
@@ -96,7 +75,7 @@ async function onSubmit(values: any) {
   height: 5vh;
   color: $bright-font-color;
   padding-left: 10px;
-  
+
 }
 
 input:-webkit-autofill,

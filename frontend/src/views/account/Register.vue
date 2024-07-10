@@ -5,10 +5,9 @@ import { useUserStore } from "../../stores/users.store";
 import { useAlertStore } from "../../stores/alert.store";
 import { router } from "../../router/router";
 import Card from '../../components/Card.vue';
-;
 
 const schema = Yup.object().shape({
-  email: Yup.string().required("Email is required"),
+  email: Yup.string().email("e-mail address is invalid").required("e-mail is required"),
   username: Yup.string().required("Username is required"),
   hash: Yup.string().required("Password is required")
 });
