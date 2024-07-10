@@ -34,6 +34,7 @@ const SocketServer = (server: any) => {
           items: user.items,
           socket: socket,
           wins: user.wins,
+          userID: user.id,
         };
         addToMatchmaking(io, player);
       } else {

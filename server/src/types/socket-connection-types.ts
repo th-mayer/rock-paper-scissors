@@ -18,6 +18,7 @@ export type Player = {
   wins: number;
   items: Item[];
   socket: Socket;
+  userID: number;
 };
 
 export type PlayerStats = {
@@ -55,10 +56,11 @@ function isValidItem(item: any): item is Item {
   return typeof item.kind === 'number' && typeof item.modifier === 'number';
 }
 
-export function isValidUser(user: any): user is { username: string; wins: number; items: Item[] } {
+export function isValidUser(user: any): user is { username: string; wins: number; items: Item[], id: number } {
   return (
     typeof user.username === 'string' &&
     typeof user.wins === 'number' &&
+    typeof user.id === 'number' &&
     Array.isArray(user.items) &&
     user.items.every(isValidItem)
   );

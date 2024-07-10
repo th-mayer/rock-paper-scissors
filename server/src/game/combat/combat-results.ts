@@ -1,5 +1,6 @@
 import { Server } from "socket.io";
 import { running_matches } from "../dicts/running-matches-dict";
+import dbUsers from "../../database-services/prisma-client";
 
 export const emitCombatResults = (
   io: Server, // Socket Server, needs to be passed so this file can use io.emit()
@@ -32,14 +33,20 @@ export const emitCombatResults = (
 
   if (instance.player1.hp <= 0 && instance.player2.hp <= 0) { // Find out if somone died
     io.to(match_id).emit("game-end", "stalemate");
+    dbUsers.updateWinItemCoin(running_matches[match_id].player2.userID, true);
+    dbUsers.updateWinItemCoin(running_matches[match_id].player1.userID, true);
     removeMatch(match_id);
   } else if (instance.player1.hp <= 0) {
+    dbUsers.updateWinItemCoin(running_matches[match_id].player2.userID, true);
+    dbUsers.updateWinItemCoin(running_matches[match_id].player1.userID, false);
     removeMatch(match_id);
     io.to(match_id).emit(
       "game-end",
       running_matches[match_id].player2.socket.id
     );
   } else if (instance.player2.hp <= 0) {
+    dbUsers.updateWinItemCoin(running_matches[match_id].player1.userID, true);
+    dbUsers.updateWinItemCoin(running_matches[match_id].player2.userID, false);
     removeMatch(match_id);
     io.to(match_id).emit(
       "game-end",

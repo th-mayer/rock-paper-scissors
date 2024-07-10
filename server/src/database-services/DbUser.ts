@@ -128,26 +128,43 @@ export class DbUser {
     throw Error("Error when updating User");
   }
 
-  async updateWinItemCoin(user_id: number) {
+  async updateWinItemCoin(user_id: number, win: boolean) {
     const user = await this.getUser(user_id);
     if (!user) throw Error("User not found");
     // increase ItemCoin by 1 after user has won a game
-    const updatedUser = await this.prismaUser.update({
-      where: {
-        id: user_id,
-      },
-      data: {
-        itemCoin: {
-          increment: 1,
+    let updatedUser;
+    if (win) {
+      updatedUser = await this.prismaUser.update({
+        where: {
+          id: user_id,
         },
-        wins: {
-          increment: 1,
+        data: {
+          itemCoin: {
+            increment: 1,
+          },
+          wins: {
+            increment: 1,
+          },
         },
-      },
-      include: {
-        items: true,
-      },
-    });
+        include: {
+          items: true,
+        },
+      });
+    } else {
+      updatedUser = await this.prismaUser.update({
+        where: {
+          id: user_id,
+        },
+        data: {
+          itemCoin: {
+            increment: 1,
+          },
+        },
+        include: {
+          items: true,
+        },
+      });
+    }
     return updatedUser;
   }
 

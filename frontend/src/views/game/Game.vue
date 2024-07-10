@@ -15,8 +15,7 @@ import { storeToRefs } from 'pinia';
 // ----------------------- Declaration of variables ------------------------
 // -------------------------------------------------------------------------
 
-
-enum GamePhase {
+enum GamePhase { // Game phases as enum to be easy to modify
   BE_ADDED,
   WAIT_QUEUE,
   GAME_FOUND,
@@ -24,6 +23,7 @@ enum GamePhase {
   RESULT,
   END
 }
+
 const userStore = useUserStore();
 let { user } = storeToRefs(userStore);
 
@@ -136,7 +136,7 @@ function startEndPhase(title: string, message: string) {
   }
 }
 
-function startDelayedEndPhase(title: string, message: string) {
+function startDelayedEndPhase(title: string, message: string) { // End game but with delay, used for normal game ends
   setTimeout(()=> {
     startEndPhase(title,message);
   }, 5000);
