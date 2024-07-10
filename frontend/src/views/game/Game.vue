@@ -155,7 +155,7 @@ function startDelayedEndPhase(title: string, message: string) { // End game but 
 socket.on("matchmaking-active", (m_id) => { // called if client was added to matchmaking
   match_id = m_id
   console.log(socket_log + "Matchmaking active")
-  game_phase.value = GamePhase.WAIT_QUEUE;
+  startQueuePhase();
 })
 
 socket.on("initiate-match", (data) => { // called if a match was found
@@ -188,9 +188,11 @@ socket.on("game-end", (data)=>{
   if (data === "stalemate") { // Tie
     startDelayedEndPhase("stalemate!", "It was a close match, but both of you won!");
   } else if (data === socket.id) { // Player has won
-    startDelayedEndPhase("Victory!", "You have assert your dominance and won! The defeated cat must leave.");
+    startDelayedEndPhase("Victory!", 
+    "You have assert your dominance and won! The defeated cat was send home, and wont recover from this shattering defeat.");
   } else { // Opponent has won
-    startDelayedEndPhase("Drama!", "You were cheated out of your victory, what a fraud!");
+    startDelayedEndPhase("Drama!", 
+    "You were cheated out of your victory, what a fraud! In all of your nine lifes you never encountered such a presumptuous imposter.");
   }
 })
 

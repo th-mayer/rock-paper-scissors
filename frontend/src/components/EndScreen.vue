@@ -13,7 +13,7 @@ const props = defineProps<{
         <Card class="endCard" :title="props.title">
             <p>{{ props.message }}</p>
             <router-link to="/home">
-                <button class="btn router-link-in-button">
+                <button class="btn router-link-in-button discard">
                     send me back home
                 </button>
             </router-link>

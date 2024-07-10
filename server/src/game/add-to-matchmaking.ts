@@ -11,6 +11,7 @@ export const addToMatchmaking = (io: Server, player: Player) => {
   for (let match_id in open_matches){
     open_matches[match_id].player2 = player;
     socket_in_matches[player.socket.id] = match_id;
+    console.log("[io]: Players "+open_matches[match_id].player1.socket.id+" and "+player.socket.id+" are creating match "+match_id)
     initiateMatch(io, open_matches[match_id], match_id);
     return;
   }
@@ -29,4 +30,5 @@ function newMatchmakingEntry(player: Player, io: any){
   open_matches[match_id] = match; // add match to matchmaking dict
   socket_in_matches[player.socket.id] = match_id;
   io.to(player.socket.id).emit("matchmaking-active", match_id)
+  console.log("[io]: No open match found, created new open match "+match_id)
 }

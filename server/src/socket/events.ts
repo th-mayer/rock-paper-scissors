@@ -5,7 +5,8 @@ import { open_matches } from "../game/dicts/open-matches-dict";
 import { socket_in_matches } from "../game/dicts/socket-in-match-dict";
 import { Item, Player, isValidUser } from "../types/socket-connection-types";
 import { calculateCombat } from "../game/combat/combat-calculate";
-import dbUsers from "../database-services/prisma-client";
+import { handleDisconnect } from "../game/handle-disconnect";
+import { reconnect } from "../game/handle-reconnect";
 
 const SocketServer = (server: any) => {
   const io = new Server(server, {
@@ -24,11 +25,16 @@ const SocketServer = (server: any) => {
     socket.on("disconnect", (reason) => {
       console.log(`${socket.id} disconnected`);
       console.log(`${connectedClients} clients are online`);
-      io.to(socket_in_matches[socket.id]).emit("game-crashed", "your opponent disconnected")
+      handleDisconnect(socket.id, io);
     });
 
     socket.on("start-matchmaking", async (user) => { // called by client if he wants to be added to matchmaking
-      console.log(isValidUser(user))
+      for (let socket_id in socket_in_matches) { // This is problematic, disconnectHandler will end match and delete match from dict
+        if (socket_id === socket.id) {           // and this leads to .instance beeing null and the server crashes.
+          reconnect(io,socket.id,socket_in_matches[socket_id]); // TODO: find a way to make disconnect only handle when app is being closed
+          return;
+        }
+      }
       if (isValidUser(user)) { // Validate that passed user variable contains all needed data, to prevent runtime problems
 // TODO MAYBE: Shouldent the backend get the user, so the frontend cant "cheat" a selfmed user object?
         let player: Player = {
@@ -81,7 +87,7 @@ const SocketServer = (server: any) => {
         }
       } else { // Inform client, he got a depricated match-id key and remove him from game
         io.to(socket.id).emit("game-crashed", "Your match_id is depricated or the match already ended")
-          return;
+        return;
       }
     });
   });
