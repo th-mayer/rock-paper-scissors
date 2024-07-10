@@ -26,6 +26,9 @@ const { user } = storeToRefs(authStore);
 <style lang="scss">
 @import '@/css/main.scss';
 
+.account {
+    margin: 5vw;
+}
 
 .acc-btn {
     margin: 0;

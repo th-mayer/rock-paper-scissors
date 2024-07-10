@@ -141,10 +141,10 @@ const alignmentItemTooltip = computed(() => {
 .health-bar {
     background-color: $secondary-color;
     height: 100%;
+    width: 100vw;
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
     border-radius: 200px;
     transition: width 1.5s ease;
     transition-delay: 0.1s;
@@ -153,7 +153,7 @@ const alignmentItemTooltip = computed(() => {
 .health-bar-red {
     background-color: $alert-color;
     height: 100%;
-    width: 100%;
+    width: 100vw;
     position: absolute;
     top: 0;
     left: 0;
@@ -165,7 +165,7 @@ const alignmentItemTooltip = computed(() => {
 .health-bar-blue {
     background-color: $highlight-color;
     height: 100%;
-    width: 100%;
+    width: 100vw;
     position: absolute;
     top: 0;
     left: 0;

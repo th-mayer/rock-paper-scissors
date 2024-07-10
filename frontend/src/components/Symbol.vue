@@ -37,7 +37,7 @@ const pic = computed(() => {
 }
 
 .symbol-img {
-    height: 20vh;
+    height: 10vw;
     margin-left: 1vh;
     margin-right: 1vh;
     border-color: $backshadow;
@@ -58,4 +58,15 @@ const pic = computed(() => {
     border-color: $secondary-color;
     border-style: 2px solid;
 }
+
+/* Tablet styles */
+@media (max-width: 768px) {
+
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+    
+}
+
 </style>

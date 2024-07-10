@@ -32,29 +32,25 @@ onBeforeMount(async () => {
 
 <style>
 .leaderboard h2 {
-    font-size: 6vw;
+    font-size: 4vw;
+    width: 30vw;
 }
 
 /* shit in between styles */
-@media (max-width: 110px) {
+@media (max-width: 1100px) {
     .leaderboard {
-        width: 100vw;
+        width: unset;
+        margin: 5vw;
     }
 }
 
 /* Tablet styles */
 @media (max-width: 768px) {
-    .leaderboard {
-        width: unset;
-        margin: 5vw;
-    }
+
 }
 
 /* Phone styles */
 @media (max-width: 480px) {
-    .leaderboard {
-        width: unset;
-        margin: 5vw;
-    }
+
 }
 </style>

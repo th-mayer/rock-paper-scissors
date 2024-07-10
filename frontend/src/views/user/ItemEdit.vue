@@ -220,11 +220,12 @@ onBeforeMount(async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 5vw;
+    overflow: hidden;
 }
 
 .item-manager h2 {
     margin-top: 3vh;
+    font-size: 2.5vw;
 }
 
 .item-manager p {

@@ -128,7 +128,7 @@ const { user } = storeToRefs(authStore);
   }
 
   .home-grid-container h2 {
-    font-size: 8vw;
+    font-size: 7vw;
   }
 
   .button-container {

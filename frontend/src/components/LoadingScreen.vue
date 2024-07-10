@@ -106,4 +106,15 @@ function cancelMatchmaking() {
     animation-delay: 1s;
 }
 
+/* Tablet styles */
+@media (max-width: 768px) {
+    .loadingScreen{
+        width: unset;
+        margin: 5vw;
+    }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {}
+
 </style>

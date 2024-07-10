@@ -35,7 +35,7 @@ hr {
 .wins {
     white-space: nowrap;
 }
-/* Tablet styles */
+/* bigger than tablet styles */
 @media (max-width: 1100px) {
     .leaderboardStats {
         width: 80vw;
