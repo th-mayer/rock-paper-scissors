@@ -140,7 +140,7 @@ export class DbUser {
         },
         data: {
           itemCoin: {
-            increment: 1,
+            increment: 2,
           },
           wins: {
             increment: 1,
