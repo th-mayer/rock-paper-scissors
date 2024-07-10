@@ -216,10 +216,11 @@ onBeforeMount(async () => {
 }
 
 .item-manager {
-    height: 95vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 5vw;
 }
 
 .item-manager h2 {
@@ -232,5 +233,21 @@ onBeforeMount(async () => {
 
 .itemEditBtns {
     margin-top: 2vh;
+}
+
+/* Tablet styles */
+@media (max-width: 768px) {
+    .item-manager {
+        margin: 5vw;
+        width: unset;
+    }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+    .item-manager {
+        margin: 5vw;
+        width: unset;
+    }
 }
 </style>

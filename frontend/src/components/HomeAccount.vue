@@ -37,13 +37,17 @@ const { user } = storeToRefs(authStore);
 
 /* Tablet styles */
 @media (max-width: 768px) {
-    .account{
-        width: 90vw;
+    .account {
+        width: unset;
+        margin: 5vw;
     }
 }
 
 /* Phone styles */
 @media (max-width: 480px) {
-
+    .account {
+        width: unset;
+        margin: 5vw;
+    }
 }
 </style>

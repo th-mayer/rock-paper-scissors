@@ -81,7 +81,7 @@ const { user } = storeToRefs(authStore);
     padding-bottom: 12vh;
   }
 
-  .home-grid-container h2{
+  .home-grid-container h2 {
     font-size: 8vw;
   }
 
@@ -127,7 +127,7 @@ const { user } = storeToRefs(authStore);
     padding-bottom: 12vh;
   }
 
-  .home-grid-container h2{
+  .home-grid-container h2 {
     font-size: 8vw;
   }
 
@@ -173,15 +173,15 @@ const { user } = storeToRefs(authStore);
   }
 
   #match-button {
-    font-size: 4vh;
+    font-size: 3vh;
     height: 10vh;
     padding: 2rem;
-    position: fixed;
+    position: relative;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
     width: auto;
-    margin: 0;
+    margin-bottom: 5vh;
   }
 
   .button-container::before {
@@ -191,9 +191,9 @@ const { user } = storeToRefs(authStore);
     left: -10px;
     right: -10px;
     bottom: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+    background: linear-gradient(to top, rgba(2, 1, 55, 0.8), rgba(241, 24, 51, 0));
     z-index: -1;
-    border-radius: 5vh;
   }
+
 }
 </style>

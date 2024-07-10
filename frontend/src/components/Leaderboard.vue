@@ -45,10 +45,16 @@ onBeforeMount(async () => {
 /* Tablet styles */
 @media (max-width: 768px) {
     .leaderboard {
-        width: 90vw;
+        width: unset;
+        margin: 5vw;
     }
 }
 
 /* Phone styles */
-@media (max-width: 480px) {}
+@media (max-width: 480px) {
+    .leaderboard {
+        width: unset;
+        margin: 5vw;
+    }
+}
 </style>

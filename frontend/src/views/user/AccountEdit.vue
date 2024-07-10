@@ -115,7 +115,6 @@ label {
 
 .form-container {
   display: flex;
-
 }
 
 .col-left {
@@ -161,23 +160,41 @@ label {
 
 /* Tablet styles */
 @media (max-width: 768px) {
-  .editProfile .col-left{
+  .card-container.editProfile {
+    width: 90vw;
+  }
+
+  .col-left {
     font-size: 6vw;
     align-items: center;
   }
-  .col-right{
+
+  .col-right {
     width: fit-content;
   }
 }
 
 /* Phone styles */
 @media (max-width: 480px) {
-  .card-rect h1 {
-    font-size: 10vw;
-
+  .card-container.editProfile {
+    padding: 0;
+    width: 70vw;
   }
 
-  label {
+  .col-left {
+    font-size: 5vw;
+    align-items: center;
+  }
+
+  .col-right {
+    width: fit-content;
+  }
+
+  .card-rect h1 {
+    font-size: 10vw;
+  }
+
+  Label {
     font-size: 10vw;
   }
 
@@ -190,5 +207,4 @@ label {
     border-radius: 60px;
   }
 }
-
 </style>

@@ -71,13 +71,29 @@ onBeforeMount(async () => {
 
 /* Tablet styles */
 @media (max-width: 768px) {
-#itembox .item-container img{
-  width: 25vw;
-  height: auto;
-}
-#itembox{
-  margin: 5vw;
-}
+  #itembox .item-container img {
+    width: 25vw;
+    height: auto;
+  }
+
+  #itembox {
+    width: unset;
+    margin: 5vw;
+
+  }
 }
 
+/* Tablet styles */
+@media (max-width: 480px) {
+  #itembox .item-container img {
+    width: 25vw;
+    height: auto;
+  }
+
+  #itembox {
+    width: unset;
+    margin: 5vw;
+
+  }
+}
 </style>
