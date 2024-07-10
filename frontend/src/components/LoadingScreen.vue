@@ -105,4 +105,5 @@ function cancelMatchmaking() {
 .loadingDots div:nth-child(5) {
     animation-delay: 1s;
 }
+
 </style>

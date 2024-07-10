@@ -8,7 +8,7 @@ const { user } = storeToRefs(authStore);
 </script>
 
 <template>
-    <Card title="your Account" class="Homecard">
+    <Card title="your Account" class="Homecard account">
         <h1>Hello, {{ user.username }}!</h1>
         <p>It is the perfect time for a thrilling match today!</p>
 
@@ -17,7 +17,7 @@ const { user } = storeToRefs(authStore);
                 <button class="router-link-in-button acc-btn">edit Account</button>
             </router-link>
 
-            
+
             <button class="acc-btn router-link-in-button discard" @click="authStore.logout()">Logout</button>
         </div>
     </Card>
@@ -27,11 +27,23 @@ const { user } = storeToRefs(authStore);
 @import '@/css/main.scss';
 
 
-.acc-btn{
+.acc-btn {
     margin: 0;
 }
 
-.flex-row{
+.flex-row {
     justify-content: space-evenly;
+}
+
+/* Tablet styles */
+@media (max-width: 768px) {
+    .account{
+        width: 90vw;
+    }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+
 }
 </style>

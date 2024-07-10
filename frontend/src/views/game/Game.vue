@@ -20,8 +20,8 @@ onBeforeMount(async () => { //Get the User before mounting
   console.log(user.value);
 });
 
-onMounted(()=>{ //Add User to Matchmaking as soon as the app mounts this site
-  setTimeout(()=>{socket.emit("start-matchmaking", user.value)}, 1000);
+onMounted(() => { //Add User to Matchmaking as soon as the app mounts this site
+  setTimeout(() => { socket.emit("start-matchmaking", user.value) }, 1000);
 })
 
 enum GamePhase {
@@ -46,7 +46,7 @@ let opp_symbol: Ref<string> = ref("");
 
 
 const opponent_status = ref()
-const player_status= ref()
+const player_status = ref()
 
 const opponent_name = computed(() => {
   if (opponent_status.value) return opponent_status.value.name;
@@ -79,7 +79,7 @@ const player_items = computed(() => {
 })
 
 function confirmSymbolChoice(symbol: string) { // call to send chosen symbol to server
-  console.log("confirmsymbolchoice: "+symbol)
+  console.log("confirmsymbolchoice: " + symbol)
   if (symbol == "" || symbol == "r" || symbol == "p" || symbol == "s" && match_id) {
     socket.emit("choice", { choice: symbol, m_id: match_id });
     chosen_symbol = symbol;
@@ -103,7 +103,7 @@ socket.on("matchmaking-active", (m_id) => { // called if client was added to mat
 
 socket.on("initiate-match", (data) => { // called if a match was found
   match_id = data.m_id;
-  console.log("me:" + data.player, "opponent: "+ data.opponent)
+  console.log("me:" + data.player, "opponent: " + data.opponent)
   opponent_status.value = data.opponent;
   player_status.value = data.player;
   console.log(socket_log + "Found match");
@@ -117,7 +117,7 @@ socket.on("choose-timeout", () => { // called if choosing timer runns out
 
 socket.on("combat-round", (data) => { // called if both symbols are collected by server and combat was calculated by server
   // data contains the coosen symbol of player and opponent, and damage dealt
-  console.log(socket_log+"Combat results arrived from server.")
+  console.log(socket_log + "Combat results arrived from server.")
   my_health.value = data.myLife;
   my_symbol.value = data.mySymbol;
   opp_health.value = data.oppLife;
@@ -146,17 +146,18 @@ function startResultPhase() {
 </script>
 
 <template>
-  <div v-if="game_phase == GamePhase.BE_ADDED || game_phase == GamePhase.WAIT_QUEUE">
-    <LoadingScreenComp @cancel-matchmaking="cancelMatchmaking" :inQueue="game_phase==GamePhase.WAIT_QUEUE"/>
+  <div class="fullscreen" v-if="game_phase == GamePhase.BE_ADDED || game_phase == GamePhase.WAIT_QUEUE">
+    <LoadingScreenComp @cancel-matchmaking="cancelMatchmaking" :inQueue="game_phase == GamePhase.WAIT_QUEUE" />
   </div>
-  <div class="top-and-bottom" v-if="game_phase == GamePhase.SELECTION || game_phase == GamePhase.RESULT">
+  <div class="top-and-bottom fullscreen" v-if="game_phase == GamePhase.SELECTION || game_phase == GamePhase.RESULT">
     <div class="player-row">
       <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" :health="opp_health" class="enemy"
         :topbar="true" />
     </div>
-    <SymbolSelector @confirm-symbol="confirmSymbolChoice" @confirm-last="getLastChoice" v-if="game_phase == GamePhase.SELECTION" />
-    <CombatResult v-if="game_phase == GamePhase.RESULT" :player_name="player_name" :opponent_name="opponent_name"
-      :player_symbol="my_symbol" :opponent_symbol="opp_symbol" />
+    <SymbolSelector @confirm-symbol="confirmSymbolChoice" @confirm-last="getLastChoice"
+      v-if="game_phase == GamePhase.SELECTION" />
+    <CombatResult class="fullscreen" v-if="game_phase == GamePhase.RESULT" :player_name="player_name"
+      :opponent_name="opponent_name" :player_symbol="my_symbol" :opponent_symbol="opp_symbol" />
     <div class="player-row right">
       <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health="my_health" class="player"
         :topbar="false" />

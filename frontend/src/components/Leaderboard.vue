@@ -18,7 +18,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <Card title="Leaderboard" class="Homecard">
+    <Card title="Leaderboard" class="Homecard leaderboard">
         <h1>top 5 players</h1>
         <template v-if="users.loading">
             <!-- todo: loadin spinner -->
@@ -30,4 +30,17 @@ onBeforeMount(async () => {
     </Card>
 </template>
 
-<style></style>
+<style>
+
+/* Tablet styles */
+@media (max-width: 768px) {
+ .leaderboard{
+    width: 90vw;
+ }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+
+}
+</style>

@@ -28,7 +28,7 @@ async function onSubmit(values: any) {
 <template>
   <div class="register-div">
     <Card title="Register">
-      <h1>hey you, register UwU</h1>
+      <h1>hey you, register</h1>
       <Form @submit="onSubmit" :validation-schema="schema" v-slot="{ errors, isSubmitting }">
         <div class="form-section">
           <div class="flex-col">
@@ -57,7 +57,7 @@ async function onSubmit(values: any) {
             <Field name="hash" type="password" class="form-control" :class="{ 'is-invalid': errors.hash }" />
           </div>
         </div>
-        <div class="form-section flex-row">
+        <div class="form-section flex-col">
           <router-link to="login" class="cancel-link">Cancel registration</router-link>
           <button class="login-btn" :disabled="isSubmitting">Register</button>
         </div>
@@ -172,4 +172,33 @@ input:-webkit-autofill{
     padding: 0;
     white-space: nowrap;
 }
+
+/* Tablet styles */
+@media (max-width: 768px) {
+  .card-rect h1 {
+    font-size: 10vw;
+  }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+  .card-rect h1 {
+    font-size: 10vw;
+
+  }
+
+  label {
+    font-size: 10vw;
+  }
+
+  .register-link {
+    font-size: 3vw;
+  }
+
+  button.login-btn {
+    font-size: 14vw;
+    border-radius: 60px;
+  }
+}
+
 </style>

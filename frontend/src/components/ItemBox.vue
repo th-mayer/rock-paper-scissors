@@ -27,4 +27,5 @@ const props = defineProps<{
     display: flex;
     margin: 0;
 }
+
 </style>
