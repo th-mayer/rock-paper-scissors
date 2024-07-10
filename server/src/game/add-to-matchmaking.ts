@@ -2,7 +2,7 @@ import { Server } from "socket.io";
 import { generateUUID } from "../generators/generate-uuid";
 import { Match, MatchmakingMatch, Player } from "../types/socket-connection-types";
 import { initiateMatch } from "./initiate-match";
-import { running_matches } from "./dicts/running-matches-dict";
+import { socket_in_matches } from "./dicts/socket-in-match-dict";
 import { open_matches} from "./dicts/open-matches-dict";
 
 export const addToMatchmaking = (io: Server, player: Player) => {
@@ -10,6 +10,7 @@ export const addToMatchmaking = (io: Server, player: Player) => {
   // for a already created matchmaking entry
   for (let match_id in open_matches){
     open_matches[match_id].player2 = player;
+    socket_in_matches[player.socket.id] = match_id;
     initiateMatch(io, open_matches[match_id], match_id);
     return;
   }
@@ -26,5 +27,6 @@ function newMatchmakingEntry(player: Player, io: any){
   }; // create match
   let match_id: string = generateUUID(); // generate id for matchmaking and later socket room
   open_matches[match_id] = match; // add match to matchmaking dict
-  io.emit("matchmaking-active", match_id)
+  socket_in_matches[player.socket.id] = match_id;
+  io.to(player.socket.id).emit("matchmaking-active", match_id)
 }

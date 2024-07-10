@@ -1,7 +1,8 @@
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
 import { addToMatchmaking } from "../game/add-to-matchmaking";
 import { running_matches } from "../game/dicts/running-matches-dict";
 import { open_matches } from "../game/dicts/open-matches-dict";
+import { socket_in_matches } from "../game/dicts/socket-in-match-dict";
 import { Item, Player, isValidUser } from "../types/socket-connection-types";
 import { calculateCombat } from "../game/combat/combat-calculate";
 import dbUsers from "../database-services/prisma-client";
@@ -23,6 +24,7 @@ const SocketServer = (server: any) => {
     socket.on("disconnect", (reason) => {
       console.log(`${socket.id} disconnected`);
       console.log(`${connectedClients} clients are online`);
+      io.to(socket_in_matches[socket.id]).emit("game-crashed", "your opponent disconnected")
     });
 
     socket.on("start-matchmaking", async (user) => { // called by client if he wants to be added to matchmaking

@@ -4,9 +4,9 @@ import SymbolSelector from '../../components/SymbolSelector.vue';
 import CombatResult from '../../components/CombatResult.vue';
 import LoadingScreenComp from '../../components/LoadingScreen.vue';
 import EndScreenComp from '../../components/EndScreen.vue';
+import socket from '../../socket.ts';
 import { Item } from '../../types/socket-connection-types';
 import { computed, onBeforeMount, onMounted, Ref, ref } from 'vue';
-import { io } from 'socket.io-client';
 import { PlayerData } from '../../types/socket-connection-types';
 import { useUserStore } from '../../stores/users.store';
 import { storeToRefs } from 'pinia';
@@ -35,8 +35,6 @@ onBeforeMount(async () => { //Get the User before mounting
 onMounted(()=>{ //Add User to Matchmaking as soon as the app mounts this site
   setTimeout(()=>{socket.emit("start-matchmaking", user.value)}, 1000);
 })
-
-const socket = io(import.meta.env.VITE_API_URL); // Initiate the socket connection
 
 const socket_log: string = "[socket]: " // logging prefix
 let match_id: string // socket room and key for servers match dict
@@ -108,15 +106,23 @@ function cancelMatchmaking() {
   socket.emit("abort-matchmaking", match_id);
 }
 
+function startQueuePhase() {
+  if (game_phase.value != GamePhase.END) {
+    game_phase.value = GamePhase.WAIT_QUEUE;
+    return true;
+  }
+  return false;
+}
+
+function startSelectionPhase() {
+  if (game_phase.value != GamePhase.END) game_phase.value = GamePhase.SELECTION;
+}
+
 function getLastChoice() {
   if (!chosen && game_phase.value == GamePhase.SELECTION) { // Only collect if not already chosen and in Selection-Phase
     confirmSymbolChoice(chosen_symbol);
     console.log(socket_log + "Choose Timout, server requested the last chosen symbol '" + chosen_symbol + "");
   }
-}
-
-function startSelectionPhase() {
-  if (game_phase.value != GamePhase.END) game_phase.value = GamePhase.SELECTION;
 }
 
 function startResultPhase() {
