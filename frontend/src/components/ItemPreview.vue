@@ -41,7 +41,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <Card title="Item manager" class="Homecard" id="itembox">
+  <Card title="manage items" class="Homecard" id="itembox">
     <template v-if="!(user.loading || user.error)">
       <ItemBox :item1="item1!" :item2="item2!" :item3="item3!" :tooltipUp="true" />
     </template>
@@ -67,5 +67,33 @@ onBeforeMount(async () => {
 
 #itembox .item-container img {
   height: 20vh;
+}
+
+/* Tablet styles */
+@media (max-width: 768px) {
+  #itembox .item-container img {
+    width: 25vw;
+    height: auto;
+  }
+
+  #itembox {
+    width: unset;
+    margin: 5vw;
+
+  }
+}
+
+/* Tablet styles */
+@media (max-width: 480px) {
+  #itembox .item-container img {
+    width: 25vw;
+    height: auto;
+  }
+
+  #itembox {
+    width: unset;
+    margin: 5vw;
+
+  }
 }
 </style>

@@ -216,14 +216,16 @@ onBeforeMount(async () => {
 }
 
 .item-manager {
-    height: 95vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .item-manager h2 {
     margin-top: 3vh;
+    font-size: 2.5vw;
 }
 
 .item-manager p {
@@ -232,5 +234,21 @@ onBeforeMount(async () => {
 
 .itemEditBtns {
     margin-top: 2vh;
+}
+
+/* Tablet styles */
+@media (max-width: 768px) {
+    .item-manager {
+        margin: 5vw;
+        width: unset;
+    }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+    .item-manager {
+        margin: 5vw;
+        width: unset;
+    }
 }
 </style>

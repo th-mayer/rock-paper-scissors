@@ -165,4 +165,5 @@ img {
     border-color: $secondary-color;
     border-style: 2px solid;
 }
+
 </style>

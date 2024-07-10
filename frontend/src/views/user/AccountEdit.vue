@@ -118,11 +118,12 @@ label {
 }
 
 .col-left {
+  display: flex;
   flex: 1;
 }
 
 .col-right {
-  width: 20vw;
+  width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -155,5 +156,55 @@ label {
   color: $alert-color;
   font-size: 2.5vh;
   margin-top: .5vh;
+}
+
+/* Tablet styles */
+@media (max-width: 768px) {
+  .card-container.editProfile {
+    width: 90vw;
+  }
+
+  .col-left {
+    font-size: 6vw;
+    align-items: center;
+  }
+
+  .col-right {
+    width: fit-content;
+  }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+  .card-container.editProfile {
+    padding: 0;
+    width: 70vw;
+  }
+
+  .col-left {
+    font-size: 5vw;
+    align-items: center;
+  }
+
+  .col-right {
+    width: fit-content;
+  }
+
+  .card-rect h1 {
+    font-size: 10vw;
+  }
+
+  Label {
+    font-size: 10vw;
+  }
+
+  .register-link {
+    font-size: 3vw;
+  }
+
+  button.login-btn {
+    font-size: 14vw;
+    border-radius: 60px;
+  }
 }
 </style>
