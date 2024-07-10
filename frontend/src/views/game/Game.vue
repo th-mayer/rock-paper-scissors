@@ -4,14 +4,26 @@ import SymbolSelector from '../../components/SymbolSelector.vue';
 import CombatResult from '../../components/CombatResult.vue';
 import LoadingScreenComp from '../../components/LoadingScreen.vue';
 import EndScreenComp from '../../components/EndScreen.vue';
+import { Item } from '../../types/socket-connection-types';
 import { computed, onBeforeMount, onMounted, Ref, ref } from 'vue';
 import { io } from 'socket.io-client';
 import { PlayerData } from '../../types/socket-connection-types';
 import { useUserStore } from '../../stores/users.store';
 import { storeToRefs } from 'pinia';
 
-const socket = io(import.meta.env.VITE_API_URL);
+// -------------------------------------------------------------------------
+// ----------------------- Declaration of variables ------------------------
+// -------------------------------------------------------------------------
 
+
+enum GamePhase {
+  BE_ADDED,
+  WAIT_QUEUE,
+  GAME_FOUND,
+  SELECTION,
+  RESULT,
+  END
+}
 const userStore = useUserStore();
 let { user } = storeToRefs(userStore);
 
@@ -24,31 +36,27 @@ onMounted(()=>{ //Add User to Matchmaking as soon as the app mounts this site
   setTimeout(()=>{socket.emit("start-matchmaking", user.value)}, 1000);
 })
 
-enum GamePhase {
-  BE_ADDED,
-  WAIT_QUEUE,
-  GAME_FOUND,
-  SELECTION,
-  RESULT,
-  END
-}
+const socket = io(import.meta.env.VITE_API_URL); // Initiate the socket connection
 
 const socket_log: string = "[socket]: " // logging prefix
 let match_id: string // socket room and key for servers match dict
 let game_phase: Ref<GamePhase> = ref(GamePhase.BE_ADDED); // current game phase
 let chosen_symbol: string = "" // currently chosen symbol as char ('r','p','s' or '')
-let chosen: boolean = false;
+let chosen: boolean = false;  // true, when already chosen
 
-let my_health: Ref<number> = ref(100);
+let my_health: Ref<number> = ref(100); // Refs for the health and chosen symbols, updated only by server
 let opp_health: Ref<number> = ref(100);
 let my_symbol: Ref<string> = ref("");
 let opp_symbol: Ref<string> = ref("");
 
+let endScreenTitle = "End Screen";
+let endScreenMessage = "Message!";
 
-const opponent_status = ref()
-const player_status= ref()
 
-const opponent_name = computed(() => {
+const opponent_status: Ref<PlayerData | undefined> = ref(undefined) // Refs to Client Objects, passed by server when match is initiated
+const player_status: Ref<PlayerData | undefined> = ref(undefined)
+
+const opponent_name = computed(() => { // Computed values that give placeholders to componentes when required data has not arrived yet
   if (opponent_status.value) return opponent_status.value.name;
   else return "Opponent";
 })
@@ -59,8 +67,9 @@ const opponent_wins = computed(() => {
 })
 
 const opponent_items = computed(() => {
+  let placeholderItems: Item[] = [{kind:99,modifier:1},{kind:99,modifier:1},{kind:99,modifier:1}];
   if (opponent_status.value) return opponent_status.value.items;
-  else return undefined;
+  else return placeholderItems;
 })
 
 const player_name = computed(() => {
@@ -74,16 +83,20 @@ const player_wins = computed(() => {
 })
 
 const player_items = computed(() => {
+  let placeholderItems: Item[] = [{kind:99,modifier:1},{kind:99,modifier:1},{kind:99,modifier:1}];
   if (player_status.value) return player_status.value.items;
-  else return undefined;
+  else return placeholderItems;
 })
 
+// -------------------------------------------------------------------------
+// --- Helper fuctions, for dry code or to be called by component events ---
+// -------------------------------------------------------------------------
+
 function confirmSymbolChoice(symbol: string) { // call to send chosen symbol to server
-  console.log("confirmsymbolchoice: "+symbol)
   if (symbol == "" || symbol == "r" || symbol == "p" || symbol == "s" && match_id) {
     socket.emit("choice", { choice: symbol, m_id: match_id });
     chosen_symbol = symbol;
-    console.log(socket_log + "choice: " + symbol + " confirmed");
+    console.log(socket_log + "choice: '" + symbol + "' confirmed");
   } else if (symbol) {
     console.error(socket_log + "no match_id")
   } else if (match_id) {
@@ -94,6 +107,44 @@ function confirmSymbolChoice(symbol: string) { // call to send chosen symbol to 
 function cancelMatchmaking() {
   socket.emit("abort-matchmaking", match_id);
 }
+
+function getLastChoice() {
+  if (!chosen && game_phase.value == GamePhase.SELECTION) { // Only collect if not already chosen and in Selection-Phase
+    confirmSymbolChoice(chosen_symbol);
+    console.log(socket_log + "Choose Timout, server requested the last chosen symbol '" + chosen_symbol + "");
+  }
+}
+
+function startSelectionPhase() {
+  if (game_phase.value != GamePhase.END) game_phase.value = GamePhase.SELECTION;
+}
+
+function startResultPhase() {
+  if (game_phase.value != GamePhase.END) {
+    game_phase.value = GamePhase.RESULT;
+    chosen_symbol = "";
+    chosen = false;
+    setTimeout(startSelectionPhase, 6500);
+  }
+}
+
+function startEndPhase(title: string, message: string) {
+  if (game_phase.value != GamePhase.END) { // The game can only end once, ensures that a game end would not overwrite a crash message
+    endScreenTitle = title;
+    endScreenMessage = message;
+    game_phase.value = GamePhase.END;
+  }
+}
+
+function startDelayedEndPhase(title: string, message: string) {
+  setTimeout(()=> {
+    startEndPhase(title,message);
+  }, 5000);
+}
+
+// -------------------------------------------------------------------------
+// --------------------------- Socket reactions ----------------------------
+// -------------------------------------------------------------------------
 
 socket.on("matchmaking-active", (m_id) => { // called if client was added to matchmaking
   match_id = m_id
@@ -107,7 +158,7 @@ socket.on("initiate-match", (data) => { // called if a match was found
   opponent_status.value = data.opponent;
   player_status.value = data.player;
   console.log(socket_log + "Found match");
-  startSelectionPhase();
+  startSelectionPhase(); // Move to selection game phase
 })
 
 socket.on("choose-timeout", () => { // called if choosing timer runns out
@@ -123,26 +174,24 @@ socket.on("combat-round", (data) => { // called if both symbols are collected by
   opp_health.value = data.oppLife;
   opp_symbol.value = data.oppSymbol;
 
-  startResultPhase();
+  startResultPhase(); // Move to result game phase
 })
 
-function getLastChoice() {
-  if (!chosen) {
-    confirmSymbolChoice(chosen_symbol);
-    console.log(socket_log + "Choose Timout, server requested the last chosen symbol '" + chosen_symbol + "");
+socket.on("game-end", (data)=>{
+  console.log(socket_log+"Game has ended.")
+  if (data === "stalemate") { // Tie
+    startDelayedEndPhase("stalemate!", "It was a close match, but both of you won!");
+  } else if (data === socket.id) { // Player has won
+    startDelayedEndPhase("Victory!", "You have assert your dominance and won! The defeated cat must leave.");
+  } else { // Opponent has won
+    startDelayedEndPhase("Drama!", "You were cheated out of your victory, what a fraud!");
   }
-}
+})
 
-function startSelectionPhase() {
-  game_phase.value = GamePhase.SELECTION;
-}
+socket.on("game-crashed", (data)=>{
+  startEndPhase("game-crashed", data);
+})
 
-function startResultPhase() {
-  game_phase.value = GamePhase.RESULT;
-  chosen_symbol = "";
-  chosen = false;
-  setTimeout(startSelectionPhase, 6500);
-}
 </script>
 
 <template>
@@ -163,7 +212,7 @@ function startResultPhase() {
     </div>
   </div>
   <div v-if="game_phase == GamePhase.END">
-    <EndScreenComp />
+    <EndScreenComp :title="endScreenTitle" :message="endScreenMessage"/>
   </div>
 </template>
 

@@ -50,3 +50,16 @@ export type PlayerData = {
   health: number;
   items: Item[];
 };
+
+function isValidItem(item: any): item is Item {
+  return typeof item.kind === 'number' && typeof item.modifier === 'number';
+}
+
+export function isValidUser(user: any): user is { username: string; wins: number; items: Item[] } {
+  return (
+    typeof user.username === 'string' &&
+    typeof user.wins === 'number' &&
+    Array.isArray(user.items) &&
+    user.items.every(isValidItem)
+  );
+}

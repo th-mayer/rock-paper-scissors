@@ -2,7 +2,7 @@ import { Server, Socket } from "socket.io";
 import { addToMatchmaking } from "../game/add-to-matchmaking";
 import { running_matches } from "../game/dicts/running-matches-dict";
 import { open_matches } from "../game/dicts/open-matches-dict";
-import { Item, Player } from "../types/socket-connection-types";
+import { Item, Player, isValidUser } from "../types/socket-connection-types";
 import { calculateCombat } from "../game/combat/combat-calculate";
 import dbUsers from "../database-services/prisma-client";
 
@@ -15,10 +15,7 @@ const SocketServer = (server: any) => {
 
   const connectedClients = () => io.engine.clientsCount;
 
-  /**
-   * Events
-   */
-  io.on("connect", (socket) => {
+  io.on("connect", (socket) => { // The socket connection is now open and can listen for the emits from client
     console.log("Connected!");
     console.log(`${socket.id} connected`);
     console.log(`${connectedClients()} clients are online`);
@@ -29,14 +26,19 @@ const SocketServer = (server: any) => {
     });
 
     socket.on("start-matchmaking", async (user) => { // called by client if he wants to be added to matchmaking
-  
-      let player: Player = {
-        name: user.username,
-        items: user.items,
-        socket: socket,
-        wins: user.wins,
-      };
-      addToMatchmaking(io, player);
+      console.log(isValidUser(user))
+      if (isValidUser(user)) { // Validate that passed user variable contains all needed data, to prevent runtime problems
+// TODO MAYBE: Shouldent the backend get the user, so the frontend cant "cheat" a selfmed user object?
+        let player: Player = {
+          name: user.username,
+          items: user.items,
+          socket: socket,
+          wins: user.wins,
+        };
+        addToMatchmaking(io, player);
+      } else {
+        io.to(socket.id).emit("game-crashed", "The user object passed from client was wrong or incomplete")
+      }
     });
 
     socket.on("abort-matchmaking", (m_id) => {
@@ -64,14 +66,14 @@ const SocketServer = (server: any) => {
           io.to(socket.id).emit("game-crashed", "You were not inside of the game, you have been connected to")
           return;
         }
-        player.chosen = true;
-        player.symbol = choice;
+        player.chosen = true; // Set chosen to true, since this player has already chosen
+        player.symbol = choice; // Set the symbol to what was passed by the client
         if (
-          match.instance.player1.chosen == true &&
+          match.instance.player1.chosen == true && // Check if both have already chosen
           match.instance.player2.chosen == true
         ) {
           calculateCombat(io, data.m_id);
-          match.instance.player1.chosen = false;
+          match.instance.player1.chosen = false; // Reset the choesen boolean
           match.instance.player2.chosen = false;
         }
       } else { // Inform client, he got a depricated match-id key and remove him from game
