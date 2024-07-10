@@ -79,7 +79,9 @@ onMounted(() => {
 @import '@/css/main.scss';
 
 .symbol-select-container {
+    display: flex;
     max-height: 10vw;
+    align-items: center;
 }
 
 .timer {
@@ -114,4 +116,17 @@ onMounted(() => {
 .highlighted.selected {
     border-color: $highlight-color;
 }
+
+@media (max-width: 768px) {
+    .timer {
+        height: 2.5vh;
+    }
+
+    .symbol-select-container {
+        max-height: 20vw;
+    }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {}
 </style>

@@ -61,12 +61,25 @@ const pic = computed(() => {
 
 /* Tablet styles */
 @media (max-width: 768px) {
+    .symbol-img {
+        height: 20vw;
+        margin: unset;
+    }
 
+    .symbol-container {
+        height: 150%;
+    }
 }
 
 /* Phone styles */
 @media (max-width: 480px) {
-    
-}
+    .symbol-img {
+        height: 20vw;
+        margin: unset;
+    }
 
+    .symbol-container {
+        height: 150%;
+    }
+}
 </style>

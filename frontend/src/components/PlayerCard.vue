@@ -172,4 +172,20 @@ const alignmentItemTooltip = computed(() => {
     transition: width 1s ease;
     border-radius: 200px;
 }
+
+/* Tablet styles */
+@media (max-width: 768px) {
+    .health-box {
+            background-color: $backshadow;
+            height: 3vh;
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            border-radius: 200px;
+        }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {}
 </style>

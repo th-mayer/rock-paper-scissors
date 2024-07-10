@@ -84,11 +84,11 @@ onMounted(() => {
 
 <template>
     <div class="combatResult">
-        <Card v-if="showResult">
+        <div v-if="showResult" class="showResult">
             <p v-if="win === ws.PLAYER_WIN">{{ player_name }} wins this round!</p>
             <p v-else-if="win === ws.OPPONENT_WIN">{{ opponent_name }} wins this round!</p>
             <p v-else>Tie!</p>
-        </Card>
+        </div>
     </div>
 
     <div class="pos-absolute fullscreen">
@@ -159,5 +159,19 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     height: 30vh;
+}
+
+.showResult {
+    font-size: 10vw;
+    z-index: 1010;
+    background-color: $secondary-color;
+    padding: 2%;
+    border-radius: 10px;
+}
+
+.showResult p {
+    font-size: 10vw;
+    padding-right: 3vw;
+    padding-left: 3vw;
 }
 </style>

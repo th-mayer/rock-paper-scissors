@@ -221,6 +221,7 @@ onBeforeMount(async () => {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    margin: 5vw;
 }
 
 .item-manager h2 {
@@ -242,6 +243,10 @@ onBeforeMount(async () => {
         margin: 5vw;
         width: unset;
     }
+
+    .item-manager .item-container {
+        height: 12vh;
+    }
 }
 
 /* Phone styles */
@@ -249,6 +254,10 @@ onBeforeMount(async () => {
     .item-manager {
         margin: 5vw;
         width: unset;
+    }
+
+    .item-manager .item-container {
+        height: 12vh;
     }
 }
 </style>
