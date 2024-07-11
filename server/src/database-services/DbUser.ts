@@ -9,7 +9,6 @@ import { dbGenItem } from "./prisma-client";
  * DONT INSTANTIATE THIS CLASS!
  * USE THE "dbUsers" const from database-services/prisma-client.ts !
  */
-// TODO: make this a singleton
 export class DbUser {
   private secret = config.secret;
   private prismaUser: PrismaClient["user"];
@@ -143,10 +142,8 @@ export class DbUser {
       throw Error("No replacement Item chosen!");
 
     let genItem;
-    console.log("before loop");
     for (let item of user.genItems) {
       if (item.id === data.genItem) {
-        console.log(item);
         genItem = item;
       }
     }
@@ -180,8 +177,6 @@ export class DbUser {
     dbGenItem.delete(user_id);
 
     return updatedUser;
-
-    throw Error("Error when updating User");
   }
 
   async updateWinItemCoin(user_id: number, win: boolean) {

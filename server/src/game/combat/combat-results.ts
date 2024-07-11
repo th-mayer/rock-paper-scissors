@@ -18,7 +18,8 @@ export const emitCombatResults = (
   let player1_hp = instance.player1.hp; // Get the updated health
   let player2_hp = instance.player2.hp;
 
-  io.to(running_matches[match_id].player1.socket.id).emit("combat-round", { // Send results to players
+  io.to(running_matches[match_id].player1.socket.id).emit("combat-round", {
+    // Send results to players
     mySymbol: player1_symbol,
     myLife: player1_hp,
     oppSymbol: player2_symbol,
@@ -31,15 +32,17 @@ export const emitCombatResults = (
     oppLife: player1_hp,
   });
 
-  if (instance.player1.hp <= 0 && instance.player2.hp <= 0) { // Find out if somone died
-    endMatch(io,match_id,0)
+  if (instance.player1.hp <= 0 && instance.player2.hp <= 0) {
+    // Find out if somone died
+    endMatch(io, match_id, 0);
   } else if (instance.player1.hp <= 0) {
-    endMatch(io,match_id,2)
+    endMatch(io, match_id, 2);
   } else if (instance.player2.hp <= 0) {
-    endMatch(io,match_id,1)
+    endMatch(io, match_id, 1);
   }
 
-  function clipHealth(newHealth: number): number { // Make sure the combatresult, wont put player health below 0 or above 100
+  function clipHealth(newHealth: number): number {
+    // Make sure the combatresult, wont put player health below 0 or above 100
     return Math.max(0, Math.min(newHealth, 100));
   }
-}
+};

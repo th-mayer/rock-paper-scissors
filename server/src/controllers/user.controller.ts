@@ -16,8 +16,9 @@ router.get("/leaderboard", authorize(), getLeaderboard);
 router.get("/:id/generateItems", authorize(), generateItems);
 router.get("/:id", authorize(), getById);
 router.put("/:id", authorize(), updateItems);
-router.put("/:id/updateWin", authorize(), updateWin);
 router.delete("/:id", authorize(), _delete);
+// only needed for debug reasons
+// router.put("/:id/updateWin", authorize(), updateWin);
 
 function authenticate(req: any, res: any, next: any) {
   dbUsers
@@ -75,14 +76,15 @@ function updateItems(req: any, res: any, next: any) {
     .catch((err) => next(err));
 }
 
-function updateWin(req: any, res: any, next: any) {
-  const user_id: number = parseInt(req.params.id);
-  const win: boolean = req.params.win; // SOMEONE HAS TO CHECK THIS, IT WORKS BUT I JUST ASSUMED WHAT HAD TO BE DONE !!!!
-  dbUsers
-    .updateWinItemCoin(user_id, win)
-    .then((updated_user) => res.json(updated_user))
-    .catch((err) => next(err));
-}
+// only needed for debug reasons
+// function updateWin(req: any, res: any, next: any) {
+//   const user_id: number = parseInt(req.params.id);
+//   const win: boolean = req.params.win;
+//   dbUsers
+//     .updateWinItemCoin(user_id, win)
+//     .then((updated_user) => res.json(updated_user))
+//     .catch((err) => next(err));
+// }
 
 function _delete(req: any, res: any, next: any) {
   dbUsers
