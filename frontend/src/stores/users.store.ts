@@ -7,6 +7,7 @@ const baseURL = `${import.meta.env.VITE_API_URL}/users`;
 
 export const useUserStore = defineStore("users", () => {
   const user: Ref<null | any> = ref(null);
+  const genItemsUser: Ref<null | any> = ref(null);
   const users: Ref<null | any> = ref(null);
 
   async function register(user: any) {
@@ -41,15 +42,26 @@ export const useUserStore = defineStore("users", () => {
   }
 
   async function generateItems(id: any) {
-    user.value = { loading: true };
+    genItemsUser.value = { loading: true };
     try {
-      user.value = await fetchWrapper.get(`${baseURL}/${id}/generateItems`);
+      genItemsUser.value = await fetchWrapper.get(`${baseURL}/${id}/generateItems`);
     } catch (err) {
-      user.value = { err };
+      genItemsUser.value = { err };
     }
   }
 
-  async function update(id: any, params: any) {
+  async function updateUser(id: any, params: any) {
+    await fetchWrapper.put(`${baseURL}/${id}/edit`, params);
+    // if logged in user updates their profile, update user saved in localStorage
+    const authStore = useAuthStore();
+    if (id === authStore.user.id) {
+      const user = { ...authStore.user, ...params };
+      localStorage.setItem("user", JSON.stringify(user));
+      authStore.user = user;
+    }
+  }
+
+  async function updateItems(id: any, params: any) {
     await fetchWrapper.put(`${baseURL}/${id}`, params);
     // if logged in user updates their profile, update user saved in localStorage
     const authStore = useAuthStore();
@@ -60,26 +72,16 @@ export const useUserStore = defineStore("users", () => {
     }
   }
 
-  async function updateItemCoin(id: any) {
-    await fetchWrapper.put(`${baseURL}/${id}/updateWin`);
-    // if logged in user updates their profile, update user saved in localStorage
-    const authStore = useAuthStore();
-    if (id === authStore.user.id) {
-      const user = { ...authStore.user };
-      localStorage.setItem("user", JSON.stringify(user));
-      authStore.user = user;
-    }
-  }
-
   return {
     user,
+    genItemsUser,
     users,
     register,
     getById,
     getCurrentUser,
     getLeaderboard,
     generateItems,
-    update,
-    updateItemCoin,
+    updateUser,
+    updateItems,
   };
 });

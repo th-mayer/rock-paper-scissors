@@ -135,7 +135,42 @@ export class DbUser {
   }
 
   // UPDATE
-  async update(user_id: number, data: any) {
+  async updateUser(user_id: number, data: any) {
+    const user = await this.getUser(user_id);
+    if (!user) throw Error("User not found");
+
+    // check username
+    const changedUsername = data.username && user.username !== data.username;
+    if (
+      changedUsername &&
+      (await this.prismaUser.findFirst({
+        where: {
+          username: data.username,
+        },
+      }))
+    ) {
+      throw Error("Username " + data.username + "is already taken");
+    }
+
+    // check password
+    if (data.hash) {
+      data.hash = bcrypt.hashSync(data.hash);
+    }
+
+    const updatedUser = await this.prismaUser.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        email: data.email,
+        username: data.username,
+        hash: data.hash,
+      },
+    });
+    return updatedUser;
+  }
+
+  async updateItems(user_id: number, data: any) {
     const user = await this.getUserGenItems(user_id);
     if (!user) throw Error("User not found");
     if (!data.exItem || !data.genItem)

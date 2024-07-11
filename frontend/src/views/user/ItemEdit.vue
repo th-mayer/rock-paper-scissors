@@ -5,13 +5,14 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "../../stores/users.store";
 import { storeToRefs } from "pinia";
 import { useAlertStore } from "../../stores/alert.store";
-import { computed, onBeforeMount, Ref, ref } from "vue";
+import { computed, onBeforeMount, onMounted, Ref, ref } from "vue";
 import LoadingScreen from "../../components/LoadingScreen.vue";
 
 const route = useRoute();
 const id = route.params.id;
 const userStore = useUserStore();
 let { user } = storeToRefs(userStore);
+let { genItemsUser } = storeToRefs(userStore);
 
 const selectOwnArray: Ref<boolean[]> = ref([false, false, false]);
 const selectGenArray: Ref<boolean[]> = ref([false, false, false]);
@@ -92,22 +93,19 @@ function chooseGenItem3() {
     selectGenArray.value[1] = false;
     selectGenArray.value[0] = false;
 }
-async function generateItems() {
-    getUserExistingItems();
-    await userStore.generateItems(id);
-    const userGeneratedItems = user.value.genItems;
+function getUserGeneratedItems() {
+    const userGeneratedItems = genItemsUser.value.genItems;
     item1.value = userGeneratedItems[0];
     item2.value = userGeneratedItems[1];
     item3.value = userGeneratedItems[2];
-
 }
+
 function getUserExistingItems() {
     const userExistingItems = user.value.items;
     exItem1.value = userExistingItems[0];
     exItem2.value = userExistingItems[1];
     exItem3.value = userExistingItems[2];
 }
-
 
 async function onSubmit(event: Event) {
     event.preventDefault();
@@ -121,18 +119,32 @@ async function onSubmit(event: Event) {
     console.log(values);
 
     try {
-        await userStore.update(user.value.id, values);
+        await userStore.updateItems(user.value.id, values);
         alertStore.success("Items updated");
         await userStore.getById(id);
         getUserExistingItems();
+        await userStore.generateItems(id);
+        getUserGeneratedItems();
     } catch (error) {
         alertStore.error("Could not save changes");
     }
 }
 
+// onMounted(() => {
+//     getUserExistingItems();
+//     getUserGeneratedItems();
+//     console.log("exitem");
+//     console.log(exItem1.value);
+//     console.log("item");
+//     console.log(item1.value);
+// })
+
 onBeforeMount(async () => {
     await userStore.getById(id);
-    console.log(user)
+    getUserExistingItems();
+    await userStore.generateItems(id);
+    getUserGeneratedItems();
+    console.log(user);
 });
 </script>
 
@@ -158,13 +170,9 @@ onBeforeMount(async () => {
     <template v-if="!(user?.loading || user?.error) && user.itemCoin >= 1">
         <Card title="Item Manager" class="Homecard item-manager">
             <div class="generateItems flex-col">
-                <p v-if="!exItem1">
-                    You need to generate some items before you can manage them.
-                </p>
                 <div class="generateItemDiv flex-row">
                     <h2>{{ user.itemCoin }}</h2>
-                    <img class="itemcoin" src="../../../public/assets/ItemCoin.png">
-                    <button class="btn" @click="generateItems">Generate Items</button>
+                    <img class="itemcoin" src="../../../public/assets/ItemCoin.png" />
                 </div>
             </div>
             <div v-if="exItem1 && item1">
@@ -196,12 +204,13 @@ onBeforeMount(async () => {
 
                         <div class="btn-container">
                             <router-link to="/home">
-                                <button class="btn router-link-in-button discard">back to home</button>
+                                <button class="btn router-link-in-button discard">
+                                    back to home
+                                </button>
                             </router-link>
                         </div>
                     </div>
                 </form>
-
             </div>
         </Card>
     </template>
@@ -232,7 +241,6 @@ onBeforeMount(async () => {
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 .item-manager h2 {
@@ -254,7 +262,6 @@ onBeforeMount(async () => {
     width: 60px;
     aspect-ratio: 1/1;
 }
-
 
 /* Tablet styles */
 @media (max-width: 768px) {

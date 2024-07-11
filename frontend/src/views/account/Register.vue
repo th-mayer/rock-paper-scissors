@@ -9,7 +9,7 @@ import Card from '../../components/Card.vue';
 const schema = Yup.object().shape({
   email: Yup.string().email("e-mail address is invalid").required("e-mail is required"),
   username: Yup.string().required("Username is required"),
-  hash: Yup.string().required("Password is required")
+  hash: Yup.string().required("Password is required").min(12, "Password must be at least 12 characters")
 });
 
 async function onSubmit(values: any) {
