@@ -161,8 +161,11 @@ onBeforeMount(async () => {
                 <p v-if="!exItem1">
                     You need to generate some items before you can manage them.
                 </p>
-                <h2>ItemCoins: {{ user.itemCoin }}</h2>
-                <button class="btn" @click="generateItems">Generate Items</button>
+                <div class="generateItemDiv flex-row">
+                    <h2>{{ user.itemCoin }}</h2>
+                    <img class="itemcoin" src="../../../public/assets/ItemCoin.png">
+                    <button class="btn" @click="generateItems">Generate Items</button>
+                </div>
             </div>
             <div v-if="exItem1 && item1">
                 <h2>Your Equipped Items</h2>
@@ -210,6 +213,10 @@ onBeforeMount(async () => {
 <style lang="scss">
 @import "../../css/main.scss";
 
+.item-manager .generateItemDiv h2 {
+    font-size: 6vw;
+}
+
 .generateItems {
     display: flex;
     justify-content: center;
@@ -221,11 +228,10 @@ onBeforeMount(async () => {
 }
 
 .item-manager {
-    height: 95vh;
+    height: 95%;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
 
 }
 
@@ -241,6 +247,14 @@ onBeforeMount(async () => {
 .itemEditBtns {
     margin-top: 2vh;
 }
+
+.itemcoin {
+    align-self: center;
+    border: none;
+    width: 60px;
+    aspect-ratio: 1/1;
+}
+
 
 /* Tablet styles */
 @media (max-width: 768px) {

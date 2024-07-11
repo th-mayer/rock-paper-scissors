@@ -2,7 +2,8 @@ import { Server } from "socket.io";
 import { socket_in_matches } from "./dicts/socket-in-match-dict";
 import { open_matches } from "./dicts/open-matches-dict";
 import { running_matches } from "./dicts/running-matches-dict";
-import dbUsers from "../database-services/prisma-client";
+import { dbUsers } from "../database-services/prisma-client";
+
 
 
 
