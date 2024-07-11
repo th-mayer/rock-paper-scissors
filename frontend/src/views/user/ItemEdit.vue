@@ -189,13 +189,15 @@ onBeforeMount(async () => {
                         <div class="btn-container">
                             <button class="btn">Save</button>
                         </div>
+
+                        <div class="btn-container">
+                            <router-link to="/home">
+                                <button class="btn router-link-in-button discard">back to home</button>
+                            </router-link>
+                        </div>
                     </div>
                 </form>
-                <div class="btn-container">
-                    <router-link to="/home">
-                        <button class="btn router-link-in-button discard">back to home</button>
-                    </router-link>
-                </div>
+
             </div>
         </Card>
     </template>
@@ -218,11 +220,12 @@ onBeforeMount(async () => {
 }
 
 .item-manager {
-    height: 100vh;
+    height: 95vh;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+
 }
 
 .item-manager h2 {
@@ -244,13 +247,34 @@ onBeforeMount(async () => {
         margin: 5vw;
         width: unset;
     }
+
+    .item-manager .item-container {
+        height: 12vh;
+    }
 }
 
 /* Phone styles */
 @media (max-width: 480px) {
     .item-manager {
-        margin: 5vw;
-        width: unset;
+        width: 100vw;
+        justify-content: unset;
+        margin: 1.5vw;
+        padding: 0;
+    }
+
+    .item-manager img {
+        margin: 0;
+        padding: 0;
+        width: 25vw;
+        height: auto;
+    }
+
+    .item-manager .item-container {
+        height: 12vh;
+    }
+
+    .item-manager h2 {
+        font-size: 5vw;
     }
 }
 </style>

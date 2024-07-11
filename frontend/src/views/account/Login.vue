@@ -157,6 +157,10 @@ input {
   .card-rect h1 {
     font-size: 10vw;
   }
+
+  div.error {
+    font-size: 4vw;
+  }
 }
 
 /* Phone styles */
