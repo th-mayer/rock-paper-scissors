@@ -7,7 +7,7 @@ import LoadingScreenComp from '../../components/LoadingScreen.vue';
 import EndScreenComp from '../../components/EndScreen.vue';
 import socket from '../../socket.ts';
 import { Item } from '../../types/socket-connection-types';
-import { computed, onBeforeMount, onMounted, Ref, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, onUnmounted, Ref, ref } from 'vue';
 import { PlayerData } from '../../types/socket-connection-types';
 import { useUserStore } from '../../stores/users.store';
 import { storeToRefs } from 'pinia';
@@ -27,14 +27,20 @@ enum GamePhase { // Game phases as enum to be easy to modify
 
 const userStore = useUserStore();
 let { user } = storeToRefs(userStore);
+let userID: string;
 
 onBeforeMount(async () => { //Get the User before mounting
   await userStore.getCurrentUser();
-  console.log(user.value);
+  console.log(user.value.id)
+  if (user.value) if (user.value.id) userID = user.value.id;
 });
 
-onMounted(() => { //Add User to Matchmaking as soon as the app mounts this site
-  setTimeout(() => { socket.emit("start-matchmaking", user.value) }, 1000);
+onMounted(()=>{ //Add User to Matchmaking as soon as the app mounts this site
+  setTimeout(()=>{socket.emit("start-matchmaking", userID)}, 1000);
+})
+
+onUnmounted(()=>{
+  socket.emit("leave-game");
 })
 
 const socket_log: string = "[socket]: " // logging prefix

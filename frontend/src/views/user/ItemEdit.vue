@@ -132,6 +132,7 @@ async function onSubmit(event: Event) {
 
 onBeforeMount(async () => {
     await userStore.getById(id);
+    console.log(user)
 });
 </script>
 
@@ -160,7 +161,7 @@ onBeforeMount(async () => {
                 <p v-if="!exItem1">
                     You need to generate some items before you can manage them.
                 </p>
-                <h2>Item Coins: {{ user.itemCoin }}</h2>
+                <h2>ItemCoins: {{ user.itemCoin }}</h2>
                 <button class="btn" @click="generateItems">Generate Items</button>
             </div>
             <div v-if="exItem1 && item1">
