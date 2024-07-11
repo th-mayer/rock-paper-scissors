@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { authorize } from "../express-middleware/authorize";
-import dbUsers from "../database-services/prisma-client";
-import { parseArgs } from "util";
+import { dbUsers } from "../database-services/prisma-client";
 
 const router = Router();
 
@@ -14,6 +13,7 @@ router.post("/register", register);
 router.get("/", authorize(), getAll);
 router.get("/current", authorize(), getCurrent);
 router.get("/leaderboard", authorize(), getLeaderboard);
+router.get("/:id/generateItems", authorize(), generateItems);
 router.get("/:id", authorize(), getById);
 router.put("/:id", authorize(), updateItems);
 router.put("/:id/updateWin", authorize(), updateWin);
@@ -57,6 +57,14 @@ function getLeaderboard(req: any, res: any, next: any) {
     .getLeaderboard()
     .then((users) => res.json(users))
     .catch(next);
+}
+
+function generateItems(req: any, res: any, next: any) {
+  const user_id: number = parseInt(req.params.id);
+  dbUsers
+    .generateItems(user_id)
+    .then((genItems) => res.json(genItems))
+    .catch((err) => next(err));
 }
 
 function updateItems(req: any, res: any, next: any) {

@@ -2,6 +2,8 @@ import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import config from "../json/config.json";
+import { generateRandomItem } from "../generators/randomItemGenerator";
+import { dbGenItem } from "./prisma-client";
 
 /**
  * DONT INSTANTIATE THIS CLASS!
@@ -55,6 +57,9 @@ export class DbUser {
         items: {
           create: [{}, {}, {}],
         },
+        genItems: {
+          create: [{}, {}, {}],
+        },
       },
     });
   }
@@ -90,6 +95,44 @@ export class DbUser {
       sanitizedUser.push(noEmail);
     });
     return sanitizedUser;
+  }
+
+  async generateItems(user_id: number) {
+    const user = await this.getUser(user_id);
+    if (!user) throw Error("User not found");
+    const item1 = generateRandomItem();
+    const item2 = generateRandomItem();
+    const item3 = generateRandomItem();
+
+    await dbGenItem.delete(user_id);
+
+    const genItems = await this.prismaUser.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        genItems: {
+          create: [
+            {
+              kind: item1.kind,
+              modifier: item1.modifier,
+            },
+            {
+              kind: item2.kind,
+              modifier: item2.modifier,
+            },
+            {
+              kind: item3.kind,
+              modifier: item3.modifier,
+            },
+          ],
+        },
+      },
+      include: {
+        genItems: true,
+      },
+    });
+    return genItems;
   }
 
   // UPDATE
