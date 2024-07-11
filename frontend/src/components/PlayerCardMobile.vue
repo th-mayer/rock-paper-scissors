@@ -12,7 +12,7 @@ const props = defineProps<{
 }>();
 
 watch(() => props.health, () => {
-  setTimeout(updateBar,2000);
+    setTimeout(updateBar, 2000);
 });
 
 const hb: Ref<HTMLElement | undefined> = ref();
@@ -52,42 +52,36 @@ const alignmentItemTooltip = computed(() => {
 </script>
 
 <template>
-    <div class="card-rect-player" :class="alignmentClass">
+    <div class="card-rect-player-mobile flex-col" :class="alignmentClass">
         <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]"
             :item3="items[2]" style="margin-right: 3vw;" />
-        <div class="name-and-hp">
-            <div>
+        <div class="flex-row">
+            <div class="name-and-wins flex-col">
                 <h2>{{ name }}</h2>
                 <p>{{ wins }} wins</p>
             </div>
-            <div>
-                <div class="health-box">
-                    <div ref="hbred" class="health-bar-red"></div>
-                    <div ref="hbblue" class="health-bar-blue"></div>
-                    <div ref="hb" class="health-bar"></div>
-                </div>
+            <div class="itembox-mobile">
+                <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]"
+                    :item3="items[2]" style="margin-left: 3vw;" />
             </div>
         </div>
-        <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]"
-            :item3="items[2]" style="margin-left: 3vw;" />
+
+        <div class="health-box-mobile">
+            <div ref="hbred" class="health-bar-red-mobile"></div>
+            <div ref="hbblue" class="health-bar-blue-mobile"></div>
+            <div ref="hb" class="health-bar-mobile"></div>
+        </div>
     </div>
 </template>
 
 <style lang="scss">
 @import '../css/main.scss';
 
-.column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
-.card-rect-player {
-    display: flex;
-    flex-direction: row;
+.card-rect-player-mobile {
     position: relative;
-    height: 85%;
-    width: fit-content;
+    height: 100%;
+    width: 100vw;
     margin: 0;
     background-color: $base-color;
     padding: 20px;
@@ -99,38 +93,43 @@ const alignmentItemTooltip = computed(() => {
     font-style: normal;
     box-shadow: 7px 7px $backshadow;
     justify-content: space-between;
+    overflow: hidden;
+    padding-bottom: 4vh;
 }
 
-.name-and-hp {
+.name-and-wins {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     position: relative;
     height: 100%;
     width: 30vw;
     white-space: nowrap;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
-.name-and-hp p {
+.name-and-wins p {
+
     font-size: 3vh;
 }
 
-.name-and-hp h2 {
+.name-and-wins h2 {
     font-size: 4.5vh;
     color: $secondary-color;
 }
 
-.card-rect-player.alignTop {
-    align-self: self-start;
-}
-
-.card-rect-player.alignBottom {
+.card-rect-player-mobile.alignTop {
     align-self: self-end;
 }
 
-.health-box {
+.card-rect-player-mobile.alignBottom {
+    align-self: self-start;
+}
+
+.health-box-mobile {
     background-color: $backshadow;
     height: 4vh;
+    min-height: max(4vh, 20px);
     width: 100%;
     margin: 0 auto;
     overflow: hidden;
@@ -138,7 +137,7 @@ const alignmentItemTooltip = computed(() => {
     border-radius: 200px;
 }
 
-.health-bar {
+.health-bar-mobile {
     background-color: $secondary-color;
     height: 100%;
     width: 100vw;
@@ -150,7 +149,7 @@ const alignmentItemTooltip = computed(() => {
     transition-delay: 0.1s;
 }
 
-.health-bar-red {
+.health-bar-red-mobile {
     background-color: $alert-color;
     height: 100%;
     width: 100vw;
@@ -162,7 +161,7 @@ const alignmentItemTooltip = computed(() => {
     border-radius: 200px;
 }
 
-.health-bar-blue {
+.health-bar-blue-mobile {
     background-color: $highlight-color;
     height: 100%;
     width: 100vw;
@@ -173,4 +172,18 @@ const alignmentItemTooltip = computed(() => {
     border-radius: 200px;
 }
 
+.itembox-mobile img {
+    width: 13vw;
+    height: auto;
+}
+
+.card-rect-player-mobile.alignTop {
+    align-self: unset;
+}
+
+.card-rect-player-mobile.alignBottom {
+    align-self: unset;
+}
+
+@media (max-width: 768px) {}
 </style>

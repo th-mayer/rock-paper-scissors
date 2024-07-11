@@ -161,7 +161,7 @@ onMounted(() => {
 }
 
 .showResult {
-    font-size: 10vw;
+    font-size: 4vw;
     z-index: 1010;
     background-color: $secondary-color;
     padding: 2%;
@@ -169,8 +169,16 @@ onMounted(() => {
 }
 
 .showResult p {
-    font-size: 10vw;
-    padding-right: 3vw;
-    padding-left: 3vw;
+    font-size: 4vw;
+    padding-right: 1vw;
+    padding-left: 1vw;
 }
+
+@media (max-width: 768px) {
+    .showResult p {
+        font-size: 6vw;
+    }
+
+}
+
 </style>

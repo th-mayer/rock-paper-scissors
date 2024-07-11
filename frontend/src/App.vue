@@ -27,6 +27,7 @@ socket.on('disconnect', () => {
   width: 100vw;
   height: 100vh;
   position: fixed;
+  overflow: auto;
 }
 
 .ultimate-bg {
@@ -34,9 +35,7 @@ socket.on('disconnect', () => {
 }
 
 @media (max-width: 768px) {
-  .app-container {
-    overflow-y: auto;
-  }
+
 
 }
 
