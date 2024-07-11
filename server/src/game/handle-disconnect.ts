@@ -7,17 +7,12 @@ import { dbUsers } from "../database-services/prisma-client";
 export function handleDisconnect(socket_id: string, io: Server) {
   let match_id = socket_in_matches[socket_id];
   if (match_id) {
+    console.log("[io]: Player " +socket_id +" from match with id " +match_id +" disconnected");
     if (running_matches[match_id]) {
       // If Client disconnected from a running match
 
       io.to(match_id).emit("game-crashed", "your opponent disconnected"); // This will end the game for remaining player
-      console.log(
-        "[io]: Player " +
-          socket_id +
-          " from match with id " +
-          match_id +
-          " disconnected"
-      );
+      
       console.log("[io]: Removed players from match with id " + match_id);
 
       let player1socket = running_matches[match_id].player1.socket;

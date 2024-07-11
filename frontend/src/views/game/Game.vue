@@ -11,6 +11,7 @@ import { computed, onBeforeMount, onMounted, onUnmounted, Ref, ref } from 'vue';
 import { PlayerData } from '../../types/socket-connection-types';
 import { useUserStore } from '../../stores/users.store';
 import { storeToRefs } from 'pinia';
+import { useAlertStore } from '../../stores/alert.store.ts';
 
 // -------------------------------------------------------------------------
 // ----------------------- Declaration of variables ------------------------
@@ -27,6 +28,7 @@ enum GamePhase { // Game phases as enum to be easy to modify
 
 const userStore = useUserStore();
 let { user } = storeToRefs(userStore);
+const alertStore = useAlertStore();
 let userID: string;
 
 onBeforeMount(async () => { //Get the User before mounting
@@ -194,17 +196,21 @@ socket.on("game-end", (data) => {
   console.log(socket_log + "Game has ended.")
   if (data === "stalemate") { // Tie
     startDelayedEndPhase("stalemate!", "It was a close match, but both of you won!");
+    alertStore.success("you gained 2 Item Coins");
   } else if (data === socket.id) { // Player has won
     startDelayedEndPhase("Victory!",
-      "You have assert your dominance and won! The defeated cat was send home, and wont recover from this shattering defeat.");
+      "You have asserted your dominance and won! The defeated cat was send home, and wont recover from this shattering defeat.");
+    alertStore.success("you gained 2 Item Coins");
   } else { // Opponent has won
     startDelayedEndPhase("Drama!",
       "You were cheated out of your victory, what a fraud! In all of your nine lifes you never encountered such a presumptuous imposter.");
+    alertStore.success("you gained 1 Item Coin");
   }
 })
 
 socket.on("game-crashed", (data) => {
   startEndPhase("game-crashed", data);
+  alertStore.success("you gained 2 Item Coins");
 })
 
 </script>
