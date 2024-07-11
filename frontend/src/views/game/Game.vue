@@ -222,7 +222,7 @@ socket.on("game-crashed", (data) => {
       <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health="my_health"
         class="player visibility" :topbar="false" />
       <PlayerCardMobile :name="player_name" :wins="player_wins" :items="player_items" :health="my_health"
-        class="player visibilityMobile" :topbar="true"  />
+        class="player visibilityMobile" :topbar="true" />
     </div>
   </div>
   <div v-if="game_phase == GamePhase.END">
@@ -254,26 +254,23 @@ socket.on("game-crashed", (data) => {
   display: flex;
 }
 
-.visibilityMobile{
+.visibilityMobile {
   display: none;
 }
 
-.visibility{
+.visibility {
   display: flex;
 }
 
-@media (max-width: 768px) {
-  .visibilityMobile{
+
+@media (max-width: 560px) {
+
+  .visibilityMobile {
     display: flex;
   }
-  .visibility{
+
+  .visibility {
     display: none;
   }
-
 }
-
-@media (max-width: 480px) {
-
-}
-
 </style>

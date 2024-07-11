@@ -55,8 +55,8 @@ const alignmentItemTooltip = computed(() => {
     <div class="card-rect-player-mobile flex-col" :class="alignmentClass">
         <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]"
             :item3="items[2]" style="margin-right: 3vw;" />
-        <div class="flex-row">
-            <div class="name-and-wins flex-col">
+        <div class="flex-col">
+            <div class="name-and-wins flex-row no-align">
                 <h2>{{ name }}</h2>
                 <p>{{ wins }} wins</p>
             </div>
@@ -99,23 +99,20 @@ const alignmentItemTooltip = computed(() => {
 
 .name-and-wins {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     position: relative;
     height: 100%;
-    width: 30vw;
     white-space: nowrap;
     overflow: hidden;
 }
 
 .name-and-wins p {
-
-    font-size: 3vh;
+    font-size: 4vh;
 }
 
 .name-and-wins h2 {
     font-size: 4.5vh;
     color: $secondary-color;
+    margin-right: 3vw;
 }
 
 .card-rect-player-mobile.alignTop {
@@ -173,7 +170,7 @@ const alignmentItemTooltip = computed(() => {
 }
 
 .itembox-mobile img {
-    width: 13vw;
+    width: 10vw;
     height: auto;
 }
 
@@ -183,6 +180,10 @@ const alignmentItemTooltip = computed(() => {
 
 .card-rect-player-mobile.alignBottom {
     align-self: unset;
+}
+
+.name-and-wins.flex-row {
+    justify-content: left;
 }
 
 @media (max-width: 768px) {}
