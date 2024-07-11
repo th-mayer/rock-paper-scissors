@@ -56,7 +56,7 @@ function isValidItem(item: any): item is Item {
   return typeof item.kind === 'number' && typeof item.modifier === 'number';
 }
 
-export function isValidUser(user: any): user is { username: string; wins: number; items: Item[], id: number } {
+export function isValidUser(user: any): user is { username: string; wins: number; items: Item[], id: number, email: string, itemCoin: number, hash: string, } {
   return (
     typeof user.username === 'string' &&
     typeof user.wins === 'number' &&

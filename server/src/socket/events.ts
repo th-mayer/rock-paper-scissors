@@ -3,10 +3,11 @@ import { addToMatchmaking } from "../game/add-to-matchmaking";
 import { running_matches } from "../game/dicts/running-matches-dict";
 import { open_matches } from "../game/dicts/open-matches-dict";
 import { socket_in_matches } from "../game/dicts/socket-in-match-dict";
-import { Item, Player, isValidUser } from "../types/socket-connection-types";
+import { Player, isValidUser } from "../types/socket-connection-types";
 import { calculateCombat } from "../game/combat/combat-calculate";
 import { handleDisconnect } from "../game/handle-disconnect";
 import { reconnect } from "../game/handle-reconnect";
+import dbUsers from "../database-services/prisma-client";
 
 const SocketServer = (server: any) => {
   const io = new Server(server, {
@@ -28,15 +29,17 @@ const SocketServer = (server: any) => {
       handleDisconnect(socket.id, io);
     });
 
-    socket.on("start-matchmaking", async (user) => { // called by client if he wants to be added to matchmaking
+    socket.on("start-matchmaking", async (userID) => { // called by client if he wants to be added to matchmaking
+      let user = await dbUsers.getUserById(userID);
+      console.log(user)
+      if (user == undefined) return;
       for (let socket_id in socket_in_matches) { // This is problematic, disconnectHandler will end match and delete match from dict
         if (socket_id === socket.id) {           // and this leads to .instance beeing null and the server crashes.
-          reconnect(io,socket.id,socket_in_matches[socket_id]); // TODO: find a way to make disconnect only handle when app is being closed
+          reconnect(io,socket.id,socket_in_matches[socket_id]);
           return;
         }
       }
-      if (isValidUser(user)) { // Validate that passed user variable contains all needed data, to prevent runtime problems
-// TODO MAYBE: Shouldent the backend get the user, so the frontend cant "cheat" a selfmed user object?
+      if (isValidUser(user)) { // Validate that user object contains all needed data, to prevent runtime problems
         let player: Player = {
           name: user.username,
           items: user.items,
@@ -46,7 +49,7 @@ const SocketServer = (server: any) => {
         };
         addToMatchmaking(io, player);
       } else {
-        io.to(socket.id).emit("game-crashed", "The user object passed from client was wrong or incomplete")
+        io.to(socket.id).emit("game-crashed", "The user data couldnt be collected correctly by the server")
       }
     });
 
@@ -90,5 +93,9 @@ const SocketServer = (server: any) => {
         return;
       }
     });
+    
+    socket.on("leave-game", ()=> {
+      handleDisconnect(socket.id, io);
+    })
   });
  }; export default SocketServer;
