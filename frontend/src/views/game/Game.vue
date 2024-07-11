@@ -6,7 +6,7 @@ import LoadingScreenComp from '../../components/LoadingScreen.vue';
 import EndScreenComp from '../../components/EndScreen.vue';
 import socket from '../../socket.ts';
 import { Item } from '../../types/socket-connection-types';
-import { computed, onBeforeMount, onMounted, Ref, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, onUnmounted, Ref, ref } from 'vue';
 import { PlayerData } from '../../types/socket-connection-types';
 import { useUserStore } from '../../stores/users.store';
 import { storeToRefs } from 'pinia';
@@ -36,6 +36,10 @@ onBeforeMount(async () => { //Get the User before mounting
 
 onMounted(()=>{ //Add User to Matchmaking as soon as the app mounts this site
   setTimeout(()=>{socket.emit("start-matchmaking", userID)}, 1000);
+})
+
+onUnmounted(()=>{
+  socket.emit("leave-game");
 })
 
 const socket_log: string = "[socket]: " // logging prefix

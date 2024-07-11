@@ -93,5 +93,9 @@ const SocketServer = (server: any) => {
         return;
       }
     });
+    
+    socket.on("leave-game", ()=> {
+      handleDisconnect(socket.id, io);
+    })
   });
  }; export default SocketServer;
