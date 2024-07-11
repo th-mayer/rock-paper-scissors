@@ -20,7 +20,7 @@ userStore.getById(id);
 const schema = Yup.object().shape({
   email: Yup.string().email("e-mail invalid").required("Email adress is required"),
   username: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required").min(12),
+  password: Yup.string().required("Password is required").min(12, "Password must be at least 12 characters"),
 });
 
 async function onSubmit(values: any) {
