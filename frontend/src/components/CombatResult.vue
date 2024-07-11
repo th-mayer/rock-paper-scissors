@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import Card from '../components/Card.vue';
 
 enum ws {
     PLAYER_WIN,
