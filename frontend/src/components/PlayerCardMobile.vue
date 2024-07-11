@@ -97,6 +97,11 @@ const alignmentItemTooltip = computed(() => {
     padding-bottom: 4vh;
 }
 
+.card-rect-player-mobile.alignTop {
+    align-self: unset;
+    align-self: end;
+}
+
 .name-and-wins {
     display: flex;
     position: relative;
@@ -115,9 +120,6 @@ const alignmentItemTooltip = computed(() => {
     margin-right: 3vw;
 }
 
-.card-rect-player-mobile.alignTop {
-    align-self: self-end;
-}
 
 .card-rect-player-mobile.alignBottom {
     align-self: self-start;
@@ -172,14 +174,8 @@ const alignmentItemTooltip = computed(() => {
 .itembox-mobile img {
     width: 10vw;
     height: auto;
-}
-
-.card-rect-player-mobile.alignTop {
-    align-self: unset;
-}
-
-.card-rect-player-mobile.alignBottom {
-    align-self: unset;
+    border-radius: 5px;
+    border-width: 4px;
 }
 
 .name-and-wins.flex-row {
