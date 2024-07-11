@@ -1,6 +1,5 @@
 import { Server } from "socket.io";
 import { running_matches } from "../dicts/running-matches-dict";
-import dbUsers from "../../database-services/prisma-client";
 import { endMatch } from "../end-match";
 
 export const emitCombatResults = (

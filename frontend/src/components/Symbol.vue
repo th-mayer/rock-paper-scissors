@@ -37,7 +37,7 @@ const pic = computed(() => {
 }
 
 .symbol-img {
-    height: 20vh;
+    height: 10vw;
     margin-left: 1vh;
     margin-right: 1vh;
     border-color: $backshadow;
@@ -57,5 +57,29 @@ const pic = computed(() => {
 .symbol-container.img-highlight>img {
     border-color: $secondary-color;
     border-style: 2px solid;
+}
+
+/* Tablet styles */
+@media (max-width: 768px) {
+    .symbol-img {
+        height: 20vw;
+        margin: unset;
+    }
+
+    .symbol-container {
+        height: 150%;
+    }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+    .symbol-img {
+        height: 20vw;
+        margin: unset;
+    }
+
+    .symbol-container {
+        height: 150%;
+    }
 }
 </style>

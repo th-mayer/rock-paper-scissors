@@ -10,7 +10,7 @@ const { user } = storeToRefs(authStore);
 </script>
 
 <template>
-  <div v-if="user">
+  <div v-if="user" class="fullscreen">
     <div class="home-grid-container">
       <div class="home-container homeItem">
         <HomeAccount></HomeAccount>
@@ -56,6 +56,7 @@ const { user } = storeToRefs(authStore);
   font-size: 6vh;
   border-radius: 5vh;
   align-self: center;
+  position: relative;
 }
 
 #match-button:hover {
@@ -64,9 +65,131 @@ const { user } = storeToRefs(authStore);
   box-shadow: 7px 7px $highlight-color;
 }
 
-.button-container, .preview-container, .leaderboard-container, .home-container {
+.button-container,
+.preview-container,
+.leaderboard-container,
+.home-container {
   height: auto;
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 1100px) {
+  .home-grid-container {
+    grid-template-columns: auto;
+    row-gap: 5vh;
+    padding-bottom: 12vh;
+  }
+
+  .home-grid-container h2 {
+    font-size: 8vw;
+  }
+
+  .button-container {
+    width: 100vw;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    bottom: 0;
+  }
+
+  #match-button {
+    font-size: 4vw;
+    height: 8vh;
+    position: relative;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    margin: 0;
+    margin-bottom: 5vh;
+  }
+
+  .button-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px;
+    right: -10px;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(2, 1, 55, 0.8), rgba(241, 24, 51, 0));
+    z-index: -1;
+  }
+}
+
+
+/* Tablet styles */
+@media (max-width: 768px) {
+  .home-grid-container {
+    grid-template-columns: auto;
+    padding-bottom: 12vh;
+  }
+
+  .home-grid-container h2 {
+    font-size: 7vw;
+  }
+
+  .button-container {
+    width: 100vw;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    bottom: 0;
+  }
+
+  #match-button {
+    font-size: 5vw;
+    height: 10vh;
+    position: relative;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    margin: 0;
+    margin-bottom: 5vh;
+  }
+
+  .button-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px;
+    right: -10px;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(2, 1, 55, 0.8), rgba(241, 24, 51, 0));
+    z-index: -1;
+  }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+  .home-grid-container {
+    grid-template-columns: auto;
+    row-gap: 5vh;
+    padding-bottom: 12vh;
+  }
+
+  #match-button {
+    font-size: 3vh;
+    height: 10vh;
+    position: relative;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    margin-bottom: 5vh;
+  }
+
+  .button-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px;
+    right: -10px;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(2, 1, 55, 0.8), rgba(241, 24, 51, 0));
+    z-index: -1;
+  }
+
 }
 </style>

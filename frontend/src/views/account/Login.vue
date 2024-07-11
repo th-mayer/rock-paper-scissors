@@ -151,4 +151,36 @@ input {
   padding: 0;
   white-space: nowrap;
 }
+
+/* Tablet styles */
+@media (max-width: 768px) {
+  .card-rect h1 {
+    font-size: 10vw;
+  }
+
+  div.error {
+    font-size: 4vw;
+  }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {
+  .card-rect h1 {
+    font-size: 10vw;
+
+  }
+
+  label {
+    font-size: 10vw;
+  }
+
+  .register-link {
+    font-size: 3vw;
+  }
+
+  button.login-btn {
+    font-size: 14vw;
+    border-radius: 60px;
+  }
+}
 </style>

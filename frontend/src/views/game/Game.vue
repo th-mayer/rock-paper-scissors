@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PlayerCard from '../../components/PlayerCard.vue';
+import PlayerCardMobile from '../../components/PlayerCardMobile.vue';
 import SymbolSelector from '../../components/SymbolSelector.vue';
 import CombatResult from '../../components/CombatResult.vue';
 import LoadingScreenComp from '../../components/LoadingScreen.vue';
@@ -71,7 +72,7 @@ const opponent_wins = computed(() => {
 })
 
 const opponent_items = computed(() => {
-  let placeholderItems: Item[] = [{kind:99,modifier:1},{kind:99,modifier:1},{kind:99,modifier:1}];
+  let placeholderItems: Item[] = [{ kind: 99, modifier: 1 }, { kind: 99, modifier: 1 }, { kind: 99, modifier: 1 }];
   if (opponent_status.value) return opponent_status.value.items;
   else return placeholderItems;
 })
@@ -87,7 +88,7 @@ const player_wins = computed(() => {
 })
 
 const player_items = computed(() => {
-  let placeholderItems: Item[] = [{kind:99,modifier:1},{kind:99,modifier:1},{kind:99,modifier:1}];
+  let placeholderItems: Item[] = [{ kind: 99, modifier: 1 }, { kind: 99, modifier: 1 }, { kind: 99, modifier: 1 }];
   if (player_status.value) return player_status.value.items;
   else return placeholderItems;
 })
@@ -149,8 +150,8 @@ function startEndPhase(title: string, message: string) {
 }
 
 function startDelayedEndPhase(title: string, message: string) { // End game but with delay, used for normal game ends
-  setTimeout(()=> {
-    startEndPhase(title,message);
+  setTimeout(() => {
+    startEndPhase(title, message);
   }, 5000);
 }
 
@@ -166,7 +167,7 @@ socket.on("matchmaking-active", (m_id) => { // called if client was added to mat
 
 socket.on("initiate-match", (data) => { // called if a match was found
   match_id = data.m_id;
-  console.log("me:" + data.player, "opponent: "+ data.opponent)
+  console.log("me:" + data.player, "opponent: " + data.opponent)
   opponent_status.value = data.opponent;
   player_status.value = data.player;
   console.log(socket_log + "Found match");
@@ -180,7 +181,7 @@ socket.on("choose-timeout", () => { // called if choosing timer runns out
 
 socket.on("combat-round", (data) => { // called if both symbols are collected by server and combat was calculated by server
   // data contains the coosen symbol of player and opponent, and damage dealt
-  console.log(socket_log+"Combat results arrived from server.")
+  console.log(socket_log + "Combat results arrived from server.")
   my_health.value = data.myLife;
   my_symbol.value = data.mySymbol;
   opp_health.value = data.oppLife;
@@ -189,54 +190,54 @@ socket.on("combat-round", (data) => { // called if both symbols are collected by
   startResultPhase(); // Move to result game phase
 })
 
-socket.on("game-end", (data)=>{
-  console.log(socket_log+"Game has ended.")
+socket.on("game-end", (data) => {
+  console.log(socket_log + "Game has ended.")
   if (data === "stalemate") { // Tie
     startDelayedEndPhase("stalemate!", "It was a close match, but both of you won!");
   } else if (data === socket.id) { // Player has won
-    startDelayedEndPhase("Victory!", 
-    "You have assert your dominance and won! The defeated cat was send home, and wont recover from this shattering defeat.");
+    startDelayedEndPhase("Victory!",
+      "You have assert your dominance and won! The defeated cat was send home, and wont recover from this shattering defeat.");
   } else { // Opponent has won
-    startDelayedEndPhase("Drama!", 
-    "You were cheated out of your victory, what a fraud! In all of your nine lifes you never encountered such a presumptuous imposter.");
+    startDelayedEndPhase("Drama!",
+      "You were cheated out of your victory, what a fraud! In all of your nine lifes you never encountered such a presumptuous imposter.");
   }
 })
 
-socket.on("game-crashed", (data)=>{
+socket.on("game-crashed", (data) => {
   startEndPhase("game-crashed", data);
 })
 
 </script>
 
 <template>
-  <div v-if="game_phase == GamePhase.BE_ADDED || game_phase == GamePhase.WAIT_QUEUE">
-    <LoadingScreenComp @cancel-matchmaking="cancelMatchmaking" :inQueue="game_phase==GamePhase.WAIT_QUEUE"/>
+  <div class="fullscreen" v-if="game_phase == GamePhase.BE_ADDED || game_phase == GamePhase.WAIT_QUEUE">
+    <LoadingScreenComp @cancel-matchmaking="cancelMatchmaking" :inQueue="game_phase == GamePhase.WAIT_QUEUE" />
   </div>
-  <div class="top-and-bottom" v-if="game_phase == GamePhase.SELECTION || game_phase == GamePhase.RESULT">
+  <div class="top-and-bottom fullscreen" v-if="game_phase == GamePhase.SELECTION || game_phase == GamePhase.RESULT">
     <div class="player-row">
-      <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" :health="opp_health" class="enemy"
-        :topbar="true" />
+      <PlayerCard :name="opponent_name" :wins="opponent_wins" :items="opponent_items" :health="opp_health"
+        class="enemy visibility" :topbar="true" />
+      <PlayerCardMobile :name="opponent_name" :wins="opponent_wins" :items="opponent_items" :health="opp_health"
+        class="enemy visibilityMobile" :topbar="true" />
     </div>
-    <SymbolSelector @confirm-symbol="confirmSymbolChoice" @confirm-last="getLastChoice" v-if="game_phase == GamePhase.SELECTION" />
-    <CombatResult v-if="game_phase == GamePhase.RESULT" :player_name="player_name" :opponent_name="opponent_name"
-      :player_symbol="my_symbol" :opponent_symbol="opp_symbol" />
+    <SymbolSelector @confirm-symbol="confirmSymbolChoice" @confirm-last="getLastChoice"
+      v-if="game_phase == GamePhase.SELECTION" />
+    <CombatResult class="fullscreen" v-if="game_phase == GamePhase.RESULT" :player_name="player_name"
+      :opponent_name="opponent_name" :player_symbol="my_symbol" :opponent_symbol="opp_symbol" />
     <div class="player-row right">
-      <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health="my_health" class="player"
-        :topbar="false" />
+      <PlayerCard :name="player_name" :wins="player_wins" :items="player_items" :health="my_health"
+        class="player visibility" :topbar="false" />
+      <PlayerCardMobile :name="player_name" :wins="player_wins" :items="player_items" :health="my_health"
+        class="player visibilityMobile" :topbar="true" />
     </div>
   </div>
   <div v-if="game_phase == GamePhase.END">
-    <EndScreenComp :title="endScreenTitle" :message="endScreenMessage"/>
+    <EndScreenComp :title="endScreenTitle" :message="endScreenMessage" />
   </div>
 </template>
 
 <style lang="scss">
 @import "../../css/main.scss";
-
-* {
-  margin: 0;
-  color: $bright-font-color;
-}
 
 .player-row {
   display: flex;
@@ -253,5 +254,29 @@ socket.on("game-crashed", (data)=>{
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+}
+
+.card-rect-player {
+  display: flex;
+}
+
+.visibilityMobile {
+  display: none;
+}
+
+.visibility {
+  display: flex;
+}
+
+
+@media (max-width: 560px) {
+
+  .visibilityMobile {
+    display: flex;
+  }
+
+  .visibility {
+    display: none;
+  }
 }
 </style>

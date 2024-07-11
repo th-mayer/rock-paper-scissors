@@ -32,11 +32,20 @@ export const useUserStore = defineStore("users", () => {
   }
 
   async function getLeaderboard() {
-    users.value = { loading: true }
+    users.value = { loading: true };
     try {
       users.value = await fetchWrapper.get(`${baseURL}/leaderboard`);
     } catch (err) {
       users.value = { err };
+    }
+  }
+
+  async function generateItems(id: any) {
+    user.value = { loading: true };
+    try {
+      user.value = await fetchWrapper.get(`${baseURL}/${id}/generateItems`);
+    } catch (err) {
+      user.value = { err };
     }
   }
 
@@ -62,5 +71,15 @@ export const useUserStore = defineStore("users", () => {
     }
   }
 
-  return { user, users, register, getById, getCurrentUser, getLeaderboard, update, updateItemCoin };
+  return {
+    user,
+    users,
+    register,
+    getById,
+    getCurrentUser,
+    getLeaderboard,
+    generateItems,
+    update,
+    updateItemCoin,
+  };
 });

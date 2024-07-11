@@ -2,6 +2,8 @@ import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import config from "../json/config.json";
+import { generateRandomItem } from "../generators/randomItemGenerator";
+import { dbGenItem } from "./prisma-client";
 
 /**
  * DONT INSTANTIATE THIS CLASS!
@@ -55,6 +57,9 @@ export class DbUser {
         items: {
           create: [{}, {}, {}],
         },
+        genItems: {
+          create: [{}, {}, {}],
+        },
       },
     });
   }
@@ -92,39 +97,90 @@ export class DbUser {
     return sanitizedUser;
   }
 
-  // UPDATE
-  async update(user_id: number, data: any) {
+  async generateItems(user_id: number) {
     const user = await this.getUser(user_id);
     if (!user) throw Error("User not found");
-    if (!data.exItem) throw Error("No replacement Item chosen!");
-    // update items
-    if (data.item) {
-      const updatedUser = await this.prismaUser.update({
-        where: {
-          id: user_id,
+    const item1 = generateRandomItem();
+    const item2 = generateRandomItem();
+    const item3 = generateRandomItem();
+
+    await dbGenItem.delete(user_id);
+
+    const genItems = await this.prismaUser.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        genItems: {
+          create: [
+            {
+              kind: item1.kind,
+              modifier: item1.modifier,
+            },
+            {
+              kind: item2.kind,
+              modifier: item2.modifier,
+            },
+            {
+              kind: item3.kind,
+              modifier: item3.modifier,
+            },
+          ],
         },
-        data: {
-          items: {
-            update: {
-              where: {
-                id: data.exItem,
-              },
-              data: {
-                kind: data.item.kind,
-                modifier: data.item.modifier,
-              },
+      },
+      include: {
+        genItems: true,
+      },
+    });
+    return genItems;
+  }
+
+  // UPDATE
+  async update(user_id: number, data: any) {
+    const user = await this.getUserGenItems(user_id);
+    if (!user) throw Error("User not found");
+    if (!data.exItem || !data.genItem)
+      throw Error("No replacement Item chosen!");
+
+    let genItem;
+    console.log("before loop");
+    for (let item of user.genItems) {
+      if (item.id === data.genItem) {
+        console.log(item);
+        genItem = item;
+      }
+    }
+
+    // update items
+    const updatedUser = await this.prismaUser.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        items: {
+          update: {
+            where: {
+              id: data.exItem,
+            },
+            data: {
+              kind: genItem!.kind,
+              modifier: genItem!.modifier,
             },
           },
-          itemCoin: {
-            decrement: 1,
-          },
         },
-        include: {
-          items: true,
+        itemCoin: {
+          decrement: 1,
         },
-      });
-      return updatedUser;
-    }
+      },
+      include: {
+        items: true,
+      },
+    });
+    // delete generated items
+    dbGenItem.delete(user_id);
+
+    return updatedUser;
+
     throw Error("Error when updating User");
   }
 
@@ -185,6 +241,18 @@ export class DbUser {
       },
       include: {
         items: true,
+      },
+    });
+    return user;
+  }
+
+  async getUserGenItems(id: number) {
+    const user = await this.prismaUser.findFirstOrThrow({
+      where: {
+        id: id,
+      },
+      include: {
+        genItems: true,
       },
     });
     return user;

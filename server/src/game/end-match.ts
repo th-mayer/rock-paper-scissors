@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import { running_matches } from "./dicts/running-matches-dict";
-import dbUsers from "../database-services/prisma-client";
 import { socket_in_matches } from "./dicts/socket-in-match-dict";
+import { dbUsers } from "../database-services/prisma-client";
 
 export function endMatch(io: Server, match_id: string, winner: number) {
     let player1 = running_matches[match_id].player1;

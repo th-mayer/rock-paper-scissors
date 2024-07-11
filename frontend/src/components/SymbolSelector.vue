@@ -7,7 +7,7 @@ const timer: Ref<HTMLElement | undefined> = ref();
 const show = ref(true);
 const selectArray: Ref<boolean[]> = ref([false, false, false]);
 
-const emit = defineEmits(['confirm-symbol','confirm-last'])
+const emit = defineEmits(['confirm-symbol', 'confirm-last'])
 
 const rockHighlight = computed(() => {
     return selectArray.value[0];
@@ -59,7 +59,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Card v-show="show" title="Choose your symbol!" class="flex-row symbol-select-container">
+    <Card v-show="show" title="select!" class="flex-row symbol-select-container">
         <div>
             <div class="timer">
                 <div ref="timer" class="timer-bar"></div>
@@ -79,7 +79,9 @@ onMounted(() => {
 @import '@/css/main.scss';
 
 .symbol-select-container {
-    max-height: 40vh;
+    display: flex;
+    max-height: 10vw;
+    align-items: center;
 }
 
 .timer {
@@ -112,6 +114,19 @@ onMounted(() => {
 }
 
 .highlighted.selected {
-    border-color: #00aeff;
+    border-color: $highlight-color;
 }
+
+@media (max-width: 768px) {
+    .timer {
+        height: 2.5vh;
+    }
+
+    .symbol-select-container {
+        max-height: 20vw;
+    }
+}
+
+/* Phone styles */
+@media (max-width: 480px) {}
 </style>

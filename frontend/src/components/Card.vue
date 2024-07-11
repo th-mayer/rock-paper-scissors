@@ -1,7 +1,16 @@
 <template>
     <div>
-    <div v-if=backdrop class="backdrop">
-        <div class="card-container">
+        <div v-if=backdrop class="backdrop">
+            <div class="card-container">
+                <div class="card-topbar">
+                    <h4 class="card-header">{{ title }}</h4>
+                </div>
+                <div class="card-rect">
+                    <slot></slot>
+                </div>
+            </div>
+        </div>
+        <div v-else class="card-container">
             <div class="card-topbar">
                 <h4 class="card-header">{{ title }}</h4>
             </div>
@@ -10,28 +19,12 @@
             </div>
         </div>
     </div>
-    <div v-else class="card-container">
-        <div class="card-topbar">
-            <div class="dots-container">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-            
-            <h4 class="card-header">{{ title }}</h4>
-        
-        </div>
-        <div class="card-rect">
-            <slot></slot>
-        </div>
-    </div>
-    </div>
 </template>
 
 <script lang="ts">
-    export default {
-        props: ['title','backdrop']
-    }
+export default {
+    props: ['title', 'backdrop']
+}
 </script>
 
 <style lang="scss">
@@ -45,13 +38,13 @@
 }
 
 .backdrop {
-  width: 100vw;
-  height: 100vh;
-  background-color: $backdrop-color;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+    width: 100vw;
+    height: 100vh;
+    background-color: $backdrop-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 /* these are gonna need media queries to style on phone obv */
@@ -94,10 +87,10 @@
 }
 
 .card-container a {
-  font-size: 60%;
-  color: $bright-font-color;
-  text-decoration: underline;
-  width: fit-content;
+    font-size: 60%;
+    color: $bright-font-color;
+    text-decoration: underline;
+    width: fit-content;
 }
 
 .card-container p {
@@ -106,7 +99,7 @@
     margin: 0;
 }
 
-.dots-container{
+.dots-container {
     display: flex;
     padding-top: .5vh;
 }
@@ -121,4 +114,15 @@
     display: inline-block;
 }
 
+@media (max-width: 1100px) {
+    .card-rect h2 {
+        font-size: 12vw;
+    }
+}
+
+@media (max-width: 786px) {
+    .card-rect h2 {
+        font-size: 8vw;
+    }
+}
 </style>

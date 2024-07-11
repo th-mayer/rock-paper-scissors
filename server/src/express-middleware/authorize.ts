@@ -1,5 +1,5 @@
+import { dbUsers } from "../database-services/prisma-client";
 import config from "../json/config.json";
-import dbUsers from "../database-services/prisma-client";
 import { expressjwt } from "express-jwt";
 
 // https://github.com/auth0/express-jwt?tab=readme-ov-file#usage
