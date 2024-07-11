@@ -135,13 +135,14 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-    <template v-if="!(user?.loading || user?.error) && user.itemCoin > 0">
+    <template v-if="!(user?.loading || user?.error) && user.itemCoin <= 0">
         <Card title="Item Manager" class="Homecard item-manager">
             <div>
                 <p>
                     You don't have any item coins to redeem! Win a match to get an item
                     coin!
                 </p>
+                <h2>Current ItemCoins: {{ user.itemCoin }}</h2>
                 <div class="btn-container">
                     <router-link to="/home">
                         <button class="btn router-link-in-button discard">
@@ -152,12 +153,13 @@ onBeforeMount(async () => {
             </div>
         </Card>
     </template>
-    <template v-if="!(user?.loading || user?.error) && user.itemCoin < 1">
+    <template v-if="!(user?.loading || user?.error) && user.itemCoin >= 1">
         <Card title="Item Manager" class="Homecard item-manager">
             <div class="generateItems flex-col">
                 <p v-if="!exItem1">
                     You need to generate some items before you can manage them.
                 </p>
+                <h2>Item Coins: {{ user.itemCoin }}</h2>
                 <button class="btn" @click="generateItems">Generate Items</button>
             </div>
             <div v-if="exItem1">
