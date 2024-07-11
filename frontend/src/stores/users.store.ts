@@ -7,6 +7,7 @@ const baseURL = `${import.meta.env.VITE_API_URL}/users`;
 
 export const useUserStore = defineStore("users", () => {
   const user: Ref<null | any> = ref(null);
+  const genItemsUser: Ref<null | any> = ref(null);
   const users: Ref<null | any> = ref(null);
 
   async function register(user: any) {
@@ -41,11 +42,11 @@ export const useUserStore = defineStore("users", () => {
   }
 
   async function generateItems(id: any) {
-    user.value = { loading: true };
+    genItemsUser.value = { loading: true };
     try {
-      user.value = await fetchWrapper.get(`${baseURL}/${id}/generateItems`);
+      genItemsUser.value = await fetchWrapper.get(`${baseURL}/${id}/generateItems`);
     } catch (err) {
-      user.value = { err };
+      genItemsUser.value = { err };
     }
   }
 
@@ -73,6 +74,7 @@ export const useUserStore = defineStore("users", () => {
 
   return {
     user,
+    genItemsUser,
     users,
     register,
     getById,
