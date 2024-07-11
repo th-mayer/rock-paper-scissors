@@ -131,6 +131,7 @@ async function onSubmit(event: Event) {
 
 onBeforeMount(async () => {
     await userStore.getById(id);
+    console.log(user)
 });
 </script>
 
