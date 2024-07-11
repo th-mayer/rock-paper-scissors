@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import Card from './Card.vue';
-const emit = defineEmits(['cancel-matchmaking'])
-
+import Card from "./Card.vue";
+const emit = defineEmits(["cancel-matchmaking"]);
 
 const props = defineProps({
     inQueue: Boolean,
@@ -10,7 +9,6 @@ const props = defineProps({
 function cancelMatchmaking() {
     if (props.inQueue) emit("cancel-matchmaking");
 }
-
 </script>
 
 <template>
@@ -36,7 +34,7 @@ function cancelMatchmaking() {
 </template>
 
 <style lang="scss">
-@import '@/css/main.scss';
+@import "@/css/main.scss";
 
 .loadingScreen {
     height: 100vh;
@@ -61,7 +59,6 @@ function cancelMatchmaking() {
     50% {
         transform: scale(1);
         background-color: $secondary-color;
-        ;
     }
 }
 
@@ -79,7 +76,7 @@ function cancelMatchmaking() {
     background-color: $base-color;
     animation: scaling 2.5s ease-in-out infinite;
     display: inline-block;
-    margin: .5rem;
+    margin: 0.5rem;
 }
 
 .loadingDots div:nth-child(0) {
@@ -108,7 +105,7 @@ function cancelMatchmaking() {
 
 /* Tablet styles */
 @media (max-width: 768px) {
-    .loadingScreen{
+    .loadingScreen {
         width: unset;
         margin: 5vw;
     }
@@ -116,5 +113,4 @@ function cancelMatchmaking() {
 
 /* Phone styles */
 @media (max-width: 480px) {}
-
 </style>

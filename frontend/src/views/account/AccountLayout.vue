@@ -1,12 +1,12 @@
 /**
- * default layout to show either login / register / home page
- */
+* default layout to show either login / register / home page
+*/
 <script setup lang="ts">
 import { router } from '../../router/router';
 import { useAuthStore } from '../../stores/auth.store';
 
 const authStore = useAuthStore();
-if(authStore.user){
+if (authStore.user) {
   router.push("/");
 }
 </script>

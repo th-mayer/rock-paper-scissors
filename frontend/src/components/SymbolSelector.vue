@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { Ref, ref, onMounted, computed } from 'vue';
-import Card from './Card.vue';
-import Symbol from './Symbol.vue';
+import { Ref, ref, onMounted, computed } from "vue";
+import Card from "./Card.vue";
+import Symbol from "./Symbol.vue";
 
 const timer: Ref<HTMLElement | undefined> = ref();
 const show = ref(true);
 const selectArray: Ref<boolean[]> = ref([false, false, false]);
 
-const emit = defineEmits(['confirm-symbol', 'confirm-last'])
+const emit = defineEmits(["confirm-symbol", "confirm-last"]);
 
 const rockHighlight = computed(() => {
     return selectArray.value[0];
-})
+});
 
 const paperHighlight = computed(() => {
     return selectArray.value[1];
-})
+});
 
 const scissorsHighlight = computed(() => {
     return selectArray.value[2];
-})
+});
 
 function startTimer() {
     if (timer.value) {
@@ -31,31 +31,33 @@ function startTimer() {
 
 function removeWindow() {
     show.value = false;
-    emit('confirm-last')
+    emit("confirm-last");
 }
 
 function chooseRock() {
     selectArray.value[0] = !selectArray.value[0];
     selectArray.value[1] = false;
     selectArray.value[2] = false;
-    if (selectArray.value[0]) emit("confirm-symbol", 'r'); else emit("confirm-symbol", '');
+    if (selectArray.value[0]) emit("confirm-symbol", "r");
+    else emit("confirm-symbol", "");
 }
 function choosePaper() {
     selectArray.value[1] = !selectArray.value[1];
     selectArray.value[0] = false;
     selectArray.value[2] = false;
-    if (selectArray.value[1]) emit("confirm-symbol", 'p'); else emit("confirm-symbol", '');
+    if (selectArray.value[1]) emit("confirm-symbol", "p");
+    else emit("confirm-symbol", "");
 }
 function chooseScissors() {
     selectArray.value[2] = !selectArray.value[2];
     selectArray.value[1] = false;
     selectArray.value[0] = false;
-    if (selectArray.value[2]) emit("confirm-symbol", 's'); else emit("confirm-symbol", '');
+    if (selectArray.value[2]) emit("confirm-symbol", "s");
+    else emit("confirm-symbol", "");
 }
 onMounted(() => {
     setTimeout(startTimer, 500); // Initialize the health bar on component mount
 });
-
 </script>
 
 <template>
@@ -74,9 +76,8 @@ onMounted(() => {
     </Card>
 </template>
 
-
 <style lang="scss">
-@import '@/css/main.scss';
+@import "@/css/main.scss";
 
 .symbol-select-container {
     display: flex;

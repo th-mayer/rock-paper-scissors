@@ -44,7 +44,9 @@ export const useUserStore = defineStore("users", () => {
   async function generateItems(id: any) {
     genItemsUser.value = { loading: true };
     try {
-      genItemsUser.value = await fetchWrapper.get(`${baseURL}/${id}/generateItems`);
+      genItemsUser.value = await fetchWrapper.get(
+        `${baseURL}/${id}/generateItems`
+      );
     } catch (err) {
       genItemsUser.value = { err };
     }

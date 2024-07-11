@@ -19,13 +19,13 @@ export const router = createRouter({
       component: AccountLayout,
       children: [
         { path: "login", component: Login },
-        { path: "register", component: Register }, 
+        { path: "register", component: Register },
       ],
     },
     { path: "/edit/:id", component: Edit },
     { path: "/game", component: Game },
     { path: "/:id/itemEdit", component: ItemEdit },
-    { path: "/:pathMatch(.*)*", redirect: "/"},
+    { path: "/:pathMatch(.*)*", redirect: "/" },
   ],
 });
 

@@ -36,7 +36,8 @@ async function onSubmit(values: any) {
               <label>Email</label>
               <div class="error">{{ errors.email }}</div>
             </div>
-            <Field name="email" type="text" class="form-control margin-bottom" :class="{ 'is-invalid': errors.email }" />
+            <Field name="email" type="text" class="form-control margin-bottom"
+              :class="{ 'is-invalid': errors.email }" />
           </div>
         </div>
         <div class="form-section">
@@ -45,7 +46,8 @@ async function onSubmit(values: any) {
               <label>Username</label>
               <div class="error">{{ errors.username }}</div>
             </div>
-            <Field name="username" type="text" class="form-control margin-bottom" :class="{ 'is-invalid': errors.username }" />
+            <Field name="username" type="text" class="form-control margin-bottom"
+              :class="{ 'is-invalid': errors.username }" />
           </div>
         </div>
         <div class="form-section">
@@ -83,7 +85,7 @@ async function onSubmit(values: any) {
   width: 100%;
 }
 
-.flex-row {  
+.flex-row {
   color: white;
   display: flex;
   flex-direction: row;
@@ -104,14 +106,14 @@ async function onSubmit(values: any) {
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px #745cd8 inset !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #745cd8 inset !important;
 }
 
-input:-webkit-autofill{
-    -webkit-text-fill-color: white !important;
+input:-webkit-autofill {
+  -webkit-text-fill-color: white !important;
 }
 
 .form-control:focus {
@@ -123,7 +125,8 @@ input:-webkit-autofill{
 }
 
 .error {
-  color: rgb(239, 39, 122); margin-top: 2vh;
+  color: rgb(239, 39, 122);
+  margin-top: 2vh;
   font-size: 60%;
 }
 
@@ -145,7 +148,7 @@ input:-webkit-autofill{
 .login-btn:hover {
   cursor: pointer;
   background-color: white;
-  color:#745cd8;
+  color: #745cd8;
   box-shadow: 5px 5px #745cd8;
   transition: 0.2s ease-in;
 }
@@ -160,17 +163,17 @@ input:-webkit-autofill{
   width: fit-content;
 }
 
-.label-line{
+.label-line {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.card-rect h1{
-    color: white;
-    margin: 0.5rem 0;
-    padding: 0;
-    white-space: nowrap;
+.card-rect h1 {
+  color: white;
+  margin: 0.5rem 0;
+  padding: 0;
+  white-space: nowrap;
 }
 
 /* Tablet styles */
@@ -200,5 +203,4 @@ input:-webkit-autofill{
     border-radius: 60px;
   }
 }
-
 </style>

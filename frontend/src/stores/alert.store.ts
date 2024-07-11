@@ -12,7 +12,7 @@ export const useAlertStore = defineStore("alert", () => {
   function error(message: any) {
     alert.value = { message, type: "alert-danger" };
   }
-  
+
   function clear() {
     alert.value = null;
   }

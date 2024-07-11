@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import ItemComp from './Item.vue';
-import { Item } from "../types/socket-connection-types"
+import ItemComp from "./Item.vue";
+import { Item } from "../types/socket-connection-types";
 
 const props = defineProps<{
-    tooltipUp: boolean,
-    item1: Item,
-    item2: Item,
-    item3: Item,
+    tooltipUp: boolean;
+    item1: Item;
+    item2: Item;
+    item3: Item;
 }>();
-
 </script>
 
 <template>
-    <div class="item-container ">
+    <div class="item-container">
         <ItemComp :item-kind="item1?.kind" :multiplier="item1?.modifier" :tooltipUp="props.tooltipUp"
             :is-highlighted="false" />
         <ItemComp :item-kind="item2?.kind" :multiplier="item2?.modifier" :tooltipUp="props.tooltipUp"
@@ -20,11 +19,10 @@ const props = defineProps<{
         <ItemComp :item-kind="item3?.kind" :multiplier="item3?.modifier" :tooltipUp="props.tooltipUp"
             :is-highlighted="false" />
     </div>
-    
 </template>
 
 <style lang="scss">
-@import '../css/main.scss';
+@import "../css/main.scss";
 
 .item-container {
     height: 85%;
@@ -33,7 +31,5 @@ const props = defineProps<{
 }
 
 /* Phone styles */
-@media (max-width: 480px) {
-
-}
+@media (max-width: 480px) {}
 </style>

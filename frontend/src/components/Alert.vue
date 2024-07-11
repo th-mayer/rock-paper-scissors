@@ -13,18 +13,17 @@ const { alert } = storeToRefs(alertStore);
         <button id="alert-btn" @click="alertStore.clear()" class="close">
           x
         </button>
-       <p class="alert-danger" v-if="alert.type == 'alert-danger'">Danger! {{  alert.message }} :(</p> 
-       <p class="alert-success" v-else>Wowie! {{ alert.message }} :)</p>
+        <p class="alert-danger" v-if="alert.type == 'alert-danger'">Danger! {{ alert.message }} :(</p>
+        <p class="alert-success" v-else>Wowie! {{ alert.message }} :)</p>
       </div>
     </div>
   </div>
 </template>
 
 <style lang="scss">
-
 @import '../css/_config.scss';
 
-.alert-container{
+.alert-container {
   position: absolute;
   margin-top: 2vh;
   margin-left: 2vw;
@@ -32,15 +31,16 @@ const { alert } = storeToRefs(alertStore);
   z-index: 10000;
 }
 
-.alert-container{
+.alert-container {
   position: absolute;
   margin-top: 2vh;
   margin-left: 2vw;
   text-align: center;
 }
 
-.alert, .alert-dismissable{
-  display: flex; 
+.alert,
+.alert-dismissable {
+  display: flex;
   flex-direction: row;
   position: absolute;
   max-width: fit-content;
@@ -54,7 +54,7 @@ const { alert } = storeToRefs(alertStore);
   white-space: nowrap;
 }
 
-.close{
+.close {
   font-family: $main-font;
   font-size: 2.8vh;
   margin-left: auto;
@@ -66,7 +66,7 @@ const { alert } = storeToRefs(alertStore);
   aspect-ratio: 1/1;
 }
 
-.alert-success{
+.alert-success {
   max-width: fit-content;
   padding: 6px;
   margin: 0;
@@ -78,7 +78,7 @@ const { alert } = storeToRefs(alertStore);
   white-space: nowrap;
 }
 
- #alert-btn{
+#alert-btn {
   all: unset;
   text-align: center;
   margin: 6px;
@@ -91,14 +91,14 @@ const { alert } = storeToRefs(alertStore);
   border-radius: 5px;
   height: 3vh;
   aspect-ratio: 1/1;
- }
+}
 
- #alert-btn:hover{
+#alert-btn:hover {
   background-color: $backshadow;
   color: $secondary-color;
- }
+}
 
-.alert-danger{
+.alert-danger {
   max-width: fit-content;
   padding: 6px;
   margin: 0;

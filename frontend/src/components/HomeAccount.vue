@@ -16,8 +16,6 @@ const { user } = storeToRefs(authStore);
             <router-link :to="`/edit/${user.id}`">
                 <button class="router-link-in-button acc-btn">edit Account</button>
             </router-link>
-
-
             <button class="acc-btn router-link-in-button discard" @click="authStore.logout()">Logout</button>
         </div>
     </Card>

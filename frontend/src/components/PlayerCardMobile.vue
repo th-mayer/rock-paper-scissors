@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import { Ref, computed, onMounted, ref, watch } from "vue";
 import ItemBox from "./ItemBox.vue";
-import { Item } from "../types/socket-connection-types"
+import { Item } from "../types/socket-connection-types";
 
 const props = defineProps<{
-    name: string,
-    wins: number,
-    topbar: boolean,
-    health: number,
-    items: Array<Item>
+    name: string;
+    wins: number;
+    topbar: boolean;
+    health: number;
+    items: Array<Item>;
 }>();
 
-watch(() => props.health, () => {
-    setTimeout(updateBar, 2000);
-});
+watch(
+    () => props.health,
+    () => {
+        setTimeout(updateBar, 2000);
+    }
+);
 
 const hb: Ref<HTMLElement | undefined> = ref();
 const hbred: Ref<HTMLElement | undefined> = ref();
@@ -27,7 +30,7 @@ const items = computed(() => {
         let placeholder: Item = { kind: 99, modifier: 1 };
         return [placeholder, placeholder, placeholder];
     }
-})
+});
 
 function updateBar() {
     const targetWidth = props.health * (100 / maxHealth) + "%";
@@ -54,7 +57,7 @@ const alignmentItemTooltip = computed(() => {
 <template>
     <div class="card-rect-player-mobile flex-col" :class="alignmentClass">
         <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]"
-            :item3="items[2]" style="margin-right: 3vw;" />
+            :item3="items[2]" style="margin-right: 3vw" />
         <div class="flex-col">
             <div class="name-and-wins flex-row no-align">
                 <h2>{{ name }}</h2>
@@ -62,7 +65,7 @@ const alignmentItemTooltip = computed(() => {
             </div>
             <div class="itembox-mobile">
                 <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]"
-                    :item3="items[2]" style="margin-left: 3vw;" />
+                    :item3="items[2]" style="margin-left: 3vw" />
             </div>
         </div>
 
@@ -75,8 +78,7 @@ const alignmentItemTooltip = computed(() => {
 </template>
 
 <style lang="scss">
-@import '../css/main.scss';
-
+@import "../css/main.scss";
 
 .card-rect-player-mobile {
     position: relative;
@@ -119,7 +121,6 @@ const alignmentItemTooltip = computed(() => {
     color: $secondary-color;
     margin-right: 3vw;
 }
-
 
 .card-rect-player-mobile.alignBottom {
     align-self: self-start;

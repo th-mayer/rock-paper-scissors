@@ -130,15 +130,6 @@ async function onSubmit(event: Event) {
     }
 }
 
-// onMounted(() => {
-//     getUserExistingItems();
-//     getUserGeneratedItems();
-//     console.log("exitem");
-//     console.log(exItem1.value);
-//     console.log("item");
-//     console.log(item1.value);
-// })
-
 onBeforeMount(async () => {
     await userStore.getById(id);
     getUserExistingItems();
@@ -189,11 +180,11 @@ onBeforeMount(async () => {
                     </div>
                     <h2>New Items</h2>
                     <div class="item-container">
-                        <Item :itemKind="item1.kind" :multiplier="item1.modifier" :tooltipUp="false"
+                        <Item :itemKind="item1.kind" :multiplier="item1.modifier" :tooltipUp="true"
                             :isHighlighted="genItem1Highlight" @click="chooseGenItem1" />
-                        <Item :itemKind="item2.kind" :multiplier="item2.modifier" :tooltipUp="false"
+                        <Item :itemKind="item2.kind" :multiplier="item2.modifier" :tooltipUp="true"
                             :isHighlighted="genItem2Highlight" @click="chooseGenItem2" />
-                        <Item :itemKind="item3.kind" :multiplier="item3.modifier" :tooltipUp="false"
+                        <Item :itemKind="item3.kind" :multiplier="item3.modifier" :tooltipUp="true"
                             :isHighlighted="genItem3Highlight" @click="chooseGenItem3" />
                         <input type="hidden" name="genItem" :value="checkedGenItem" />
                     </div>

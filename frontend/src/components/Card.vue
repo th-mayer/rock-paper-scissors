@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if=backdrop class="backdrop">
+        <div v-if="backdrop" class="backdrop">
             <div class="card-container">
                 <div class="card-topbar">
                     <h4 class="card-header">{{ title }}</h4>
@@ -23,12 +23,12 @@
 
 <script lang="ts">
 export default {
-    props: ['title', 'backdrop']
-}
+    props: ["title", "backdrop"],
+};
 </script>
 
 <style lang="scss">
-@import '../css/main.scss';
+@import "../css/main.scss";
 
 .card-container {
     width: fit-content;
@@ -101,14 +101,14 @@ export default {
 
 .dots-container {
     display: flex;
-    padding-top: .5vh;
+    padding-top: 0.5vh;
 }
 
 .dot {
     height: 2.5vh;
     aspect-ratio: 1/1;
-    margin-left: .4vw;
-    margin-right: .4vw;
+    margin-left: 0.4vw;
+    margin-right: 0.4vw;
     background-color: $backshadow;
     border-radius: 50%;
     display: inline-block;

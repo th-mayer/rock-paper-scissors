@@ -37,11 +37,11 @@ onBeforeMount(async () => { //Get the User before mounting
   if (user.value) if (user.value.id) userID = user.value.id;
 });
 
-onMounted(()=>{ //Add User to Matchmaking as soon as the app mounts this site
-  setTimeout(()=>{socket.emit("start-matchmaking", userID)}, 1000);
+onMounted(() => { //Add User to Matchmaking as soon as the app mounts this site
+  setTimeout(() => { socket.emit("start-matchmaking", userID) }, 1000);
 })
 
-onUnmounted(()=>{
+onUnmounted(() => {
   socket.emit("leave-game");
 })
 

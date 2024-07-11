@@ -31,7 +31,7 @@ const props = defineProps<{
     height: 100vh;
 }
 
-.gameEndScreen > .endCard {
+.gameEndScreen>.endCard {
     width: 80vw;
 }
 </style>

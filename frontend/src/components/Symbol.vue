@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-
+import { computed } from "vue";
 
 const props = defineProps({
     type: Number,
@@ -10,15 +9,14 @@ const props = defineProps({
 const highlightStyle = computed(() => {
     if (props.isHighlighted) return "symbol-container img-highlight";
     else return "symbol-container";
-})
+});
 
 const pic = computed(() => {
     if (props.type == 0) return "../../public/assets/rock.png";
     else if (props.type == 1) return "../../public/assets/paper.png";
     else if (props.type == 2) return "../../public/assets/scissors.png";
     return;
-})
-
+});
 </script>
 
 <template>
@@ -28,7 +26,7 @@ const pic = computed(() => {
 </template>
 
 <style lang="scss">
-@import '../css/main.scss';
+@import "../css/main.scss";
 
 .symbol-container {
     height: 100%;

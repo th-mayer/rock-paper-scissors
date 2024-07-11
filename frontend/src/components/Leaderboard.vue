@@ -46,12 +46,8 @@ onBeforeMount(async () => {
 }
 
 /* Tablet styles */
-@media (max-width: 768px) {
-
-}
+@media (max-width: 768px) {}
 
 /* Phone styles */
-@media (max-width: 480px) {
-
-}
+@media (max-width: 480px) {}
 </style>

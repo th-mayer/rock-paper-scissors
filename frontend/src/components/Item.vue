@@ -1,58 +1,73 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref } from "vue";
 
 const props = defineProps<{
-    itemKind: number,
-    multiplier: number,
-    tooltipUp: boolean,
+    itemKind: number;
+    multiplier: number;
+    tooltipUp: boolean;
     isHighlighted: boolean | undefined;
 }>();
 
 const emit = defineEmits<{
-    (e: 'click', event: MouseEvent): void;
+    (e: "click", event: MouseEvent): void;
 }>();
 
 function handleClick(event: MouseEvent) {
-    emit('click', event);
+    emit("click", event);
 }
 
 let onHover = ref(false);
 
 const item = {
-    names: ["Heavy Stone", "Sharp Paper", "Pointy Scissors", "Brittle Stone", "Soggy Paper", "Blunt Scissors", "Empty Slot"],
+    names: [
+        "Heavy Stone",
+        "Sharp Paper",
+        "Pointy Scissors",
+        "Brittle Stone",
+        "Soggy Paper",
+        "Blunt Scissors",
+        "Empty Slot",
+    ],
     symbols: ["Stone", "Paper", "Scissors"],
-    pictures: ["../../public/assets/rockdmg.png", "../../public/assets/paperdmg.png", "../../public/assets/scissorsdmg.png", "../../public/assets/rockdefense.png", "../../public/assets/paperdefense.png", "../../public/assets/scissorsdefense.png", "../../public/assets/empty2.png"],
+    pictures: [
+        "../../public/assets/rockdmg.png",
+        "../../public/assets/paperdmg.png",
+        "../../public/assets/scissorsdmg.png",
+        "../../public/assets/rockdefense.png",
+        "../../public/assets/paperdefense.png",
+        "../../public/assets/scissorsdefense.png",
+        "../../public/assets/empty2.png",
+    ],
     descriptionDmg1: "Equipped person deals ",
     descriptionDmg2: " times the damage when winning with ",
     descriptionPro1: "Equipped person receives only ",
     descriptionPro2: " times the damage when loosing against ",
-    descriptionEmpt: "Owner needs to play a match to be able to place an item here",
-}
+    descriptionEmpt:
+        "Owner needs to play a match to be able to place an item here",
+};
 
 const itemName = computed(() => {
     if (props.itemKind >= 0 && props.itemKind <= 5) {
-
         return item.names[props.itemKind];
     }
     return item.names[6];
-})
+});
 
 const itemSymbol = computed(() => {
     if (props.itemKind >= 0 && props.itemKind <= 2) {
         return item.symbols[props.itemKind];
-    }
-    else if (props.itemKind >= 3 && props.itemKind <= 5) {
+    } else if (props.itemKind >= 3 && props.itemKind <= 5) {
         return item.symbols[props.itemKind - 3];
     }
     return "";
-})
+});
 
 const itemPic = computed(() => {
     if (props.itemKind >= 0 && props.itemKind <= 5) {
         return item.pictures[props.itemKind];
     }
     return item.pictures[6];
-})
+});
 
 const itemDescription = computed(() => {
     if (props.itemKind >= 0 && props.itemKind <= 2) {
@@ -62,21 +77,21 @@ const itemDescription = computed(() => {
         return [item.descriptionPro1, item.descriptionPro2];
     }
     return [item.descriptionEmpt, ""];
-})
+});
 
 const itemModifier = computed(() => {
     if (props.itemKind >= 0 && props.itemKind <= 5) {
         return props.multiplier + "x";
     }
     return "";
-})
+});
 
 const tooltipPositionClass = computed(() => {
     if (props.tooltipUp) {
         return "tooltipUp";
     }
     return "tooltipDown";
-})
+});
 
 function showTooltip() {
     onHover.value = true;
@@ -89,24 +104,24 @@ function hideTooltip() {
 const highlightStyle = computed(() => {
     if (props.isHighlighted) return "itemDiv item-highlight";
     else return "itemDiv";
-})
-
-
+});
 </script>
 
 <template>
     <div :class="highlightStyle" @mouseenter="showTooltip" @mouseleave="hideTooltip" @click="handleClick">
-        <img :src=itemPic>
+        <img :src="itemPic" />
     </div>
     <div class="itemDiscription" v-if="onHover" ref="tooltip" :class="tooltipPositionClass">
         <h2>{{ itemName }}</h2>
-        <p>{{ itemDescription[0] }}<span class="highlighted">{{ itemModifier }}</span>{{ itemDescription[1] + itemSymbol
-            + "." }}</p>
+        <p>
+            {{ itemDescription[0] }}<span class="highlighted">{{ itemModifier }}</span>{{ itemDescription[1] +
+            itemSymbol + "." }}
+        </p>
     </div>
 </template>
 
 <style lang="scss">
-@import '@/css/main.scss';
+@import "@/css/main.scss";
 
 div.itemDiv {
     height: 100%;
@@ -165,5 +180,4 @@ img {
     border-color: $secondary-color;
     border-style: 2px solid;
 }
-
 </style>

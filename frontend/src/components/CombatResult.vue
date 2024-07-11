@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from "vue";
 
 enum ws {
     PLAYER_WIN,
     OPPONENT_WIN,
-    TIE
+    TIE,
 }
 
 let symbolClass = "combat-symbol-img ";
@@ -22,7 +22,7 @@ const props = defineProps({
 });
 
 const symbolClasses = computed(() => {
-    return symbolClass + (showSymbols.value ? show : '');
+    return symbolClass + (showSymbols.value ? show : "");
 });
 
 const opponentPic = computed(() => {
@@ -55,14 +55,18 @@ const win = computed(() => {
     if (
         (props.player_symbol == "r" && props.opponent_symbol == "s") ||
         (props.player_symbol == "p" && props.opponent_symbol == "r") ||
-        (props.player_symbol == "s" && props.opponent_symbol == "p") || (props.player_symbol != "" && props.opponent_symbol == "")
-    ) return ws.PLAYER_WIN;
+        (props.player_symbol == "s" && props.opponent_symbol == "p") ||
+        (props.player_symbol != "" && props.opponent_symbol == "")
+    )
+        return ws.PLAYER_WIN;
 
     if (
         (props.player_symbol == "s" && props.opponent_symbol == "r") ||
         (props.player_symbol == "r" && props.opponent_symbol == "p") ||
-        (props.player_symbol == "p" && props.opponent_symbol == "s") || (props.opponent_symbol != "" && props.player_symbol == "")
-    ) return ws.OPPONENT_WIN;
+        (props.player_symbol == "p" && props.opponent_symbol == "s") ||
+        (props.opponent_symbol != "" && props.player_symbol == "")
+    )
+        return ws.OPPONENT_WIN;
 
     return ws.TIE;
 });
@@ -78,14 +82,16 @@ onMounted(() => {
         showSymbols.value = false;
         showResult.value = false;
     }, 5000);
-})
+});
 </script>
 
 <template>
     <div class="combatResult">
         <div v-if="showResult" class="showResult">
             <p v-if="win === ws.PLAYER_WIN">{{ player_name }} wins this round!</p>
-            <p v-else-if="win === ws.OPPONENT_WIN">{{ opponent_name }} wins this round!</p>
+            <p v-else-if="win === ws.OPPONENT_WIN">
+                {{ opponent_name }} wins this round!
+            </p>
             <p v-else>Tie!</p>
         </div>
     </div>
@@ -100,9 +106,8 @@ onMounted(() => {
     </div>
 </template>
 
-
 <style lang="scss">
-@import '../css/main.scss';
+@import "../css/main.scss";
 
 .combat-symbol-img {
     all: unset;
@@ -178,7 +183,5 @@ onMounted(() => {
     .showResult p {
         font-size: 6vw;
     }
-
 }
-
 </style>

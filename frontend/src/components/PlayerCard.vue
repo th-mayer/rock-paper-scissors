@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import { Ref, computed, onMounted, ref, watch } from "vue";
 import ItemBox from "./ItemBox.vue";
-import { Item } from "../types/socket-connection-types"
+import { Item } from "../types/socket-connection-types";
 
 const props = defineProps<{
-    name: string,
-    wins: number,
-    topbar: boolean,
-    health: number,
-    items: Array<Item>
+    name: string;
+    wins: number;
+    topbar: boolean;
+    health: number;
+    items: Array<Item>;
 }>();
 
-watch(() => props.health, () => {
-  setTimeout(updateBar,2000);
-});
+watch(
+    () => props.health,
+    () => {
+        setTimeout(updateBar, 2000);
+    }
+);
 
 const hb: Ref<HTMLElement | undefined> = ref();
 const hbred: Ref<HTMLElement | undefined> = ref();
@@ -27,7 +30,7 @@ const items = computed(() => {
         let placeholder: Item = { kind: 99, modifier: 1 };
         return [placeholder, placeholder, placeholder];
     }
-})
+});
 
 function updateBar() {
     const targetWidth = props.health * (100 / maxHealth) + "%";
@@ -54,7 +57,7 @@ const alignmentItemTooltip = computed(() => {
 <template>
     <div class="card-rect-player" :class="alignmentClass">
         <ItemBox v-if="!props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]"
-            :item3="items[2]" style="margin-right: 3vw;" />
+            :item3="items[2]" style="margin-right: 3vw" />
         <div class="name-and-hp">
             <div>
                 <h2>{{ name }}</h2>
@@ -69,12 +72,12 @@ const alignmentItemTooltip = computed(() => {
             </div>
         </div>
         <ItemBox v-if="props.topbar" :tooltipUp="alignmentItemTooltip" :item1="items[0]" :item2="items[1]"
-            :item3="items[2]" style="margin-left: 3vw;" />
+            :item3="items[2]" style="margin-left: 3vw" />
     </div>
 </template>
 
 <style lang="scss">
-@import '../css/main.scss';
+@import "../css/main.scss";
 
 .column {
     display: flex;
@@ -172,5 +175,4 @@ const alignmentItemTooltip = computed(() => {
     transition: width 1s ease;
     border-radius: 200px;
 }
-
 </style>
