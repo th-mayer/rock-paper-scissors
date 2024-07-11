@@ -252,12 +252,25 @@ onBeforeMount(async () => {
 /* Phone styles */
 @media (max-width: 480px) {
     .item-manager {
-        margin: 5vw;
-        width: unset;
+        width: 100vw;
+        justify-content: unset;
+        margin: 1.5vw; 
+        padding: 0;
+    }
+
+    .item-manager img{
+        margin: 0;
+        padding: 0;
+        width: 25vw;
+        height: auto;
     }
 
     .item-manager .item-container {
         height: 12vh;
+    }
+
+    .item-manager h2{
+        font-size: 5vw;
     }
 }
 </style>
