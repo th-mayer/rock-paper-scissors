@@ -49,8 +49,8 @@ export const useUserStore = defineStore("users", () => {
     }
   }
 
-  async function update(id: any, params: any) {
-    await fetchWrapper.put(`${baseURL}/${id}`, params);
+  async function updateUser(id: any, params: any) {
+    await fetchWrapper.put(`${baseURL}/${id}/edit`, params);
     // if logged in user updates their profile, update user saved in localStorage
     const authStore = useAuthStore();
     if (id === authStore.user.id) {
@@ -60,12 +60,12 @@ export const useUserStore = defineStore("users", () => {
     }
   }
 
-  async function updateItemCoin(id: any) {
-    await fetchWrapper.put(`${baseURL}/${id}/updateWin`);
+  async function updateItems(id: any, params: any) {
+    await fetchWrapper.put(`${baseURL}/${id}`, params);
     // if logged in user updates their profile, update user saved in localStorage
     const authStore = useAuthStore();
     if (id === authStore.user.id) {
-      const user = { ...authStore.user };
+      const user = { ...authStore.user, ...params };
       localStorage.setItem("user", JSON.stringify(user));
       authStore.user = user;
     }
@@ -79,7 +79,7 @@ export const useUserStore = defineStore("users", () => {
     getCurrentUser,
     getLeaderboard,
     generateItems,
-    update,
-    updateItemCoin,
+    updateUser,
+    updateItems,
   };
 });

@@ -121,7 +121,7 @@ async function onSubmit(event: Event) {
     console.log(values);
 
     try {
-        await userStore.update(user.value.id, values);
+        await userStore.updateItems(user.value.id, values);
         alertStore.success("Items updated");
         await userStore.getById(id);
         getUserExistingItems();
