@@ -5,7 +5,6 @@ import { useRoute } from "vue-router";
 import { useUserStore } from "../../stores/users.store";
 import { storeToRefs } from "pinia";
 import { useAlertStore } from "../../stores/alert.store";
-import { generateRandomItem } from "../../helpers/randomItemGenerator";
 import { computed, onBeforeMount, Ref, ref } from "vue";
 import LoadingScreen from "../../components/LoadingScreen.vue";
 
@@ -57,9 +56,9 @@ const checkedOwnItem = computed(() => {
 });
 
 const checkedGenItem = computed(() => {
-    if (selectGenArray.value[0]) return item1.value;
-    else if (selectGenArray.value[1]) return item2.value;
-    else if (selectGenArray.value[2]) return item3.value;
+    if (selectGenArray.value[0]) return item1.value.id;
+    else if (selectGenArray.value[1]) return item2.value.id;
+    else if (selectGenArray.value[2]) return item3.value.id;
     else return null;
 });
 
@@ -93,11 +92,14 @@ function chooseGenItem3() {
     selectGenArray.value[1] = false;
     selectGenArray.value[0] = false;
 }
-function generateItems() {
+async function generateItems() {
     getUserExistingItems();
-    item1.value = generateRandomItem();
-    item2.value = generateRandomItem();
-    item3.value = generateRandomItem();
+    await userStore.generateItems(id);
+    const userGeneratedItems = user.value.genItems;
+    item1.value = userGeneratedItems[0];
+    item2.value = userGeneratedItems[1];
+    item3.value = userGeneratedItems[2];
+
 }
 function getUserExistingItems() {
     const userExistingItems = user.value.items;
@@ -106,6 +108,7 @@ function getUserExistingItems() {
     exItem3.value = userExistingItems[2];
 }
 
+
 async function onSubmit(event: Event) {
     event.preventDefault();
     const alertStore = useAlertStore();
@@ -113,11 +116,9 @@ async function onSubmit(event: Event) {
 
     const values = {
         exItem: Number(formData.get("exItem")),
-        item: {
-            kind: Number(formData.get("itemKind")),
-            modifier: Number(formData.get("itemModifier")),
-        },
+        genItem: Number(formData.get("genItem")),
     };
+    console.log(values);
 
     try {
         await userStore.update(user.value.id, values);
@@ -162,7 +163,7 @@ onBeforeMount(async () => {
                 <h2>Item Coins: {{ user.itemCoin }}</h2>
                 <button class="btn" @click="generateItems">Generate Items</button>
             </div>
-            <div v-if="exItem1">
+            <div v-if="exItem1 && item1">
                 <h2>Your Equipped Items</h2>
                 <form @submit="onSubmit">
                     <div class="item-container">
@@ -182,8 +183,7 @@ onBeforeMount(async () => {
                             :isHighlighted="genItem2Highlight" @click="chooseGenItem2" />
                         <Item :itemKind="item3.kind" :multiplier="item3.modifier" :tooltipUp="false"
                             :isHighlighted="genItem3Highlight" @click="chooseGenItem3" />
-                        <input type="hidden" name="itemKind" :value="checkedGenItem?.kind" />
-                        <input type="hidden" name="itemModifier" :value="checkedGenItem?.modifier" />
+                        <input type="hidden" name="genItem" :value="checkedGenItem" />
                     </div>
                     <div class="flex-row itemEditBtns">
                         <div class="btn-container">

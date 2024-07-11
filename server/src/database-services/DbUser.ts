@@ -137,37 +137,50 @@ export class DbUser {
 
   // UPDATE
   async update(user_id: number, data: any) {
-    const user = await this.getUser(user_id);
+    const user = await this.getUserGenItems(user_id);
     if (!user) throw Error("User not found");
-    if (!data.exItem) throw Error("No replacement Item chosen!");
+    if (!data.exItem || !data.genItem)
+      throw Error("No replacement Item chosen!");
+
+    let genItem;
+    console.log("before loop");
+    for (let item of user.genItems) {
+      if (item.id === data.genItem) {
+        console.log(item);
+        genItem = item;
+      }
+    }
+
     // update items
-    if (data.item) {
-      const updatedUser = await this.prismaUser.update({
-        where: {
-          id: user_id,
-        },
-        data: {
-          items: {
-            update: {
-              where: {
-                id: data.exItem,
-              },
-              data: {
-                kind: data.item.kind,
-                modifier: data.item.modifier,
-              },
+    const updatedUser = await this.prismaUser.update({
+      where: {
+        id: user_id,
+      },
+      data: {
+        items: {
+          update: {
+            where: {
+              id: data.exItem,
+            },
+            data: {
+              kind: genItem!.kind,
+              modifier: genItem!.modifier,
             },
           },
-          itemCoin: {
-            decrement: 1,
-          },
         },
-        include: {
-          items: true,
+        itemCoin: {
+          decrement: 1,
         },
-      });
-      return updatedUser;
-    }
+      },
+      include: {
+        items: true,
+      },
+    });
+    // delete generated items
+    dbGenItem.delete(user_id);
+
+    return updatedUser;
+
     throw Error("Error when updating User");
   }
 
@@ -228,6 +241,18 @@ export class DbUser {
       },
       include: {
         items: true,
+      },
+    });
+    return user;
+  }
+
+  async getUserGenItems(id: number) {
+    const user = await this.prismaUser.findFirstOrThrow({
+      where: {
+        id: id,
+      },
+      include: {
+        genItems: true,
       },
     });
     return user;
