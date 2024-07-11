@@ -96,7 +96,6 @@ const { user } = storeToRefs(authStore);
   #match-button {
     font-size: 4vw;
     height: 8vh;
-    padding: 4vw;
     position: relative;
     bottom: 0;
     left: 50%;
@@ -123,7 +122,6 @@ const { user } = storeToRefs(authStore);
 @media (max-width: 768px) {
   .home-grid-container {
     grid-template-columns: auto;
-    row-gap: 5vh;
     padding-bottom: 12vh;
   }
 
@@ -142,7 +140,6 @@ const { user } = storeToRefs(authStore);
   #match-button {
     font-size: 5vw;
     height: 10vh;
-    padding: 4vw;
     position: relative;
     bottom: 0;
     left: 50%;
@@ -175,7 +172,6 @@ const { user } = storeToRefs(authStore);
   #match-button {
     font-size: 3vh;
     height: 10vh;
-    padding: 2rem;
     position: relative;
     bottom: 0;
     left: 50%;

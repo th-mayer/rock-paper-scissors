@@ -13,26 +13,35 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  username  String  @unique
-  hash      String
-  items     Item[]
-  itemCoin  Int     @default(0)
-  wins      Int     @default(0)
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  username String    @unique
+  hash     String
+  items    Item[]
+  genItems GenItem[]
+  itemCoin Int       @default(0)
+  wins     Int       @default(0)
 }
 
 // kind = Enum
 // 0 = dmg_r; 1 = dmg_p; 2 = dmg_s;
 // 3 = prt_r; 4 = prt_p; 5 = prt_s;
 model Item {
-  id            Int     @id @default(autoincrement())
-  kind          Int     @default(99)
-  modifier      Float   @default(1)
-  
+  id       Int   @id @default(autoincrement())
+  kind     Int   @default(99)
+  modifier Float @default(1)
+
   // Relation field for Prisma, does not rlly exist as a field in the db
   // https://www.prisma.io/docs/orm/prisma-schema/data-model/relations
-  user      User    @relation(fields: [userId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
   // FK connecting User + Item; referenced by relation field; does exist in the db
-  userId    Int
+  userId Int
+}
+
+model GenItem {
+  id       Int   @id @default(autoincrement())
+  kind     Int   @default(99)
+  modifier Float @default(1)
+  User     User  @relation(fields: [userId], references: [id])
+  userId   Int
 }

@@ -40,7 +40,8 @@ export const calculateCombat = (io: Server, match_id: string) => {
           emitCombatResults(io, match_id, 0, "r", damage, "");
           break;
         }
-      } break;
+      }
+      break;
     }
     case "p": {
       switch (player_2_symbol) {
@@ -72,7 +73,8 @@ export const calculateCombat = (io: Server, match_id: string) => {
           emitCombatResults(io, match_id, 0, "p", damage, "");
           break;
         }
-      } break;
+      }
+      break;
     }
     case "s": {
       switch (player_2_symbol) {
@@ -104,7 +106,8 @@ export const calculateCombat = (io: Server, match_id: string) => {
           emitCombatResults(io, match_id, 0, "s", damage, "");
           break;
         }
-      } break;
+      }
+      break;
     }
     default: {
       switch (player_2_symbol) {
@@ -136,7 +139,8 @@ export const calculateCombat = (io: Server, match_id: string) => {
           emitCombatResults(io, match_id, -30, "", -30, "");
           break;
         }
-      } break;
+      }
+      break;
     }
   }
-}
+};

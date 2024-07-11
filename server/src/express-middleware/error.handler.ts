@@ -1,9 +1,9 @@
 /**
  * global error handler, converts express err msg to json
  */
-export const errorHandler = (err:any, req:any, res:any, next:any) => {
+export const errorHandler = (err: any, req: any, res: any, next: any) => {
   switch (true) {
-    // TODO further error cases more explicitly ? 
+    // TODO further error cases more explicitly ?
     case err.name === "UnauthorizedError":
       return res.status(401).json({ message: "Unauthorized" });
     default:

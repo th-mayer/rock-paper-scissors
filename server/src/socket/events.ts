@@ -7,7 +7,8 @@ import { Player, isValidUser } from "../types/socket-connection-types";
 import { calculateCombat } from "../game/combat/combat-calculate";
 import { handleDisconnect } from "../game/handle-disconnect";
 import { reconnect } from "../game/handle-reconnect";
-import dbUsers from "../database-services/prisma-client";
+import { dbUsers } from "../database-services/prisma-client";
+
 
 const SocketServer = (server: any) => {
   const io = new Server(server, {

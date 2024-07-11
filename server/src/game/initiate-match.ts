@@ -9,7 +9,11 @@ import {
 import { running_matches } from "./dicts/running-matches-dict";
 import { open_matches } from "./dicts/open-matches-dict";
 
-export const initiateMatch = (io: Server, match: MatchmakingMatch, match_id: string) => {
+export const initiateMatch = (
+  io: Server,
+  match: MatchmakingMatch,
+  match_id: string
+) => {
   const defaultValue = 1;
 
   let gameInstance: GameInstance = {
@@ -82,44 +86,44 @@ export const initiateMatch = (io: Server, match: MatchmakingMatch, match_id: str
       }
     }
   }
-  let ready_match: Match = {player1: match.player1, player2: match.player2!, instance: gameInstance }
-  delete open_matches[match_id]
+  let ready_match: Match = {
+    player1: match.player1,
+    player2: match.player2!,
+    instance: gameInstance,
+  };
+  delete open_matches[match_id];
   running_matches[match_id] = ready_match; // add match to active matches dict
   // now inform clients and send them ( opponent, self, match_id )
-  io.to(ready_match.player1.socket.id).emit(
-     "initiate-match",{
-      opponent:{
-        name: ready_match.player2.name,
-        health: 100,
-        wins: ready_match.player2.wins,
-        items: ready_match.player2.items,
-      }, 
-      player: {
-        name: ready_match.player1.name,
-        health: 100,
-        wins: ready_match.player1.wins,
-        items: ready_match.player1.items,
-      },
-      m_id: match_id
-    }
-  );
-  io.to(ready_match.player2.socket.id).emit(
-    "initiate-match",{
-      opponent: {
-        name: ready_match.player1.name,
-        health: 100,
-        wins: ready_match.player1.wins,
-        items: ready_match.player1.items,
-      },
-      player: {
-        name: ready_match.player2.name,
-        health: 100,
-        wins: ready_match.player2.wins,
-        items: ready_match.player2.items,
-      },
-      m_id: match_id
-    }
-  );
+  io.to(ready_match.player1.socket.id).emit("initiate-match", {
+    opponent: {
+      name: ready_match.player2.name,
+      health: 100,
+      wins: ready_match.player2.wins,
+      items: ready_match.player2.items,
+    },
+    player: {
+      name: ready_match.player1.name,
+      health: 100,
+      wins: ready_match.player1.wins,
+      items: ready_match.player1.items,
+    },
+    m_id: match_id,
+  });
+  io.to(ready_match.player2.socket.id).emit("initiate-match", {
+    opponent: {
+      name: ready_match.player1.name,
+      health: 100,
+      wins: ready_match.player1.wins,
+      items: ready_match.player1.items,
+    },
+    player: {
+      name: ready_match.player2.name,
+      health: 100,
+      wins: ready_match.player2.wins,
+      items: ready_match.player2.items,
+    },
+    m_id: match_id,
+  });
   // then put clients into socket room for easier broadcasting of game data
   match.player1.socket.join(match_id);
   match.player2?.socket.join(match_id);

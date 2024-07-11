@@ -176,9 +176,13 @@ label {
 
 /* Phone styles */
 @media (max-width: 480px) {
+  .editProfile{
+    margin: 2vw;
+  }
   .card-container.editProfile {
     padding: 0;
-    width: 70vw;
+    width: 100vw;
+    margin: 1.5vw;
   }
 
   .col-left {
@@ -198,13 +202,18 @@ label {
     font-size: 10vw;
   }
 
+  input.col-right{
+    width: 30vw;
+  }
+
   .register-link {
     font-size: 3vw;
   }
 
   button.login-btn {
-    font-size: 14vw;
     border-radius: 60px;
   }
+
+
 }
 </style>

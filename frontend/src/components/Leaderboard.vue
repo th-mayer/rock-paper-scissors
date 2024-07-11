@@ -34,6 +34,7 @@ onBeforeMount(async () => {
 .leaderboard h2 {
     font-size: 4vw;
     width: 30vw;
+    white-space: wrap;
 }
 
 /* shit in between styles */

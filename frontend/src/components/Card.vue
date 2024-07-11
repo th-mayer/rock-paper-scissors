@@ -12,14 +12,7 @@
         </div>
         <div v-else class="card-container">
             <div class="card-topbar">
-                <div class="dots-container">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
-
                 <h4 class="card-header">{{ title }}</h4>
-
             </div>
             <div class="card-rect">
                 <slot></slot>

@@ -34,6 +34,11 @@ socket.on('disconnect', () => {
   position: fixed;
 }
 
+@media (max-width: 768px) {
+
+
+}
+
 @media (max-width: 480px) {
   .app-container {
     width: 105vh;

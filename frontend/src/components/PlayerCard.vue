@@ -172,4 +172,5 @@ const alignmentItemTooltip = computed(() => {
     transition: width 1s ease;
     border-radius: 200px;
 }
+
 </style>
