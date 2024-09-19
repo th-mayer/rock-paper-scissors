@@ -1,14 +1,14 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Server for the Rock, Paper, Scissors Client.",
   "main": "server.ts",
   "scripts": {
-    "build": "npx tsc --emptyOutDir",
+    "build": "npx tsc",
     "dev": "nodemon"
   },
   "keywords": [],
-  "author": "",
+  "author": "Marco, Theresa, Julia",
   "license": "ISC",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

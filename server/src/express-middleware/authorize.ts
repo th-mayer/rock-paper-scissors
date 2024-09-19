@@ -1,10 +1,9 @@
 import { dbUsers } from "../database-services/prisma-client";
-import config from "../json/config.json";
 import { expressjwt } from "express-jwt";
 
 // https://github.com/auth0/express-jwt?tab=readme-ov-file#usage
 export function authorize(){
-  const secret = config.secret;
+  const secret = process.env.JWT_SECRET as string;
 
   return [
     // authenticate JWT token

@@ -1,7 +1,6 @@
 import { PrismaClient, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import config from "../json/config.json";
 import { generateRandomItem } from "../generators/randomItemGenerator";
 import { dbGenItem } from "./prisma-client";
 
@@ -10,7 +9,7 @@ import { dbGenItem } from "./prisma-client";
  * USE THE "dbUsers" const from database-services/prisma-client.ts !
  */
 export class DbUser {
-  private secret = config.secret;
+  private secret = process.env.JWT_SECRET as string;
   private prismaUser: PrismaClient["user"];
 
   constructor(prisma: PrismaClient["user"]) {
